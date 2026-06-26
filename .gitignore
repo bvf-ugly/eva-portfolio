@@ -1,4 +1,6 @@
 node_modules/
+package-lock.json
+pnpm-lock.yaml
 
 # Carpetas de desarrollo (no publicar)
 RESP/
@@ -18,4 +20,4 @@ eva-player.bundle.js.map
 # Páginas standalone no enlazadas desde index.html
 test-eq.html
 eva-eq.html
-eva-eq-float/
+pnpm-lock.yaml

@@ -37,17 +37,19 @@ jobs:
           node -e "
           const fs = require('fs');
           const playlist = JSON.parse(fs.readFileSync('playlist.json', 'utf8'));
-          const minified = playlist.map(t => {
+          const lines = playlist.map(t => {
             const obj = {};
             for (const [k, v] of Object.entries(t)) {
               if (k === 'year' || k === 'trackNumber') continue;
               obj[k] = v;
             }
-            return JSON.stringify(obj);
-          }).join(',\n      ');
+            return '      ' + JSON.stringify(obj);
+          });
+          const block = lines.join(',\n');
           let html = fs.readFileSync('index.html', 'utf8');
           const re = /(window\.__EVA_PLAYLIST_DATA\s*=\s*\[)[\s\S]*?(\];)/;
-          html = html.replace(re, '$1\n      ' + minified + '\n    $2');
+          if (!re.test(html)) { console.error('Could not find __EVA_PLAYLIST_DATA in index.html'); process.exit(1); }
+          html = html.replace(re, '$1\n' + block + '\n    $2');
           fs.writeFileSync('index.html', html);
           console.log('Updated embedded playlist with ' + playlist.length + ' tracks');
           "

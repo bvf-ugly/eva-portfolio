@@ -1,55 +1,5 @@
 [
   {
-    "title": "Aki no Kehai no Arpeggio",
-    "artist": "Ling tosite sigure",
-    "album": "Feeling your UFO",
-    "year": 2006,
-    "trackNumber": 3,
-    "src": "music/album/Ling tosite sigure - Aki no Kehai no Arpeggio (SPOTISAVER).mp3",
-    "cover": "covers/Feeling your UFO.jpg",
-    "duration": 215
-  },
-  {
-    "title": "Kankaku UFO",
-    "artist": "Ling tosite sigure",
-    "album": "Feeling your UFO",
-    "year": 2006,
-    "trackNumber": 2,
-    "src": "music/album/Ling tosite sigure - Kankaku UFO (SPOTISAVER).mp3",
-    "cover": "covers/Feeling your UFO.jpg",
-    "duration": 280
-  },
-  {
-    "title": "Last Dance Revolution",
-    "artist": "Ling tosite sigure",
-    "album": "Feeling your UFO",
-    "year": 2006,
-    "trackNumber": 4,
-    "src": "music/album/Ling tosite sigure - Last Dance Revolution (SPOTISAVER).mp3",
-    "cover": "covers/Feeling your UFO.jpg",
-    "duration": 266
-  },
-  {
-    "title": "Sergio Echigo",
-    "artist": "Ling tosite sigure",
-    "album": "Feeling your UFO",
-    "year": 2006,
-    "trackNumber": 5,
-    "src": "music/album/Ling tosite sigure - Sergio Echigo (SPOTISAVER).mp3",
-    "cover": "covers/Feeling your UFO.jpg",
-    "duration": 402
-  },
-  {
-    "title": "Souzou no Security",
-    "artist": "Ling tosite sigure",
-    "album": "Feeling your UFO",
-    "year": 2006,
-    "trackNumber": 1,
-    "src": "music/album/Ling tosite sigure - Souzou no Security (SPOTISAVER).mp3",
-    "cover": "covers/Feeling your UFO.jpg",
-    "duration": 212
-  },
-  {
     "title": "KING",
     "artist": "Kanye West",
     "album": "BULLY - DELUXE",
@@ -208,6 +158,56 @@
     "src": "music/BULLY/9.BULLY--feat--CeeLo-Green.mp3",
     "cover": "covers/BULLY - DELUXE.png",
     "duration": 148
+  },
+  {
+    "title": "Aki no Kehai no Arpeggio",
+    "artist": "Ling tosite sigure",
+    "album": "Feeling your UFO",
+    "year": 2006,
+    "trackNumber": 3,
+    "src": "music/Feeling your UFO/Ling tosite sigure - Aki no Kehai no Arpeggio (SPOTISAVER).mp3",
+    "cover": "covers/Feeling your UFO.jpg",
+    "duration": 215
+  },
+  {
+    "title": "Kankaku UFO",
+    "artist": "Ling tosite sigure",
+    "album": "Feeling your UFO",
+    "year": 2006,
+    "trackNumber": 2,
+    "src": "music/Feeling your UFO/Ling tosite sigure - Kankaku UFO (SPOTISAVER).mp3",
+    "cover": "covers/Feeling your UFO.jpg",
+    "duration": 280
+  },
+  {
+    "title": "Last Dance Revolution",
+    "artist": "Ling tosite sigure",
+    "album": "Feeling your UFO",
+    "year": 2006,
+    "trackNumber": 4,
+    "src": "music/Feeling your UFO/Ling tosite sigure - Last Dance Revolution (SPOTISAVER).mp3",
+    "cover": "covers/Feeling your UFO.jpg",
+    "duration": 266
+  },
+  {
+    "title": "Sergio Echigo",
+    "artist": "Ling tosite sigure",
+    "album": "Feeling your UFO",
+    "year": 2006,
+    "trackNumber": 5,
+    "src": "music/Feeling your UFO/Ling tosite sigure - Sergio Echigo (SPOTISAVER).mp3",
+    "cover": "covers/Feeling your UFO.jpg",
+    "duration": 402
+  },
+  {
+    "title": "Souzou no Security",
+    "artist": "Ling tosite sigure",
+    "album": "Feeling your UFO",
+    "year": 2006,
+    "trackNumber": 1,
+    "src": "music/Feeling your UFO/Ling tosite sigure - Souzou no Security (SPOTISAVER).mp3",
+    "cover": "covers/Feeling your UFO.jpg",
+    "duration": 212
   },
   {
     "title": "12th laser",
