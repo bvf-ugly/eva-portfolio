@@ -32,12 +32,32 @@ jobs:
       - name: Generate playlist.json
         run: node generate-playlist.mjs
 
-      - name: Commit updated playlist.json
+      - name: Update embedded playlist in index.html
+        run: |
+          node -e "
+          const fs = require('fs');
+          const playlist = JSON.parse(fs.readFileSync('playlist.json', 'utf8'));
+          const minified = playlist.map(t => {
+            const obj = {};
+            for (const [k, v] of Object.entries(t)) {
+              if (k === 'year' || k === 'trackNumber') continue;
+              obj[k] = v;
+            }
+            return JSON.stringify(obj);
+          }).join(',\n      ');
+          let html = fs.readFileSync('index.html', 'utf8');
+          const re = /(window\.__EVA_PLAYLIST_DATA\s*=\s*\[)[\s\S]*?(\];)/;
+          html = html.replace(re, '$1\n      ' + minified + '\n    $2');
+          fs.writeFileSync('index.html', html);
+          console.log('Updated embedded playlist with ' + playlist.length + ' tracks');
+          "
+
+      - name: Commit updated playlist and index.html
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add playlist.json covers/
-          git diff --staged --quiet || git commit -m "Update playlist.json [skip ci]"
+          git add playlist.json index.html covers/
+          git diff --staged --quiet || git commit -m "Update playlist [skip ci]"
           git push
 
       - name: Setup Pages
