@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de Sistema | Instrumentalidad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design-tokens.css">
+<style>
+/* Overridden settings tokens (if needed) */
+:root {
+  --space-xl: 4rem;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+}
+
+html { scroll-behavior: smooth; }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-entry-cyan); border-radius: 4px; }
+
+/* ---------- Background video ---------- */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  z-index: -1;
+  overflow: hidden;
+}
+.bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.bg-video::-webkit-media-controls { display: none !important; }
+.bg-gradient {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(46, 213, 115, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 90%, rgba(0, 229, 255, 0.06) 0%, transparent 60%),
+    linear-gradient(180deg,
+      rgba(8, 18, 28, 0.92) 0%,
+      rgba(13, 27, 42, 0.75) 40%,
+      rgba(13, 27, 42, 0.9) 100%);
+  pointer-events: none;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--color-plug-depth);
+  color: var(--color-text-primary);
+  font-family: var(--font-ui);
+  line-height: 1.6;
+  transition: background 400ms, color 400ms;
+}
+/* Ayanami mode for settings */
+body.mode-light { background: #FFB6C1; color: #333333; }
+body.mode-light .bg-gradient {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(110, 193, 228, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(255,182,193,0.9) 0%, rgba(255,245,225,0.7) 100%);
+}
+body.mode-light .bg-video { opacity: 0.2; }
+body.mode-light .topbar { border-bottom-color: rgba(179,179,179,0.3); }
+body.mode-light .back-link { color: #666; border-color: rgba(179,179,179,0.3); }
+body.mode-light .back-link:hover { color: #E10600; }
+body.mode-light .status-strip { background: rgba(255,245,225,0.6); border-color: rgba(179,179,179,0.3); }
+body.mode-light .panel { background: rgba(255,245,225,0.7); border-color: rgba(179,179,179,0.3); }
+body.mode-light .panel__icon { background: linear-gradient(135deg, rgba(110,193,228,0.12), rgba(255,105,180,0.08)); }
+body.mode-light .toggle__track { background: rgba(0,0,0,0.06); border-color: rgba(179,179,179,0.3); }
+body.mode-light .toggle input:checked + .toggle__track { background: rgba(255,105,180,0.2); border-color: #FF69B4; }
+body.mode-light .slider-control input[type="range"] { background: rgba(0,0,0,0.04); border-color: rgba(179,179,179,0.3); }
+body.mode-light .text-input { background: rgba(255,255,255,0.3); border-color: rgba(179,179,179,0.3); color: #333; }
+body.mode-light .diag-badge.is-ok { color: #6EC1E4; border-color: #6EC1E4; background: rgba(110,193,228,0.06); }
+
+::selection { background: var(--color-lcl-pink); color: var(--color-plug-deeper); }
+:focus-visible { outline: 2px solid var(--color-lcl-pink); outline-offset: 3px; border-radius: 4px; }
+
+.container { max-width: 880px; margin: 0 auto; padding: var(--space-lg) var(--space-md) var(--space-xl); }
+
+/* ---------- Top bar ---------- */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+  flex-wrap: wrap;
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: var(--space-xs);
+  font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--color-text-muted); text-decoration: none;
+  padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-full);
+  border: 1px solid var(--glass-border); transition: all var(--duration-base) var(--ease-out);
+}
+.back-link:hover { color: var(--color-lcl-pink); border-color: var(--glass-border-h); background: rgba(255,132,198,0.06); }
+.back-link svg { width: 14px; height: 14px; }
+
+.page-title {
+  font-family: var(--font-display); font-weight: 900; text-transform: uppercase; letter-spacing: 0.04em;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  background: linear-gradient(135deg, var(--color-text-primary), var(--color-lcl-pink), var(--color-entry-cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.page-subtitle { color: var(--color-text-muted); font-size: 0.85rem; margin-top: var(--space-xs); }
+
+/* ---------- Status readout ---------- */
+.status-strip {
+  display: flex; flex-wrap: wrap; gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(8,18,28,0.6);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.06em;
+  margin-bottom: var(--space-lg);
+}
+.status-strip__item { display: flex; align-items: center; gap: 0.4rem; color: var(--color-text-dim); }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-entry-cyan); box-shadow: 0 0 8px var(--color-entry-cyan); flex-shrink: 0; }
+.status-dot.is-warn { background: var(--color-warning-orange); box-shadow: 0 0 8px var(--color-warning-orange); }
+.status-dot.is-off { background: var(--color-text-dim); box-shadow: none; }
+
+/* ---------- Panel / Card ---------- */
+.panel {
+  position: relative;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  box-shadow: var(--glass-shadow);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+.panel__header { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md); }
+.panel__icon {
+  width: 38px; height: 38px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, rgba(46,213,115,0.18), rgba(0,229,255,0.12));
+  border-radius: var(--radius-sm); color: var(--color-entry-cyan);
+}
+.panel__title { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.03em; text-transform: uppercase; }
+.panel__desc { color: var(--color-text-muted); font-size: 0.82rem; margin-top: 2px; }
+
+.field-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); padding: var(--space-sm) 0; border-top: 1px solid rgba(255,255,255,0.05); }
+.field-row:first-of-type { border-top: none; }
+.field-label { font-size: 0.85rem; font-weight: 500; }
+.field-hint { font-size: 0.72rem; color: var(--color-text-dim); margin-top: 2px; }
+
+/* ---------- Toggle switch ---------- */
+.toggle { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle__track {
+  position: absolute; inset: 0; border-radius: var(--radius-full);
+  background: rgba(255,255,255,0.08); border: 1px solid var(--glass-border);
+  cursor: pointer; transition: background var(--duration-base) var(--ease-out);
+}
+.toggle__track::before {
+  content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px;
+  border-radius: 50%; background: var(--color-text-dim);
+  transition: transform var(--duration-base) var(--ease-spring), background var(--duration-base);
+}
+.toggle input:checked + .toggle__track { background: rgba(46,213,115,0.25); border-color: var(--color-entry-cyan); }
+.toggle input:checked + .toggle__track::before { transform: translateX(20px); background: var(--gradient-signature); }
+.toggle input:focus-visible + .toggle__track { outline: 2px solid var(--color-lcl-pink); outline-offset: 2px; }
+
+/* ---------- Slider ---------- */
+.slider-control { display: flex; align-items: center; gap: var(--space-sm); width: 160px; }
+.slider-control input[type="range"] {
+  -webkit-appearance: none; appearance: none; flex: 1; height: 4px; border-radius: 2px;
+  background: rgba(255,255,255,0.08); border: 1px solid var(--glass-border); cursor: pointer;
+}
+.slider-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--color-entry-cyan); box-shadow: 0 0 10px var(--color-entry-cyan);
+}
+.slider-control input[type="range"]::-moz-range-thumb { width: 14px; height: 14px; border: none; border-radius: 50%; background: var(--color-entry-cyan); box-shadow: 0 0 10px var(--color-entry-cyan); }
+.slider-value { font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-entry-cyan); min-width: 2.5em; text-align: right; }
+
+/* ---------- Text input ---------- */
+.text-input {
+  width: 100%; max-width: 280px;
+  padding: var(--space-xs) var(--space-sm);
+  background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: var(--radius-sm);
+  color: var(--color-text-primary); font-family: var(--font-mono); font-size: 0.82rem;
+  transition: all var(--duration-base) var(--ease-out);
+}
+.text-input:focus { outline: none; border-color: var(--color-entry-cyan); box-shadow: 0 0 0 3px rgba(46,213,115,0.15); }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  font-family: var(--font-display); font-weight: 700; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase;
+  text-decoration: none; border-radius: var(--radius-full); border: 1px solid transparent;
+  cursor: pointer; position: relative; overflow: hidden; white-space: nowrap;
+  transition: all var(--duration-base) var(--ease-spring);
+}
+.btn::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  transform: scaleX(0); transform-origin: left; transition: transform var(--duration-base) var(--ease-out);
+}
+.btn:hover::before { transform: scaleX(1); }
+.btn--primary { color: var(--color-plug-deeper); border-color: var(--color-entry-cyan); background: transparent; }
+.btn--primary::before { background: var(--gradient-signature); }
+.btn--primary:hover { color: var(--color-plug-deeper); border-color: transparent; }
+.btn--ghost { color: var(--color-text-primary); border-color: var(--glass-border); background: transparent; }
+.btn--ghost::before { background: var(--glass-bg); }
+.btn--ghost:hover { color: var(--color-plug-deeper); border-color: transparent; }
+.btn svg { width: 14px; height: 14px; }
+
+/* ---------- Diagnostic list ---------- */
+.diag-list { display: flex; flex-direction: column; gap: 0.4rem; }
+.diag-item { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); padding: 0.4rem 0; font-size: 0.78rem; }
+.diag-item__label { color: var(--color-text-muted); }
+.diag-badge { font-family: var(--font-mono); font-size: 0.65rem; padding: 0.15rem 0.55rem; border-radius: var(--radius-full); border: 1px solid; }
+.diag-badge.is-ok { color: var(--color-entry-cyan); border-color: var(--color-entry-cyan); background: rgba(46,213,115,0.08); }
+.diag-badge.is-no { color: var(--color-warning-orange); border-color: var(--color-warning-orange); background: rgba(255,107,74,0.08); }
+
+/* ---------- Save toast ---------- */
+.toast {
+  position: fixed; bottom: var(--space-md); left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--glass-bg); border: 1px solid var(--color-entry-cyan); border-radius: var(--radius-full);
+  padding: var(--space-xs) var(--space-md);
+  font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.05em;
+  backdrop-filter: blur(20px);
+  opacity: 0; pointer-events: none;
+  transition: all 280ms var(--ease-spring);
+  z-index: 100;
+}
+.toast.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Mode selector */
+.mode-selector {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+}
+.mode-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 200ms var(--ease-out);
+}
+.mode-option:hover { color: var(--color-text-primary); background: rgba(255,255,255,0.06); }
+.mode-option--active {
+  background: var(--gradient-signature);
+  color: var(--color-plug-deeper);
+  border-color: transparent;
+}
+.mode-option svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+body.mode-light .mode-selector { background: rgba(255,255,255,0.3); border-color: rgba(179,179,179,0.3); }
+
+@media (max-width: 768px) {
+  .container { padding: var(--space-md) var(--space-sm) var(--space-xl); }
+  .topbar { gap: var(--space-sm); }
+  .page-title { font-size: clamp(1.2rem, 6vw, 1.8rem); }
+  .panel { padding: var(--space-md); }
+  .panel__header { gap: var(--space-xs); }
+  .panel__icon { width: 32px; height: 32px; }
+  .panel__title { font-size: 0.85rem; }
+  .status-strip { flex-direction: column; gap: var(--space-xs); }
+}
+
+@media (max-width: 560px) {
+  .field-row { flex-direction: column; align-items: flex-start; gap: var(--space-xs); }
+  .slider-control { width: 100%; }
+  .text-input { max-width: 100%; }
+  .btn { width: 100%; justify-content: center; }
+  .diag-item { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+}
+
+/* ========================================
+   PAGE TRANSITION OVERLAY (coherente con index.html)
+   ======================================== */
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--color-plug-deeper);
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 380ms var(--ease-out);
+}
+.page-transition.is-hidden { opacity: 0; }
+.page-transition.is-leaving { opacity: 1; pointer-events: auto; }
+.page-transition__mark {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.85);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: var(--color-entry-cyan);
+  opacity: 0;
+  transition: opacity 300ms var(--ease-out) 80ms, transform 300ms var(--ease-out) 80ms;
+}
+.page-transition.is-leaving .page-transition__mark {
+  opacity: 0.7;
+  transform: translate(-50%, -50%) scale(1);
+}
+/* Scanlines overlay (toggled by settings) */
+.scanlines-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.06) 0px,
+    rgba(0, 0, 0, 0.06) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.35;
+  animation: scanFlicker 12s infinite linear;
+}
+@keyframes scanFlicker {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.42; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition { transition: none; }
+}
+</style>
+</head>
+<body>
+<!-- Background video (same source as index.html) -->
+<div class="bg-layer" aria-hidden="true">
+  <video class="bg-video" autoplay loop muted playsinline preload="auto" poster="poster.jpg">
+    <source src="video.mp4" type="video/mp4">
+  </video>
+  <div class="bg-gradient"></div>
+</div>
+
+<div class="page-transition" id="pageTransition" aria-hidden="true">
+  <span class="page-transition__mark">DESINCRONIZANDO</span>
+</div>
+<div class="container">
+
+  <div class="topbar">
+    <a href="index.html#sistema" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Volver al portafolio
+    </a>
+  </div>
+
+  <h1 class="page-title">Panel de Sistema</h1>
+  <p class="page-subtitle">Configuración de audio, apariencia y diagnóstico — todo se guarda en este navegador.</p>
+
+  <div class="status-strip" id="statusStrip" aria-live="polite"></div>
+
+  <!-- AUDIO -->
+  <section class="panel">
+    <div class="panel__header">
+      <div class="panel__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm12-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg></div>
+      <div>
+        <div class="panel__title">Audio</div>
+        <div class="panel__desc">Fuente de música del reproductor flotante</div>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <div class="field-label">Carpeta de música</div>
+        <div class="field-hint">Los archivos están en <code style="color:var(--color-entry-cyan)">music/</code> — genera playlist.json con generate-playlist.mjs</div>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <div class="field-label">Reanudar reproducción automáticamente</div>
+        <div class="field-hint">Si estaba sonando algo al recargar la página</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="toggleAutoResume">
+        <span class="toggle__track"></span>
+      </label>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <div class="field-label">Volumen por defecto</div>
+        <div class="field-hint">Con el que arranca el reproductor en cada sesión</div>
+      </div>
+      <div class="slider-control">
+        <input type="range" id="defaultVolume" min="0" max="100" step="5" value="50">
+        <span class="slider-value" id="defaultVolumeValue">50%</span>
+      </div>
+    </div>
+  </section>
+
+    <!-- APARIENCIA -->
+    <section class="panel">
+      <div class="panel__header">
+        <div class="panel__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></div>
+        <div>
+          <div class="panel__title">Apariencia</div>
+          <div class="panel__desc">Efectos visuales del portafolio</div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div>
+          <div class="field-label">Modo visual</div>
+          <div class="field-hint">Cada modo alterna dos paletas entre las secciones</div>
+        </div>
+        <div class="mode-selector" id="modeSelector">
+          <button class="mode-option mode-option--active" data-mode="dark" title="Oscuro: Clásico (morado+verde) + Berserk (negro+rojo)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <span>Oscuro</span>
+          </button>
+          <button class="mode-option" data-mode="light" title="Claro: Ayanami (blanco+celeste) + Mari (rosa+crema)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <span>Claro</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Section visibility -->
+      <div class="field-row">
+        <div>
+          <div class="field-label">Secciones visibles</div>
+          <div class="field-hint">Mostrar u ocultar secciones del portafolio</div>
+        </div>
+      </div>
+      <div class="section-toggles" id="sectionToggles">
+        <div class="field-row" style="padding-left:var(--space-md);">
+          <div>
+            <div class="field-label" style="font-size:0.85rem;">Inicio (Hero)</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleSection_eva01" checked>
+            <span class="toggle__track"></span>
+          </label>
+        </div>
+        <div class="field-row" style="padding-left:var(--space-md);">
+          <div>
+            <div class="field-label" style="font-size:0.85rem;">Sobre mí</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleSection_eva02" checked>
+            <span class="toggle__track"></span>
+          </label>
+        </div>
+        <div class="field-row" style="padding-left:var(--space-md);">
+          <div>
+            <div class="field-label" style="font-size:0.85rem;">Proyectos</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleSection_eva03" checked>
+            <span class="toggle__track"></span>
+          </label>
+        </div>
+        <div class="field-row" style="padding-left:var(--space-md);">
+          <div>
+            <div class="field-label" style="font-size:0.85rem;">Experiencia</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleSection_eva04" checked>
+            <span class="toggle__track"></span>
+          </label>
+        </div>
+        <div class="field-row" style="padding-left:var(--space-md);">
+          <div>
+            <div class="field-label" style="font-size:0.85rem;">Sistema</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleSection_eva05" checked>
+            <span class="toggle__track"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div>
+          <div class="field-label">Mostrar switch Dark/Light</div>
+          <div class="field-hint">Mostrar u ocultar el selector de modo en la barra de navegación</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggleModeSwitcher" checked>
+          <span class="toggle__track"></span>
+        </label>
+      </div>
+
+      <!-- Navbar item visibility -->
+      <div class="field-row">
+        <div>
+          <div class="field-label">Elementos de navegación</div>
+          <div class="field-hint">Mostrar u ocultar elementos individuales del menú</div>
+        </div>
+      </div>
+      <div class="section-toggles" id="navItemToggles">
+        <div class="field-row" style="padding-left:var(--space-md);">
+          <div>
+            <div class="field-label" style="font-size:0.85rem;">Portafolio</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleNavItem_portafolio" checked>
+            <span class="toggle__track"></span>
+          </label>
+        </div>
+        <div class="field-row" style="padding-left:var(--space-md);">
+          <div>
+            <div class="field-label" style="font-size:0.85rem;">Sobre mí</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleNavItem_sobremi" checked>
+            <span class="toggle__track"></span>
+          </label>
+        </div>
+        <div class="field-row" style="padding-left:var(--space-md);">
+          <div>
+            <div class="field-label" style="font-size:0.85rem;">Proyectos</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleNavItem_proyectos" checked>
+            <span class="toggle__track"></span>
+          </label>
+        </div>
+        <div class="field-row" style="padding-left:var(--space-md);">
+          <div>
+            <div class="field-label" style="font-size:0.85rem;">Experiencia</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleNavItem_experiencia" checked>
+            <span class="toggle__track"></span>
+          </label>
+        </div>
+        <div class="field-row" style="padding-left:var(--space-md);">
+          <div>
+            <div class="field-label" style="font-size:0.85rem;">Sistema</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleNavItem_sistema" checked>
+            <span class="toggle__track"></span>
+          </label>
+        </div>
+        <div class="field-row" style="padding-left:var(--space-md);">
+          <div>
+            <div class="field-label" style="font-size:0.85rem;">Conectar (CTA)</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleNavItem_conectar" checked>
+            <span class="toggle__track"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div>
+          <div class="field-label">Video de fondo</div>
+          <div class="field-hint">Desactívalo si tu conexión es lenta o prefieres un fondo estático</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggleBgVideo" checked>
+          <span class="toggle__track"></span>
+        </label>
+      </div>
+
+      <div class="field-row">
+        <div>
+          <div class="field-label">Efectos de escaneo / ruido</div>
+          <div class="field-hint">Scanlines y textura de ruido sobre el fondo</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggleScanlines" checked>
+          <span class="toggle__track"></span>
+        </label>
+      </div>
+
+      <div class="field-row">
+        <div>
+          <div class="field-label">Intensidad de animaciones</div>
+          <div class="field-hint">Reduce si prefieres una experiencia más calma</div>
+        </div>
+        <div class="slider-control">
+          <input type="range" id="motionIntensity" min="0" max="100" step="25" value="100">
+          <span class="slider-value" id="motionIntensityValue">100%</span>
+        </div>
+      </div>
+    </section>
+
+  <!-- DIAGNÓSTICO -->
+  <section class="panel">
+    <div class="panel__header">
+      <div class="panel__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+      <div>
+        <div class="panel__title">Diagnóstico</div>
+        <div class="panel__desc">Compatibilidad de tu navegador con las funciones usadas en este sitio</div>
+      </div>
+    </div>
+    <div class="diag-list" id="diagList"></div>
+  </section>
+
+  <div style="display:flex; gap: var(--space-sm); flex-wrap: wrap;">
+    <button class="btn btn--primary" id="saveSettings">
+      Guardar cambios
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    </button>
+    <button class="btn btn--ghost" id="resetSettings">Restaurar valores por defecto</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+// ============================================================
+// settings.html — lógica del panel
+// Las preferencias se guardan en localStorage bajo una sola
+// clave, namespaced para no chocar con nada más del sitio.
+// player.html y index.html pueden leer esta misma clave si en
+// el futuro quieres que el reproductor flotante respete estas
+// preferencias (hoy settings.html es autocontenido y no asume
+// que otros archivos ya la consuman).
+// ============================================================
+const SETTINGS_KEY = 'instrumentality:settings:v1';
+
+const DEFAULTS = {
+  autoResume: false,
+  defaultVolume: 50,
+  bgVideo: true,
+  scanlines: true,
+  motionIntensity: 100,
+  visualMode: 'dark',
+  hiddenSections: [],
+  showModeSwitcher: true,
+};
+
+function loadSettings() {
+  try {
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    return raw ? { ...DEFAULTS, ...JSON.parse(raw) } : { ...DEFAULTS };
+  } catch {
+    return { ...DEFAULTS };
+  }
+}
+
+function saveSettings(settings) {
+  try {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('is-visible');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => toast.classList.remove('is-visible'), 2200);
+}
+
+function applyToForm(settings) {
+  document.getElementById('toggleAutoResume').checked = settings.autoResume;
+  document.getElementById('defaultVolume').value = settings.defaultVolume;
+  document.getElementById('defaultVolumeValue').textContent = `${settings.defaultVolume}%`;
+  document.getElementById('toggleBgVideo').checked = settings.bgVideo;
+  document.getElementById('toggleScanlines').checked = settings.scanlines;
+  document.getElementById('motionIntensity').value = settings.motionIntensity;
+  document.getElementById('motionIntensityValue').textContent = `${settings.motionIntensity}%`;
+  // Mode selector (2 buttons: dark/light)
+  const mode = settings.visualMode || 'dark';
+  document.querySelectorAll('#modeSelector .mode-option').forEach(btn => {
+    btn.classList.toggle('mode-option--active', btn.dataset.mode === mode);
+  });
+  // Section visibility
+  const hidden = settings.hiddenSections || [];
+  ['eva01','eva02','eva03','eva04','eva05'].forEach(id => {
+    const cb = document.getElementById('toggleSection_' + id);
+    if (cb) cb.checked = !hidden.includes(id);
+  });
+  // Nav item visibility
+  const hiddenNav = settings.hiddenNavItems || [];
+  ['portafolio','sobremi','proyectos','experiencia','sistema','conectar'].forEach(id => {
+    const cb = document.getElementById('toggleNavItem_' + id);
+    if (cb) cb.checked = !hiddenNav.includes(id);
+  });
+  // Mode switcher visibility
+  const msCb = document.getElementById('toggleModeSwitcher');
+  if (msCb) msCb.checked = settings.showModeSwitcher !== false;
+}
+
+function readFromForm() {
+  const active = document.querySelector('#modeSelector .mode-option--active');
+  const hiddenSections = [];
+  ['eva01','eva02','eva03','eva04','eva05'].forEach(id => {
+    const cb = document.getElementById('toggleSection_' + id);
+    if (cb && !cb.checked) hiddenSections.push(id);
+  });
+  const hiddenNavItems = [];
+  ['portafolio','sobremi','proyectos','experiencia','sistema','conectar'].forEach(id => {
+    const cb = document.getElementById('toggleNavItem_' + id);
+    if (cb && !cb.checked) hiddenNavItems.push(id);
+  });
+  return {
+    autoResume: document.getElementById('toggleAutoResume').checked,
+    defaultVolume: parseInt(document.getElementById('defaultVolume').value, 10),
+    bgVideo: document.getElementById('toggleBgVideo').checked,
+    scanlines: document.getElementById('toggleScanlines').checked,
+    motionIntensity: parseInt(document.getElementById('motionIntensity').value, 10),
+    visualMode: active?.dataset?.mode || 'dark',
+    hiddenSections,
+    hiddenNavItems,
+    showModeSwitcher: document.getElementById('toggleModeSwitcher').checked,
+  };
+}
+
+// ---------- Apply settings to this page ----------
+function applySettings(settings) {
+  // Mode switcher visibility
+  const modeSwitcher = document.querySelector('.mode-switcher');
+  if (modeSwitcher) modeSwitcher.style.display = settings.showModeSwitcher === false ? 'none' : '';
+
+  // Nav item visibility
+  const navItemMap = {
+    portafolio: '[href="#hero"]',
+    sobremi: '[href="#sobre-mi"]',
+    proyectos: '[href="#proyectos"]',
+    experiencia: '[href="#experiencia"]',
+    sistema: '[href="#sistema"]',
+    conectar: '.nav__cta',
+  };
+  const hiddenNav = settings.hiddenNavItems || [];
+  Object.entries(navItemMap).forEach(([id, selector]) => {
+    const el = document.querySelector(selector);
+    if (el) el.style.display = hiddenNav.includes(id) ? 'none' : '';
+  });
+
+  // Background video
+  const video = document.querySelector('.bg-video');
+  if (video) {
+    video.style.display = settings.bgVideo ? '' : 'none';
+  }
+
+  // Scanlines (add overlay if enabled)
+  let scanlinesEl = document.querySelector('.scanlines-overlay');
+  if (settings.scanlines) {
+    if (!scanlinesEl) {
+      scanlinesEl = document.createElement('div');
+      scanlinesEl.className = 'scanlines-overlay';
+      scanlinesEl.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(scanlinesEl);
+    }
+  } else if (scanlinesEl) {
+    scanlinesEl.remove();
+  }
+
+  // Motion intensity
+  const intensity = settings.motionIntensity / 100;
+  if (intensity === 0) {
+    document.documentElement.style.setProperty('--duration-fast', '0ms');
+    document.documentElement.style.setProperty('--duration-base', '0ms');
+    document.documentElement.style.setProperty('--duration-slow', '0ms');
+    document.documentElement.style.setProperty('--duration-slower', '0ms');
+  } else {
+    document.documentElement.style.removeProperty('--duration-fast');
+    document.documentElement.style.removeProperty('--duration-base');
+    document.documentElement.style.removeProperty('--duration-slow');
+    document.documentElement.style.removeProperty('--duration-slower');
+  }
+
+  // Visual mode
+  document.body.classList.remove('mode-light');
+  const mode = settings.visualMode || 'dark';
+  if (mode === 'light') {
+    document.body.classList.add('mode-light');
+  }
+  // Save mode to localStorage for index.html to read
+  localStorage.setItem('instrumentality:mode', mode);
+}
+
+// ---------- Sliders en vivo ----------
+document.getElementById('defaultVolume').addEventListener('input', (e) => {
+  document.getElementById('defaultVolumeValue').textContent = `${e.target.value}%`;
+});
+document.getElementById('motionIntensity').addEventListener('input', (e) => {
+  document.getElementById('motionIntensityValue').textContent = `${e.target.value}%`;
+});
+
+// ---------- Auto-apply toggles on change (without saving) ----------
+document.getElementById('toggleBgVideo').addEventListener('change', () => {
+  applySettings(readFromForm());
+});
+document.getElementById('toggleScanlines').addEventListener('change', () => {
+  applySettings(readFromForm());
+});
+document.getElementById('motionIntensity').addEventListener('change', () => {
+  applySettings(readFromForm());
+});
+
+// Mode selector buttons (4 palettes: Berserk, Classic, Ayanami, Mari)
+document.querySelectorAll('#modeSelector .mode-option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#modeSelector .mode-option').forEach(b => b.classList.remove('mode-option--active'));
+    btn.classList.add('mode-option--active');
+    const s = readFromForm();
+    applySettings(s);
+    saveSettings(s);
+  });
+});
+
+// Section visibility toggles — auto-apply on change
+['eva01','eva02','eva03','eva04','eva05'].forEach(id => {
+  const cb = document.getElementById('toggleSection_' + id);
+  if (cb) {
+    cb.addEventListener('change', () => {
+      const s = readFromForm();
+      applySettings(s);
+      saveSettings(s);
+    });
+  }
+});
+
+// Nav item visibility toggles — auto-apply on change
+['portafolio','sobremi','proyectos','experiencia','sistema','conectar'].forEach(id => {
+  const cb = document.getElementById('toggleNavItem_' + id);
+  if (cb) {
+    cb.addEventListener('change', () => {
+      const s = readFromForm();
+      applySettings(s);
+      saveSettings(s);
+    });
+  }
+});
+
+// Mode switcher visibility — auto-apply on change
+document.getElementById('toggleModeSwitcher').addEventListener('change', () => {
+  const s = readFromForm();
+  applySettings(s);
+  saveSettings(s);
+});
+
+// ---------- Guardar / restaurar ----------
+document.getElementById('saveSettings').addEventListener('click', () => {
+  const settings = readFromForm();
+  const ok = saveSettings(settings);
+  if (ok) applySettings(settings);
+  showToast(ok ? 'Configuración guardada' : 'No se pudo guardar (almacenamiento bloqueado)');
+});
+
+document.getElementById('resetSettings').addEventListener('click', () => {
+  applyToForm(DEFAULTS);
+  saveSettings(DEFAULTS);
+  applySettings(DEFAULTS);
+  showToast('Valores por defecto restaurados');
+});
+
+// ---------- Apply on page load ----------
+applySettings(loadSettings());
+
+// ---------- Diagnóstico de compatibilidad ----------
+function renderDiagnostics() {
+  const checks = [
+    { label: 'File System Access API (elegir carpeta local)', ok: 'showDirectoryPicker' in window },
+    { label: 'localStorage (guardar preferencias)', ok: (() => { try { localStorage.setItem('__t','1'); localStorage.removeItem('__t'); return true; } catch { return false; } })() },
+    { label: 'sessionStorage (posición del reproductor)', ok: (() => { try { sessionStorage.setItem('__t','1'); sessionStorage.removeItem('__t'); return true; } catch { return false; } })() },
+    { label: 'Backdrop-filter (efecto vidrio)', ok: CSS.supports('backdrop-filter', 'blur(1px)') || CSS.supports('-webkit-backdrop-filter', 'blur(1px)') },
+    { label: 'prefers-reduced-motion', ok: window.matchMedia('(prefers-reduced-motion)').media !== 'not all' },
+  ];
+
+  const list = document.getElementById('diagList');
+  list.innerHTML = checks.map(c => `
+    <div class="diag-item">
+      <span class="diag-item__label">${c.label}</span>
+      <span class="diag-badge ${c.ok ? 'is-ok' : 'is-no'}">${c.ok ? 'DISPONIBLE' : 'NO DISPONIBLE'}</span>
+    </div>
+  `).join('');
+
+  const strip = document.getElementById('statusStrip');
+  const okCount = checks.filter(c => c.ok).length;
+  const allOk = okCount === checks.length;
+  strip.innerHTML = `
+    <span class="status-strip__item"><span class="status-dot ${allOk ? '' : 'is-warn'}"></span>SISTEMA ${allOk ? 'NOMINAL' : 'PARCIAL'}</span>
+    <span class="status-strip__item"><span class="status-dot"></span>${okCount}/${checks.length} APIS DISPONIBLES</span>
+    <span class="status-strip__item"><span class="status-dot"></span>${navigator.userAgent.includes('Mobile') ? 'MÓVIL' : 'ESCRITORIO'}</span>
+  `;
+}
+
+// ---------- Init ----------
+applyToForm(loadSettings());
+renderDiagnostics();
+
+// ---------- Page transition (coherente con index.html) ----------
+(function initPageTransition() {
+  const overlay = document.getElementById('pageTransition');
+  if (!overlay) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const FADE_MS = prefersReduced ? 0 : 380;
+
+  requestAnimationFrame(() => overlay.classList.add('is-hidden'));
+
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+
+    const href = link.getAttribute('href');
+    const isSamePageAnchor = href.startsWith('#');
+    const isExternal = link.target === '_blank' || /^https?:\/\//i.test(href) || href.startsWith('mailto:');
+    const isHtmlPage = /\.html(#.*)?$/.test(href);
+
+    if (isSamePageAnchor || isExternal || !isHtmlPage) return;
+
+    e.preventDefault();
+    overlay.classList.remove('is-hidden');
+    overlay.classList.add('is-leaving');
+    setTimeout(() => { window.location.href = href; }, FADE_MS);
+  });
+})();
+</script>
+</body>
+</html>

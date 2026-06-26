@@ -1,0 +1,21 @@
+node_modules/
+
+# Carpetas de desarrollo (no publicar)
+RESP/
+PORTAFOLIO_MOYA/
+SECOND/
+.vscode/
+
+# Herramientas de build (no necesarias en producción)
+generate-playlist.mjs
+ins.txt
+
+# Fuentes JS (solo se usa el bundle)
+eva-player.js
+eva-player-utils.js
+eva-player.bundle.js.map
+
+# Páginas standalone no enlazadas desde index.html
+test-eq.html
+eva-eq.html
+eva-eq-float/

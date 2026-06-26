@@ -1,0 +1,352 @@
+[
+  {
+    "title": "Aki no Kehai no Arpeggio",
+    "artist": "Ling tosite sigure",
+    "album": "Feeling your UFO",
+    "year": 2006,
+    "trackNumber": 3,
+    "src": "music/album/Ling tosite sigure - Aki no Kehai no Arpeggio (SPOTISAVER).mp3",
+    "cover": "covers/Feeling your UFO.jpg",
+    "duration": 215
+  },
+  {
+    "title": "Kankaku UFO",
+    "artist": "Ling tosite sigure",
+    "album": "Feeling your UFO",
+    "year": 2006,
+    "trackNumber": 2,
+    "src": "music/album/Ling tosite sigure - Kankaku UFO (SPOTISAVER).mp3",
+    "cover": "covers/Feeling your UFO.jpg",
+    "duration": 280
+  },
+  {
+    "title": "Last Dance Revolution",
+    "artist": "Ling tosite sigure",
+    "album": "Feeling your UFO",
+    "year": 2006,
+    "trackNumber": 4,
+    "src": "music/album/Ling tosite sigure - Last Dance Revolution (SPOTISAVER).mp3",
+    "cover": "covers/Feeling your UFO.jpg",
+    "duration": 266
+  },
+  {
+    "title": "Sergio Echigo",
+    "artist": "Ling tosite sigure",
+    "album": "Feeling your UFO",
+    "year": 2006,
+    "trackNumber": 5,
+    "src": "music/album/Ling tosite sigure - Sergio Echigo (SPOTISAVER).mp3",
+    "cover": "covers/Feeling your UFO.jpg",
+    "duration": 402
+  },
+  {
+    "title": "Souzou no Security",
+    "artist": "Ling tosite sigure",
+    "album": "Feeling your UFO",
+    "year": 2006,
+    "trackNumber": 1,
+    "src": "music/album/Ling tosite sigure - Souzou no Security (SPOTISAVER).mp3",
+    "cover": "covers/Feeling your UFO.jpg",
+    "duration": 212
+  },
+  {
+    "title": "KING",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 1,
+    "src": "music/BULLY/1.KING.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 127
+  },
+  {
+    "title": "HIGHS AND LOWS",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 10,
+    "src": "music/BULLY/10.HIGHS-AND-LOWS.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 111
+  },
+  {
+    "title": "I CAN’T WAIT (feat. Ms. Lauryn Hill)",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 11,
+    "src": "music/BULLY/11-Kanye-West-I-CAN-T-WAIT--feat--Ms--Lauryn-Hill.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 137
+  },
+  {
+    "title": "WHITE LINES (feat. Andre Troutman)",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 12,
+    "src": "music/BULLY/12-Kanye-West-WHITE-LINES--feat--Andre-Troutman.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 131
+  },
+  {
+    "title": "CIRCLES",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 13,
+    "src": "music/BULLY/13.CIRCLES.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 91
+  },
+  {
+    "title": "PREACHER MAN",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 14,
+    "src": "music/BULLY/14.PREACHER-MAN.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 182
+  },
+  {
+    "title": "BEAUTY AND THE BEAST",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 15,
+    "src": "music/BULLY/15.BEAUTY-AND-THE-BEAST.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 107
+  },
+  {
+    "title": "OK (feat. Don Toliver)",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 19,
+    "src": "music/BULLY/19.OK--feat--Don-Toliver.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 158
+  },
+  {
+    "title": "THIS A MUST",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 2,
+    "src": "music/BULLY/2.THIS-A-MUST.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 87
+  },
+  {
+    "title": "FATHER (feat. Travis Scott)",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 3,
+    "src": "music/BULLY/3.FATHER--feat--Travis-Scott.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 169
+  },
+  {
+    "title": "ALL THE LOVE (feat. Andre Troutman)",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 4,
+    "src": "music/BULLY/4.ALL-THE-LOVE--feat--Andre-Troutman.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 229
+  },
+  {
+    "title": "PUNCH DRUNK",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 5,
+    "src": "music/BULLY/5.PUNCH-DRUNK.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 109
+  },
+  {
+    "title": "WHATEVER WORKS",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 6,
+    "src": "music/BULLY/6.WHATEVER-WORKS.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 118
+  },
+  {
+    "title": "MAMA’S FAVORITE (feat. Nine Vicious)",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 7,
+    "src": "music/BULLY/7.FAVORITE--feat--Nine-Vicious.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 154
+  },
+  {
+    "title": "SISTERS AND BROTHERS",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 8,
+    "src": "music/BULLY/8.SISTERS-AND-BROTHERS.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 165
+  },
+  {
+    "title": "BULLY (feat. CeeLo Green)",
+    "artist": "Kanye West",
+    "album": "BULLY - DELUXE",
+    "year": 2026,
+    "trackNumber": 9,
+    "src": "music/BULLY/9.BULLY--feat--CeeLo-Green.mp3",
+    "cover": "covers/BULLY - DELUXE.png",
+    "duration": 148
+  },
+  {
+    "title": "12th laser",
+    "artist": "TK from Ling tosite sigure",
+    "album": "flowering",
+    "year": 2012,
+    "trackNumber": 6,
+    "src": "music/flowering/TK from Ling tosite sigure - 12th laser (SPOTISAVER).mp3",
+    "cover": "covers/flowering.jpg",
+    "duration": 158
+  },
+  {
+    "title": "Abnormal trick",
+    "artist": "TK from Ling tosite sigure",
+    "album": "flowering",
+    "year": 2012,
+    "trackNumber": 2,
+    "src": "music/flowering/TK from Ling tosite sigure - Abnormal trick (SPOTISAVER).mp3",
+    "cover": "covers/flowering.jpg",
+    "duration": 241
+  },
+  {
+    "title": "daylily",
+    "artist": "TK from Ling tosite sigure",
+    "album": "flowering",
+    "year": 2012,
+    "trackNumber": 8,
+    "src": "music/flowering/TK from Ling tosite sigure - daylily (SPOTISAVER).mp3",
+    "cover": "covers/flowering.jpg",
+    "duration": 155
+  },
+  {
+    "title": "film A moment (album version)",
+    "artist": "TK from Ling tosite sigure",
+    "album": "flowering",
+    "year": 2012,
+    "trackNumber": 7,
+    "src": "music/flowering/TK from Ling tosite sigure - film A moment (album version) (SPOTISAVER).mp3",
+    "cover": "covers/flowering.jpg",
+    "duration": 431
+  },
+  {
+    "title": "flower",
+    "artist": "TK from Ling tosite sigure",
+    "album": "flowering",
+    "year": 2012,
+    "trackNumber": 1,
+    "src": "music/flowering/TK from Ling tosite sigure - flower (SPOTISAVER).mp3",
+    "cover": "covers/flowering.jpg",
+    "duration": 280
+  },
+  {
+    "title": "fourth",
+    "artist": "TK from Ling tosite sigure",
+    "album": "flowering",
+    "year": 2012,
+    "trackNumber": 9,
+    "src": "music/flowering/TK from Ling tosite sigure - fourth (SPOTISAVER).mp3",
+    "cover": "covers/flowering.jpg",
+    "duration": 269
+  },
+  {
+    "title": "haze",
+    "artist": "TK from Ling tosite sigure",
+    "album": "flowering",
+    "year": 2012,
+    "trackNumber": 3,
+    "src": "music/flowering/TK from Ling tosite sigure - haze (SPOTISAVER).mp3",
+    "cover": "covers/flowering.jpg",
+    "duration": 239
+  },
+  {
+    "title": "phase to phrase",
+    "artist": "TK from Ling tosite sigure",
+    "album": "flowering",
+    "year": 2012,
+    "trackNumber": 4,
+    "src": "music/flowering/TK from Ling tosite sigure - phase to phrase (SPOTISAVER).mp3",
+    "cover": "covers/flowering.jpg",
+    "duration": 210
+  },
+  {
+    "title": "sound_am326 (secret track)",
+    "artist": "TK from Ling tosite sigure",
+    "album": "flowering",
+    "year": 2012,
+    "trackNumber": 10,
+    "src": "music/flowering/TK from Ling tosite sigure - sound_am326 (secret track) (SPOTISAVER).mp3",
+    "cover": "covers/flowering.jpg",
+    "duration": 154
+  },
+  {
+    "title": "white silence (album version)",
+    "artist": "TK from Ling tosite sigure",
+    "album": "flowering",
+    "year": 2012,
+    "trackNumber": 5,
+    "src": "music/flowering/TK from Ling tosite sigure - white silence (album version) (SPOTISAVER).mp3",
+    "cover": "covers/flowering.jpg",
+    "duration": 418
+  },
+  {
+    "title": "Black Sparkle",
+    "artist": "Ling tosite sigure",
+    "album": "Lost God of SASORI",
+    "year": 2025,
+    "trackNumber": 4,
+    "src": "music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - Black Sparkle (SPOTISAVER).mp3",
+    "cover": "covers/Lost God of SASORI.jpg",
+    "duration": 268
+  },
+  {
+    "title": "Loo% Who%",
+    "artist": "Ling tosite sigure",
+    "album": "Lost God of SASORI",
+    "year": 2025,
+    "trackNumber": 1,
+    "src": "music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - Loo% Who% (SPOTISAVER).mp3",
+    "cover": "covers/Lost God of SASORI.jpg",
+    "duration": 249
+  },
+  {
+    "title": "sick mind B rain",
+    "artist": "Ling tosite sigure",
+    "album": "Lost God of SASORI",
+    "year": 2025,
+    "trackNumber": 3,
+    "src": "music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - sick mind B rain (SPOTISAVER).mp3",
+    "cover": "covers/Lost God of SASORI.jpg",
+    "duration": 292
+  },
+  {
+    "title": "Sα.SO.RI.",
+    "artist": "Ling tosite sigure",
+    "album": "Lost God of SASORI",
+    "year": 2025,
+    "trackNumber": 2,
+    "src": "music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - Sα.SO.RI.(SPOTISAVER).mp3",
+    "cover": "covers/Lost God of SASORI.jpg",
+    "duration": 183
+  }
+]

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EVA Player</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design-tokens.css">
+<link rel="stylesheet" href="eva-player.css">
+<!-- Incluir estilos del EQ flotante (solo si está disponible) -->
+<link rel="stylesheet" href="eva-eq-float/eva-eq-float.css">
+<style>
+/* ============================================================
+   player.html — Reproductor standalone, aislado del index.html.
+   Vive en su propio iframe: si se rompe editando esto (o
+   conectándolo a YouTube/Audiomack/etc.) el portafolio no se
+   ve afectado. Restaura una copia anterior de este único
+   archivo si algo falla.
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  overflow: hidden;
+  font-family: 'Rajdhani', sans-serif;
+  width: 100%;
+  height: 100%;
+}
+
+/* El body cubre todo el iframe pero no captura clics: solo el
+   widget y el FAB de reabrir (vía pointer-events: auto puntual)
+   responden a interacción. Esto deja pasar los clics hacia el
+   portafolio en el área "vacía" del iframe. */
+body {
+  position: relative;
+  pointer-events: none;
+}
+
+#playerRoot {
+  position: absolute;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+<div id="playerRoot"></div>
+
+<!-- Script CLÁSICO, sin type="module": evita por completo problemas
+     de MIME-type/CORS que algunos servidores de desarrollo (Live
+     Server con ciertas configuraciones, extensiones, etc.) tienen
+     al servir módulos ES con import/export — esos fallos pueden
+     dejar la página en blanco SIN mostrar ningún error en consola.
+     Si necesitas editar la lógica, hazlo en eva-player.bundle.js. -->
+<!-- EQ flotante incluido via eva-player.js -->
+
+<script src="eva-player.bundle.js"></script>
+<script>
+  (function () {
+    var root = document.getElementById('playerRoot');
+
+    function showFatalError(message) {
+      // Si algo falla antes de que el widget exista, mostramos un
+      // aviso visible en vez de dejar la página completamente en
+      // blanco sin pista alguna de qué pasó.
+      root.style.pointerEvents = 'auto';
+      root.style.position = 'fixed';
+      root.style.left = '20px';
+      root.style.bottom = '20px';
+      root.style.maxWidth = '360px';
+      root.style.padding = '14px 16px';
+      root.style.background = 'rgba(17,34,54,0.92)';
+      root.style.border = '1px solid #ff6b4a';
+      root.style.borderRadius = '12px';
+      root.style.color = '#f8fafc';
+      root.style.fontFamily = 'monospace';
+      root.style.fontSize = '12px';
+      root.style.lineHeight = '1.5';
+      root.style.zIndex = '999999';
+      root.textContent = '⚠ Reproductor: ' + message;
+    }
+
+    if (typeof EvaPlayer === 'undefined') {
+      showFatalError('no se pudo cargar eva-player.bundle.js (revisa que el archivo exista en esta misma carpeta y que el nombre coincida exactamente).');
+      return;
+    }
+
+    try {
+      var player = new EvaPlayer(root);
+      player.loadFromJson('playlist.json');
+      window.__evaPlayer = player;
+
+      // Inicializar EQ flotante (si está disponible)
+      import('./eva-eq-float/eva-eq-float.js').then((module) => {
+        // Crear EQ flotante después de que el player esté inicializado
+        setTimeout(() => {
+          if (player._eq) return;
+
+          player._eq = new module.EvaEQFloat({
+            container: document.body,
+            defaultPosition: { x: 300, y: 150 }
+          });
+
+          player._connectEQToPlayer();
+          console.log('[Player] EQ flotante inicializado');
+        }, 100);
+      }).catch(err => {
+        console.warn('[Player] EQ flotante no disponible:', err);
+      });
+
+      // ---- Reportar posición del widget al padre ----
+      function reportPosition() {
+        var card = root.querySelector('.ep-card');
+        var fab = root.querySelector('.ep-reopen-fab');
+        var ep = root.querySelector('.ep');
+        var isHidden = ep && ep.dataset.view === 'hidden';
+        var el = (!isHidden && card && card.offsetParent !== null) ? card : fab;
+        if (!el) return;
+        var rect = el.getBoundingClientRect();
+        window.parent.postMessage({
+          type: 'eva-player-position',
+          rect: { x: rect.left, y: rect.top, w: rect.width, h: rect.height }
+        }, '*');
+      }
+
+      setTimeout(reportPosition, 100);
+      setTimeout(reportPosition, 500);
+      setTimeout(reportPosition, 1500);
+
+      if (typeof MutationObserver !== 'undefined') {
+        new MutationObserver(function() {
+          requestAnimationFrame(reportPosition);
+        }).observe(root, { childList: true, subtree: true, attributes: true });
+      }
+
+      // ---- Recibir eventos reenviados del overlay del padre ----
+      window.addEventListener('message', function(e) {
+        if (!e.data || !e.data.type || !e.data.type.startsWith('eva-overlay-')) return;
+        var type = e.data.type.replace('eva-overlay-', '');
+        var cx = e.data.clientX;
+        var cy = e.data.clientY;
+        var opts = { clientX: cx, clientY: cy, button: e.data.button || 0, bubbles: true, cancelable: true, pointerId: 1, pointerType: 'mouse' };
+
+        var target = document.elementFromPoint(cx, cy) || root;
+
+        if (type === 'wheel') {
+          target.dispatchEvent(new WheelEvent('wheel', { deltaY: e.data.deltaY || 0, ...opts }));
+        } else if (type === 'pointerdown') {
+          // Guardar target para pointermove/pointerup
+          window.__evaOverlayTarget = target;
+          target.dispatchEvent(new PointerEvent(type, opts));
+          // Para range inputs: calcular valor basado en posicion del click
+          if (target && target.type === 'range') {
+            var rect = target.getBoundingClientRect();
+            var pct = Math.max(0, Math.min(1, (cx - rect.left) / rect.width));
+            target.value = pct * (parseFloat(target.max) || 1);
+            target.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+        } else if (type === 'pointermove') {
+          // Para range inputs: actualizar valor continuamente
+          if (window.__evaOverlayTarget && window.__evaOverlayTarget.type === 'range') {
+            var rect = window.__evaOverlayTarget.getBoundingClientRect();
+            var pct = Math.max(0, Math.min(1, (cx - rect.left) / rect.width));
+            window.__evaOverlayTarget.value = pct * (parseFloat(window.__evaOverlayTarget.max) || 1);
+            window.__evaOverlayTarget.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+          document.dispatchEvent(new PointerEvent(type, opts));
+        } else if (type === 'pointerup') {
+          window.__evaOverlayTarget = null;
+          document.dispatchEvent(new PointerEvent(type, opts));
+        } else {
+          target.dispatchEvent(new PointerEvent(type, opts));
+        }
+      });
+
+    } catch (err) {
+      console.error('[EVA Player] Error fatal al iniciar:', err);
+      showFatalError(err.message + ' (ver consola para más detalle)');
+    }
+  })();
+</script>
+</body>
+</html>
+
