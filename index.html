@@ -2649,6 +2649,10 @@
         --space-md: 1rem;
       }
 
+      html {
+        scroll-snap-type: none;
+      }
+
       .nav__burger {
         display: flex;
       }
@@ -2693,12 +2697,12 @@
       }
 
       .hero__visual {
-        min-height: 280px;
+        min-height: 220px;
       }
 
       .sync-ring {
-        width: clamp(220px, 70vw, 320px);
-        height: clamp(220px, 70vw, 320px);
+        width: clamp(180px, 60vw, 280px);
+        height: clamp(180px, 60vw, 280px);
       }
 
       .section-header--left {
@@ -2713,6 +2717,49 @@
       .footer__inner {
         flex-direction: column;
         text-align: center;
+      }
+
+      .section {
+        min-height: auto;
+        padding: var(--space-xl) 0;
+      }
+
+      .text-glitch,
+      .text-shimmer-expressive {
+        animation: none !important;
+      }
+
+      .text-glitch.is-visible,
+      .text-shimmer-expressive.is-visible {
+        animation: none !important;
+        opacity: 1;
+      }
+
+      .reveal.is-visible {
+        animation-duration: 0.4s !important;
+      }
+
+      .eq-float-panel {
+        width: calc(100vw - 16px) !important;
+      }
+
+      .eq-float-bands {
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .eq-float-band {
+        flex-direction: row;
+        gap: 8px;
+        padding: 4px 8px;
+      }
+
+      .eq-float-band input[type="range"] {
+        writing-mode: horizontal-tb;
+        direction: ltr;
+        width: auto;
+        height: 4px;
+        flex: 1;
       }
     }
 
@@ -2736,12 +2783,21 @@
       }
 
       .hero__title {
+        font-size: clamp(1.8rem, 8vw, 2.5rem);
         letter-spacing: -0.01em;
       }
 
+      .hero__subtitle {
+        font-size: 0.9rem;
+      }
+
       .metric {
-        min-width: 120px;
+        min-width: 100px;
         padding: var(--space-sm) var(--space-md);
+      }
+
+      .metric__value {
+        font-size: 1.4rem;
       }
 
       .btn {
@@ -2754,7 +2810,7 @@
       }
 
       .hero__metrics {
-        gap: var(--space-md);
+        gap: var(--space-sm);
       }
 
       .hero__actions {
@@ -2784,7 +2840,7 @@
       }
 
       .section__number {
-        font-size: 2.5rem;
+        font-size: 2rem;
       }
 
       .projects-grid {
@@ -2811,6 +2867,10 @@
         gap: var(--space-md);
         flex-wrap: wrap;
         justify-content: center;
+      }
+
+      .eq-float-band input[type="range"] {
+        height: 60px;
       }
     }
 
@@ -2981,32 +3041,31 @@
         <div class="hero">
           <div class="hero__content">
             <div class="hero__badges reveal delay-1">
-              <span class="badge">NERV Certified</span>
               <span class="badge">Full-Stack Developer</span>
-              <span class="badge">Open Source Contributor</span>
+              <span class="badge">3+ Años Experiencia</span>
             </div>
             <h1 id="hero-title" class="hero__title text-display text-glitch delay-2">
               <span class="hero__title-line">Construyendo el</span>
               <span class="hero__title-line hero__title-accent">Futuro</span>
               <span class="hero__title-line">Línea a línea</span>
             </h1>
-            <p class="hero__subtitle reveal delay-3">Desarrollador senior especializado en arquitecturas escalables,
+            <p class="hero__subtitle reveal delay-3">Desarrollador Full-Stack con experiencia en arquitecturas escalables,
               experiencias inmersivas y código que respira. Transformando ideas en realidades técnicas.</p>
             <div class="hero__metrics reveal delay-4">
               <div class="metric">
-                <span class="metric__value" data-count="127">0</span>
+                <span class="metric__value" data-count="10">0</span>
                 <span class="metric__label text-label">Proyectos Entregados</span>
               </div>
               <div class="metric">
-                <span class="metric__value" data-count="8">0</span>
+                <span class="metric__value" data-count="3">0</span>
                 <span class="metric__label text-label">Años Experiencia</span>
               </div>
               <div class="metric">
-                <span class="metric__value" data-count="42">0</span>
-                <span class="metric__label text-label">Repositorios Activos</span>
+                <span class="metric__value" data-count="5">0</span>
+                <span class="metric__label text-label">Repositorios</span>
               </div>
               <div class="metric">
-                <span class="metric__value" data-count="99">0</span>
+                <span class="metric__value" data-count="97">0</span>
                 <span class="metric__label text-label">Ratio Sincronización</span>
               </div>
             </div>
@@ -3069,11 +3128,11 @@
 
           <div class="about">
             <div class="about__text">
-              <p class="about__paragraph reveal delay-1">Ingeniero de software con <strong>8+ años</strong> construyendo
-                productos digitales que escalan. Mi enfoque: arquitectura limpia, rendimiento obsesivo y experiencias de
+              <p class="about__paragraph reveal delay-1">Desarrollador Full-Stack con <strong>3+ años</strong> de experiencia
+                construyendo productos digitales. Mi enfoque: arquitectura limpia, rendimiento obsesivo y experiencias de
                 usuario que se sienten vivas.</p>
-              <p class="about__paragraph reveal delay-2">He liderado equipos en startups de fase temprana y empresas
-                consolidadas, entregando desde MVPs en semanas hasta plataformas que sirven millones de requests/día.
+              <p class="about__paragraph reveal delay-2">He trabajado en proyectos personales y colaborativos, entregando
+                desde MVPs hasta plataformas completas con audio, video y animaciones en tiempo real.
                 Creo que el mejor código es el que se entiende a las 3 AM.</p>
               <p class="about__paragraph reveal delay-3">Cuando no estoy frente al terminal, experimento con
                 <strong>WebGL</strong>, <strong>Three.js</strong>, motores de juego y sistemas interactivos en tiempo
@@ -3252,7 +3311,7 @@
 
           <div class="contact">
             <div class="contact__info">
-              <a href="mailto:pilot@nerv.org" class="contact__item reveal delay-1">
+              <a href="mailto:neongenesis1717@gmail.com" class="contact__item reveal delay-1">
                 <span class="contact__item-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" width="20" height="20">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
@@ -3260,10 +3319,10 @@
                   </svg></span>
                 <div>
                   <span class="contact__item-label">Email Directo</span>
-                  <span class="contact__item-value">pilot@nerv.org</span>
+                  <span class="contact__item-value">neongenesis1717@gmail.com</span>
                 </div>
               </a>
-              <a href="https://github.com" target="_blank" rel="noopener" class="contact__item reveal delay-2">
+              <a href="https://github.com/bvf-ugly" target="_blank" rel="noopener" class="contact__item reveal delay-2">
                 <span class="contact__item-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"
                     width="20" height="20">
                     <path
@@ -3271,7 +3330,7 @@
                   </svg></span>
                 <div>
                   <span class="contact__item-label">GitHub</span>
-                  <span class="contact__item-value">github.com/tu-usuario</span>
+                  <span class="contact__item-value">github.com/bvf-ugly</span>
                 </div>
               </a>
               <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact__item reveal delay-3">
@@ -3282,7 +3341,7 @@
                   </svg></span>
                 <div>
                   <span class="contact__item-label">LinkedIn</span>
-                  <span class="contact__item-value">linkedin.com/in/tu-perfil</span>
+                  <span class="contact__item-value">linkedin.com/in/bvf-ugly</span>
                 </div>
               </a>
               <a href="https://twitter.com" target="_blank" rel="noopener" class="contact__item reveal delay-4">
@@ -3293,7 +3352,7 @@
                   </svg></span>
                 <div>
                   <span class="contact__item-label">Twitter / X</span>
-                  <span class="contact__item-value">@tu_usuario</span>
+                  <span class="contact__item-value">@bvf-ugly</span>
                 </div>
               </a>
             </div>
@@ -3302,11 +3361,11 @@
               id="contactForm">
               <div class="form__group">
                 <label for="name" class="form__label">Nombre</label>
-                <input type="text" id="name" name="name" class="form__input" placeholder="Shinji Ikari" required>
+                <input type="text" id="name" name="name" class="form__input" placeholder="Tu nombre" required>
               </div>
               <div class="form__group">
                 <label for="email" class="form__label">Email</label>
-                <input type="email" id="email" name="email" class="form__input" placeholder="shinji@nerv.org" required>
+                <input type="email" id="email" name="email" class="form__input" placeholder="tu@email.com" required>
               </div>
               <div class="form__group">
                 <label for="subject" class="form__label">Asunto</label>
@@ -3329,6 +3388,7 @@
           </div>
         </div>
       </section>
+    </main>
 
   <!-- FOOTER -->
   <footer class="footer" role="contentinfo">
@@ -3340,7 +3400,7 @@
       <nav class="footer__links" aria-label="Enlaces secundarios">
         <a href="#eva01" class="footer__link">Inicio</a>
         <a href="#eva03" class="footer__link">Proyectos</a>
-        <a href="https://github.com" target="_blank" rel="noopener" class="footer__link">GitHub</a>
+        <a href="https://github.com/bvf-ugly" target="_blank" rel="noopener" class="footer__link">GitHub</a>
         <a href="/privacy" class="footer__link">Privacidad</a>
       </nav>
       <p class="footer__copyright">© 2025 REI Q. Construido con <span
@@ -3348,7 +3408,6 @@
     </div>
   </footer>
 
-    </main>
   </div><!-- /app-content -->
 
   <!-- ========================================
@@ -3360,95 +3419,89 @@
     // ========================================
     const PORTFOLIO_DATA = {
       skills: [
-        { name: 'TypeScript', level: 0.95, color: 'var(--color-nerv-blue)' },
-        { name: 'React / Next.js', level: 0.92, color: 'var(--color-nerv-blue)' },
-        { name: 'Node.js / Bun', level: 0.88, color: 'var(--color-entry-cyan)' },
-        { name: 'PostgreSQL / Redis', level: 0.85, color: 'var(--color-entry-cyan)' },
-        { name: 'Three.js / WebGL', level: 0.82, color: 'var(--color-lcl-pink)' },
-        { name: 'GSAP / Motion', level: 0.85, color: 'var(--color-lcl-pink)' },
-        { name: 'Docker / K8s', level: 0.78, color: 'var(--color-warning-orange)' },
-        { name: 'GraphQL / tRPC', level: 0.8, color: 'var(--color-instrument-purple)' },
-        { name: 'Rust / WASM', level: 0.65, color: 'var(--color-warning-orange)' },
-        { name: 'CI/CD / GitHub Actions', level: 0.9, color: 'var(--color-nerv-blue)' },
-        { name: 'Testing (Vitest/PW)', level: 0.85, color: 'var(--color-entry-cyan)' },
-        { name: 'Design Systems', level: 0.75, color: 'var(--color-instrument-purple)' },
+        { name: 'HTML / CSS', level: 0.9, color: 'var(--color-nerv-blue)' },
+        { name: 'JavaScript', level: 0.88, color: 'var(--color-nerv-blue)' },
+        { name: 'Node.js', level: 0.75, color: 'var(--color-entry-cyan)' },
+        { name: 'React / Next.js', level: 0.7, color: 'var(--color-entry-cyan)' },
+        { name: 'TypeScript', level: 0.65, color: 'var(--color-lcl-pink)' },
+        { name: 'Web Audio API', level: 0.8, color: 'var(--color-lcl-pink)' },
+        { name: 'Git / GitHub Actions', level: 0.82, color: 'var(--color-warning-orange)' },
+        { name: 'CSS Animations', level: 0.85, color: 'var(--color-instrument-purple)' },
+        { name: 'Python', level: 0.55, color: 'var(--color-warning-orange)' },
+        { name: 'Responsive Design', level: 0.8, color: 'var(--color-nerv-blue)' },
+        { name: 'Design Systems', level: 0.7, color: 'var(--color-instrument-purple)' },
+        { name: 'API Design', level: 0.65, color: 'var(--color-entry-cyan)' },
       ],
 
       projects: [
         {
-          title: 'AT Field Visualizer',
-          desc: 'Motor de renderizado WebGL para visualización en tiempo real de campos AT. 60fps sostenidos con 10k+ partículas.',
-          image: 'https://picsum.photos/seed/at-field/600/375.jpg',
-          tags: ['Three.js', 'WebGL', 'GLSL', 'Web Workers'],
-          links: { demo: '#', code: 'https://github.com' },
+          title: 'EVA Portfolio',
+          desc: 'Portfolio personal con reproductor de música flotante, ecualizador visual y animaciones inmersivas.',
+          image: 'https://picsum.photos/seed/portfolio/600/375.jpg',
+          tags: ['HTML', 'CSS', 'JavaScript', 'AudioContext'],
+          links: { demo: '#', code: 'https://github.com/bvf-ugly/eva-portfolio' },
           featured: true
         },
         {
-          title: 'MAGI Dashboard',
-          desc: 'Panel de observabilidad distribuido con streaming de métricas en vivo, alertas predictivas y correlación de trazas.',
-          image: 'https://picsum.photos/seed/magi/600/375.jpg',
-          tags: ['Next.js', 'WebSockets', 'ClickHouse', 'Tailwind'],
-          links: { demo: '#', code: 'https://github.com' },
-          featured: false
-        },
-        {
-          title: 'Entry Plug OS',
-          desc: 'Sistema operativo inmersivo para simuladores de entrenamiento. Interfaz holográfica, comandos de voz, biométrica.',
-          image: 'https://picsum.photos/seed/entry-plug/600/375.jpg',
-          tags: ['React', 'Electron', 'TensorFlow.js', 'WebRTC'],
-          links: { demo: '#', code: 'https://github.com' },
-          featured: true
-        },
-        {
-          title: 'LCL Pressure Monitor',
-          desc: 'Microservicio de monitoreo de presión LCL con alertas en tiempo real, dashboard histórico y API pública.',
-          image: 'https://picsum.photos/seed/lcl/600/375.jpg',
-          tags: ['Go', 'gRPC', 'Prometheus', 'Grafana'],
-          links: { demo: '#', code: 'https://github.com' },
+          title: 'Generador de Playlist',
+          desc: 'Script Node.js que escanea carpetas de música, lee metadatos ID3 y genera playlist.json automáticamente.',
+          image: 'https://picsum.photos/seed/playlist/600/375.jpg',
+          tags: ['Node.js', 'music-metadata', 'ID3', 'Automation'],
+          links: { code: 'https://github.com/bvf-ugly' },
           featured: false
         },
         {
           title: 'Instrumentality Protocol',
-          desc: 'Protocolo de consenso distribuido para sincronización de estado entre nodos. Implementación en Rust + WASM.',
-          image: 'https://picsum.photos/seed/instrumentality/600/375.jpg',
-          tags: ['Rust', 'WASM', 'libp2p', 'CRDTs'],
-          links: { demo: '#', code: 'https://github.com' },
+          desc: 'Sistema de distribución de audio con sincronización en tiempo real entre dispositivos.',
+          image: 'https://picsum.photos/seed/audio/600/375.jpg',
+          tags: ['JavaScript', 'Web Audio API', 'WebSocket'],
+          links: { demo: '#', code: 'https://github.com/bvf-ugly' },
           featured: true
         },
         {
-          title: 'Dummy Plug Simulator',
-          desc: 'Simulador de combate contra Dummy Plugs con IA adaptativa. Entrenamiento por refuerzo en navegador.',
-          image: 'https://picsum.photos/seed/dummy/600/375.jpg',
-          tags: ['Python', 'PyTorch', 'ONNX.js', 'Canvas API'],
-          links: { demo: '#', code: 'https://github.com' },
+          title: 'EVA Equalizer',
+          desc: 'Ecualizador visual flotante con 9 bandas, presets NERV y visualización de frecuencia en canvas.',
+          image: 'https://picsum.photos/seed/eq/600/375.jpg',
+          tags: ['Web Audio API', 'Canvas', 'CSS', 'UI Design'],
+          links: { demo: '#', code: 'https://github.com/bvf-ugly' },
+          featured: false
+        },
+        {
+          title: 'MAGI Dashboard',
+          desc: 'Panel de monitoreo con métricas en vivo, gráficos dinámicos y sistema de alertas.',
+          image: 'https://picsum.photos/seed/magi/600/375.jpg',
+          tags: ['Next.js', 'Charts', 'Tailwind', 'API'],
+          links: { demo: '#', code: 'https://github.com/bvf-ugly' },
+          featured: true
+        },
+        {
+          title: 'Gestor de Configuración',
+          desc: 'Panel de configuración con temas dinámicos, control de visibilidad de secciones y persistencia localStorage.',
+          image: 'https://picsum.photos/seed/settings/600/375.jpg',
+          tags: ['JavaScript', 'localStorage', 'CSS Custom Properties'],
+          links: { demo: '#', code: 'https://github.com/bvf-ugly' },
           featured: false
         }
       ],
 
       experience: [
         {
-          role: 'Senior Software Engineer',
-          company: 'NERV HQ — Tokyo-3',
-          period: '2022 — Presente',
-          desc: 'Liderazgo técnico del equipo de infraestructura core. Arquitectura de la plataforma de sincronización neural de próxima generación. Reducción de latencia P99 de 400ms a 47ms. Mentoría de 8 ingenieros.'
+          role: 'Full-Stack Developer',
+          company: 'Freelance / Proyectos Personales',
+          period: '2023 — Presente',
+          desc: 'Desarrollo de portfolios interactivos, reproductores de música con ecualización y animaciones inmersivas. Automatización de flujos de trabajo con GitHub Actions.'
         },
         {
-          role: 'Full-Stack Engineer',
-          company: 'Gehirn Research Institute',
-          period: '2019 — 2022',
-          desc: 'Desarrollo del sistema MAGI de soporte a decisión. Migración de monolito legado a arquitectura de microservicios event-driven. Implementación de CI/CD zero-downtime.'
-        },
-        {
-          role: 'Frontend Engineer',
-          company: 'GeoFront Systems',
-          period: '2017 — 2019',
-          desc: 'Construcción de interfaces de misión crítica para operaciones de campo. Pionero en adopción de TypeScript estricto y design tokens. Mejora de 3x en métricas de Core Web Vitals.'
+          role: 'Frontend Developer',
+          company: 'Proyectos Colaborativos',
+          period: '2022 — 2023',
+          desc: 'Desarrollo de interfaces web responsivas, integración de APIs REST, diseño de componentes reutilizables y optimización de rendimiento.'
         },
         {
           role: 'Junior Developer',
-          company: 'UN Research Division',
-          period: '2016 — 2017',
-          desc: 'Primer despliegue operativo. Mantenimiento de sistemas legacy en C++/Qt. Automatización de pipelines de build y testing. Documentación técnica de arquitectura de red.'
+          company: 'Inicio en Desarrollo Web',
+          period: '2021 — 2022',
+          desc: 'Primeros proyectos con HTML, CSS y JavaScript. Aprendizaje de frameworks modernos como React y Node.js. Contribuciones a proyectos open source.'
         }
       ]
     };
@@ -4221,10 +4274,7 @@
    
    <!-- Include floating EQ styles and component -->
    <link rel="stylesheet" href="eva-eq-float/eva-eq-float.css">
-   <script type="module">
-     import { EvaEQFloat } from './eva-eq-float/eva-eq-float.js';
-     window.EvaEQFloat = EvaEQFloat;
-   </script>
+   <script src="eva-eq-float/eva-eq-float.js"></script>
 
    <script src="eva-player.bundle.js"></script>
   <script>

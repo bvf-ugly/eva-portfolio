@@ -3,7 +3,7 @@
    Trabaja con AudioContext del player o crea el suyo propio
    ============================================ */
 
- export class EvaEQFloat {
+ class EvaEQFloat {
    constructor(options = {}) {
      this.options = {
        container: document.body,
@@ -495,3 +495,5 @@
      }
    }
 }
+
+window.EvaEQFloat = EvaEQFloat;
