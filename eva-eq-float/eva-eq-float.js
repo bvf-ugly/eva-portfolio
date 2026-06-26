@@ -97,11 +97,10 @@
        </div>
      `;
 
-     // Ensamblar panel
-     this.panel.appendChild(dragHandle);
-     this.panel.appendChild(header);
-     this.panel.appendChild(content);
-     this.options.container.appendChild(this.panel);
+      // Ensamblar panel
+      this.panel.appendChild(header);
+      this.panel.appendChild(content);
+      this.options.container.appendChild(this.panel);
 
      this._buildPresets();
      this._buildBands();
