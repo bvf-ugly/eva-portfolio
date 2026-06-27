@@ -338,86 +338,86 @@
     MODE LIGHT — Paleta Ayanami (celeste + rosa)
     ============================================ */
  body.mode-light .eq-float-panel {
-   --eq-pink:   #FF69B4;
-   --eq-blue:   #2A7FBF;
-   --eq-cyan:   #6EC1E4;
-   --eq-purple: #BB86FC;
-   --eq-amber:  #FFB347;
-   --eq-bg:     rgba(250, 250, 250, 0.92);
-   --eq-border: rgba(110, 193, 228, 0.3);
-   --eq-border-h: rgba(255, 105, 180, 0.35);
-   --eq-glass:  rgba(255, 255, 255, 0.85);
-   --eq-text:   #333333;
-   --eq-text-dim: #999999;
+   --eq-pink:   #4b2c6b;
+   --eq-blue:   #5a82a6;
+   --eq-cyan:   #a7cce8;
+   --eq-purple: #5a82a6;
+   --eq-amber:  #a7cce8;
+   --eq-bg:     rgba(227, 241, 255, 0.92);
+   --eq-border: rgba(90, 130, 166, 0.3);
+   --eq-border-h: rgba(75, 44, 107, 0.35);
+   --eq-glass:  rgba(227, 241, 255, 0.85);
+   --eq-text:   #2c4d6b;
+   --eq-text-dim: #5a82a6;
    background: var(--eq-glass);
    border-color: var(--eq-border);
-   box-shadow: 0 12px 40px -8px rgba(0,0,0,0.08), 0 0 0 1px rgba(110,193,228,0.1) inset;
+   box-shadow: 0 12px 40px -8px rgba(44,77,107,0.08), 0 0 0 1px rgba(90,130,166,0.1) inset;
  }
 
  body.mode-light .eq-float-header {
-   background: rgba(255,255,255,0.5);
-   border-bottom-color: rgba(110,193,228,0.15);
+   background: rgba(227,241,255,0.5);
+   border-bottom-color: rgba(90,130,166,0.15);
  }
 
  body.mode-light .eq-float-close {
-   background: rgba(110,193,228,0.06);
-   border-color: rgba(110,193,228,0.2);
+   background: rgba(90,130,166,0.06);
+   border-color: rgba(90,130,166,0.2);
  }
 
  body.mode-light .eq-float-preset {
-   background: rgba(110,193,228,0.04);
-   border-color: rgba(110,193,228,0.2);
+   background: rgba(90,130,166,0.04);
+   border-color: rgba(90,130,166,0.2);
  }
 
  body.mode-light .eq-float-preset.is-active {
-   border-color: #FF69B4;
-   color: #FF69B4;
-   background: rgba(255,105,180,0.08);
+   border-color: #4b2c6b;
+   color: #4b2c6b;
+   background: rgba(75,44,107,0.08);
  }
 
  body.mode-light .eq-float-band {
-   background: rgba(110,193,228,0.03);
-   border-color: rgba(110,193,228,0.15);
+   background: rgba(90,130,166,0.03);
+   border-color: rgba(90,130,166,0.15);
  }
 
  body.mode-light .eq-float-band:hover {
-   border-color: rgba(255,105,180,0.25);
-   background: rgba(110,193,228,0.06);
+   border-color: rgba(75,44,107,0.25);
+   background: rgba(90,130,166,0.06);
  }
 
  body.mode-light .eq-float-band input[type="range"] {
-   background: rgba(0,0,0,0.08);
+   background: rgba(44,77,107,0.08);
  }
 
  body.mode-light .eq-float-band input[type="range"]::-webkit-slider-thumb {
-   background: #6EC1E4;
-   box-shadow: 0 0 6px #6EC1E4, 0 0 0 2px #fff;
+   background: #a7cce8;
+   box-shadow: 0 0 6px #a7cce8, 0 0 0 2px #fff;
  }
 
  body.mode-light .eq-float-band input[type="range"]::-webkit-slider-thumb:hover {
-   background: #FF69B4;
-   box-shadow: 0 0 10px #FF69B4, 0 0 0 2px #fff;
+   background: #4b2c6b;
+   box-shadow: 0 0 10px #4b2c6b, 0 0 0 2px #fff;
  }
 
  body.mode-light .eq-float-viz {
-   background: rgba(110,193,228,0.06);
-   border-color: rgba(110,193,228,0.15);
+   background: rgba(90,130,166,0.06);
+   border-color: rgba(90,130,166,0.15);
  }
 
  body.mode-light .eq-float-footer {
-   border-top-color: rgba(110,193,228,0.1);
+   border-top-color: rgba(90,130,166,0.1);
  }
 
  body.mode-light .eq-float-master-gain input[type="range"] {
-   background: rgba(0,0,0,0.08);
+   background: rgba(44,77,107,0.08);
  }
 
  body.mode-light .eq-float-master-gain input[type="range"]::-webkit-slider-thumb {
-   background: #BB86FC;
-   box-shadow: 0 0 5px #BB86FC;
+   background: #5a82a6;
+   box-shadow: 0 0 5px #5a82a6;
  }
 
  body.mode-light .eq-float-reset {
-   background: rgba(110,193,228,0.04);
-   border-color: rgba(110,193,228,0.2);
+   background: rgba(90,130,166,0.04);
+   border-color: rgba(90,130,166,0.2);
  }

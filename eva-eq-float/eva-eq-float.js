@@ -310,22 +310,26 @@
        }, 100);
     }
 
-     _bindEvents() {
-      // Cerrar panel
-      const closeBtn = this.panel.querySelector('.eq-float-close');
-      closeBtn.addEventListener('click', () => this.hide());
-      closeBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
+  _bindEvents() {
+    // Cerrar panel
+    const closeBtn = this.panel.querySelector('.eq-float-close');
+    closeBtn.addEventListener('click', () => this.hide());
+    closeBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
 
-      // Dragger — toda la header es arrastrable
-      const dragHandle = this.panel.querySelector('.eq-float-header');
-      dragHandle.addEventListener('pointerdown', (e) => this._startDrag(e));
+    // Dragger — toda la header es arrastrable
+    const dragHandle = this.panel.querySelector('.eq-float-header');
+    dragHandle.addEventListener('pointerdown', (e) => this._startDrag(e));
 
-     // Presets
-     this.panel.querySelector('#eqPresets').addEventListener('click', (e) => {
-       if (e.target.classList.contains('eq-float-preset')) {
-         this.applyPreset(e.target.dataset.preset, e.target);
-       }
-     });
+    // Bind drag handlers to this instance
+    this._onDrag = this._onDrag.bind(this);
+    this._endDrag = this._endDrag.bind(this);
+
+   // Presets
+   this.panel.querySelector('#eqPresets').addEventListener('click', (e) => {
+     if (e.target.classList.contains('eq-float-preset')) {
+       this.applyPreset(e.target.dataset.preset, e.target);
+     }
+   });
 
      // Slider del gain maestro
      const masterGainSlider = this.panel.querySelector('#eqMasterGain');
