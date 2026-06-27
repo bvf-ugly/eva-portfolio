@@ -1,5 +1,5 @@
 const CACHE_NAME = 'eva-portfolio-v1';
-const ASSETS = [
+const STATIC_ASSETS = [
   './',
   './index.html',
   './design-tokens.css',
@@ -14,7 +14,7 @@ const ASSETS = [
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS))
   );
   self.skipWaiting();
 });
@@ -29,12 +29,19 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  // Skip non-GET and cross-origin
   if (e.request.method !== 'GET') return;
 
+  const url = new URL(e.request.url);
+
+  // Audio and cover files: network only (no cache — too large for mobile)
+  if (url.pathname.match(/\.(mp3|wav|ogg|flac|m4a|aac|opus|png|jpe?g|webp)$/i)) {
+    e.respondWith(fetch(e.request));
+    return;
+  }
+
+  // Static assets: stale-while-revalidate
   e.respondWith(
     caches.match(e.request).then(cached => {
-      // Return cached, fetch new in background
       const fetchPromise = fetch(e.request).then(response => {
         if (response && response.status === 200) {
           const clone = response.clone();
