@@ -4724,8 +4724,15 @@
             if (state.currentTime > 0) {
               audio.currentTime = state.currentTime;
             }
+            // Defer autoplay until first user interaction (mobile browsers block it)
             if (state.playing) {
-              audio.play().catch(function () { });
+              var tryPlay = function () {
+                audio.play().catch(function () { });
+                document.removeEventListener('click', tryPlay);
+                document.removeEventListener('touchstart', tryPlay);
+              };
+              document.addEventListener('click', tryPlay, { once: true });
+              document.addEventListener('touchstart', tryPlay, { once: true });
             }
           } catch (e) { /* corrupted */ }
         }

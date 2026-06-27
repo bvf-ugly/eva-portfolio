@@ -220,7 +220,13 @@ class EvaPlayer {
     this._updateActivePlaylistItem();
   }
 
-  play() { this.audio.play().catch(() => {}); }
+  play() {
+    // Resume AudioContext if suspended (mobile browsers require user gesture)
+    if (this._audioCtx && this._audioCtx.state === 'suspended') {
+      this._audioCtx.resume();
+    }
+    this.audio.play().catch(() => {});
+  }
   pause() { this.audio.pause(); }
   toggle() { this.audio.paused ? this.play() : this.pause(); }
 
@@ -695,6 +701,10 @@ class EvaPlayer {
     if (!this._audioCtx) {
       try {
         this._audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        // Resume if suspended (mobile browsers suspend without user gesture)
+        if (this._audioCtx.state === 'suspended') {
+          this._audioCtx.resume();
+        }
       } catch(e) {
         console.error('[EVA Player] No se pudo crear AudioContext:', e);
         return;
