@@ -1727,24 +1727,39 @@
       align-items: center;
       justify-content: center;
       z-index: 2;
-      animation: corePulse 2.5s ease-in-out infinite;
-      background: radial-gradient(circle, rgba(8,18,28,0.7) 0%, rgba(8,18,28,0.4) 40%, transparent 70%);
+      animation: coreCounterSpin 60s linear infinite;
+      background: radial-gradient(circle,
+        rgba(8,18,28,0.75) 0%,
+        rgba(8,18,28,0.5) 35%,
+        rgba(8,18,28,0.15) 65%,
+        transparent 100%);
       border-radius: 50%;
+      backdrop-filter: blur(8px) saturate(140%);
+      -webkit-backdrop-filter: blur(8px) saturate(140%);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow:
+        inset 0 0 30px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.05),
+        0 0 40px rgba(0,0,0,0.4);
+    }
+    @keyframes coreCounterSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
     }
     body.mode-light .sync-ring__core {
-      background: radial-gradient(circle, rgba(245,245,245,0.75) 0%, rgba(245,245,245,0.4) 40%, transparent 70%);
-    }
-
-    @keyframes corePulse {
-
-      0%,
-      100% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.015);
-      }
+      background: radial-gradient(circle,
+        rgba(255,255,255,0.82) 0%,
+        rgba(255,255,255,0.55) 35%,
+        rgba(255,255,255,0.2) 65%,
+        transparent 100%);
+      border: 1px solid rgba(255,255,255,0.5);
+      box-shadow:
+        inset 0 0 30px rgba(255,255,255,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.7),
+        0 8px 32px rgba(0,0,0,0.08),
+        0 0 0 1px rgba(110,193,228,0.1);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
     }
 
     .sync-ring__value {
@@ -1757,6 +1772,11 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       filter: drop-shadow(0 0 12px rgba(255,105,180,0.5));
+      animation: corePulse 2.5s ease-in-out infinite;
+    }
+    @keyframes corePulse {
+      0%, 100% { scale: 1; }
+      50% { scale: 1.015; }
     }
     body.mode-light .sync-ring__value {
       background: linear-gradient(135deg, #333333, #E10600);
