@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@300;400&display=block"
     rel="stylesheet">
   <link rel="stylesheet" href="design-tokens.css">
   <style>
@@ -1673,25 +1673,29 @@
       justify-content: center;
       min-height: 500px;
     }
+    .hero__visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,0,30,.015) 3px, rgba(255,0,30,.015) 4px);
+      pointer-events: none;
+      z-index: 3;
+    }
 
     .sync-ring {
       position: relative;
       width: clamp(280px, 50vw, 420px);
       height: clamp(280px, 50vw, 420px);
-      animation: ringRotate 30s linear infinite;
     }
 
     @keyframes ringRotate {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
     .sync-ring__svg {
+      position: relative;
+      z-index: 1;
       width: 100%;
       height: 100%;
       transform: rotate(-90deg);
@@ -1721,6 +1725,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      z-index: 2;
       animation: corePulse 2.5s ease-in-out infinite;
     }
 
@@ -1764,34 +1769,17 @@
       opacity: 0.8;
     }
 
-    .sync-ring__orbit {
+    /* === Third Impact — Canvas reemplaza sync-ring__orbit === */
+    .sync-ring__void-canvas {
       position: absolute;
-      inset: -20px;
-      border: 1px solid rgba(46, 213, 115, 0.1);
-      border-radius: 50%;
-      animation: orbitRotate 20s linear infinite reverse;
-    }
-
-    .sync-ring__orbit:nth-child(2) {
-      inset: -40px;
-      border-color: rgba(0, 229, 255, 0.08);
-      animation-duration: 30s;
-    }
-
-    .sync-ring__orbit:nth-child(3) {
-      inset: -60px;
-      border-color: rgba(46, 213, 115, 0.06);
-      animation-duration: 40s;
-    }
-
-    @keyframes orbitRotate {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+      mix-blend-mode: screen;
+      width: 100%;
+      height: 100%;
     }
 
     .hero__scroll {
@@ -3037,9 +3025,7 @@
                 <span class="sync-ring__unit">%</span>
                 <span class="sync-ring__label text-label">Ratio Sincronización</span>
               </div>
-              <div class="sync-ring__orbit" aria-hidden="true"></div>
-              <div class="sync-ring__orbit" aria-hidden="true"></div>
-              <div class="sync-ring__orbit" aria-hidden="true"></div>
+              <canvas class="sync-ring__void-canvas" id="voidOrbitCanvas" aria-hidden="true"></canvas>
             </div>
             <div class="hero__scroll" aria-hidden="true">
               <span>Explorar</span>
@@ -3443,7 +3429,391 @@
       initSettingsSync();
       initSPANavigation();
       initModeSwitcher();
+      initVoidOrbitCanvas();
     });
+
+    // ========================================
+    // THIRD IMPACT ORBIT CANVAS
+    // Reemplaza .sync-ring__orbit con efectos EVA
+    // ========================================
+    function initVoidOrbitCanvas() {
+      const canvas = document.getElementById('voidOrbitCanvas');
+      if (!canvas) return;
+
+      const container = canvas.parentElement;
+      const rect = container.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height, 400);
+      const W = size, H = size, CX = W / 2, CY = H / 2;
+      canvas.width = W;
+      canvas.height = H;
+
+      const ctx = canvas.getContext('2d');
+      const PI2 = Math.PI * 2;
+      let t = 0, frame = 0;
+
+      let jpFont = "'Noto Sans JP', monospace";
+      let monoFont = "'Courier New', monospace";
+      document.fonts.ready.then(() => { jpFont = "'Noto Sans JP', sans-serif"; });
+
+      /* --- Partículas disco de acreción --- */
+      const pts = [];
+      for (let i = 0; i < 400; i++) {
+        const r = 52 + Math.pow(Math.random(), 2.3) * (W * 0.38);
+        pts.push({
+          r, a: Math.random() * PI2,
+          spd: (0.22 / Math.sqrt(r)) * (0.6 + Math.random() * 0.8),
+          sz: Math.random() * 1.5 + 0.3,
+          hue: Math.random() > 0.1 ? 340 + Math.floor(Math.random() * 22) : 0,
+          op: Math.random() * 0.6 + 0.35,
+          trail: Math.random() * 6 + 2
+        });
+      }
+
+      /* --- Almas espirales --- */
+      const souls = [];
+      function spawnSoul() {
+        souls.push({
+          r: W * 0.4 + Math.random() * 40,
+          a: Math.random() * PI2,
+          spd: 0.007 + Math.random() * 0.006,
+          dec: 0.9985 + Math.random() * 0.001,
+          sz: Math.random() * 1.1 + 0.2,
+          op: 0.9, white: Math.random() > 0.8
+        });
+      }
+      for (let i = 0; i < 50; i++) spawnSoul();
+
+      /* --- Hexágonos AT Field --- */
+      function hexPath(x, y, r) {
+        ctx.beginPath();
+        for (let i = 0; i < 6; i++) {
+          const a = (Math.PI / 3) * i - Math.PI / 6;
+          i === 0 ? ctx.moveTo(x + r * Math.cos(a), y + r * Math.sin(a))
+                   : ctx.lineTo(x + r * Math.cos(a), y + r * Math.sin(a));
+        }
+        ctx.closePath();
+      }
+
+      const hexR = W * 0.032;
+      const hexW = hexR * Math.sqrt(3);
+      const hexH = hexR * 2;
+
+      function drawATField() {
+        const cols = Math.ceil(W / hexW) + 3;
+        const rows = Math.ceil(H / (hexH * 0.75)) + 3;
+        const drift = (t * 0.12) % hexW;
+        const innerR = W * 0.13;
+        const outerR = W * 0.44;
+        for (let row = -2; row < rows; row++) {
+          for (let col = -2; col < cols; col++) {
+            const x = col * hexW + (row % 2) * (hexW / 2) - drift;
+            const y = row * hexH * 0.75;
+            const dx = x - CX, dy = y - CY;
+            const d = Math.sqrt(dx * dx + dy * dy);
+            if (d < innerR || d > outerR) continue;
+            const wave = Math.sin(d * 0.035 - t * 0.38) * 0.5 + 0.5;
+            const prox = 1 - Math.max(0, (d - innerR) / (outerR - innerR));
+            const al = prox * wave * 0.2 + 0.018;
+            ctx.strokeStyle = `rgba(255,15,40,${al * 1.9})`;
+            ctx.lineWidth = 0.65;
+            hexPath(x, y, hexR - 1);
+            ctx.stroke();
+            if (wave > 0.73 && d < innerR * 1.6) {
+              ctx.fillStyle = `rgba(255,0,28,${al * 0.28})`;
+              ctx.fill();
+            }
+          }
+        }
+      }
+
+      function drawDisc() {
+        const g = ctx.createRadialGradient(CX, CY, W * 0.06, CX, CY, W * 0.41);
+        g.addColorStop(0, 'rgba(0,0,0,0)');
+        g.addColorStop(0.16, 'rgba(180,0,38,0.2)');
+        g.addColorStop(0.45, 'rgba(70,0,18,0.06)');
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, W, H);
+
+        pts.forEach(p => {
+          p.a += p.spd;
+          const x = CX + Math.cos(p.a) * p.r;
+          const y = CY + Math.sin(p.a) * p.r * 0.3;
+          const distort = p.r < W * 0.16 ? (W * 0.16 - p.r) * 0.42 : 0;
+          const fy = y - distort;
+          let al = p.op;
+          if (p.r < W * 0.1) al *= (p.r - W * 0.085) / (W * 0.017);
+          const tx = CX + Math.cos(p.a - p.spd * p.trail) * p.r;
+          const ty = CY + Math.sin(p.a - p.spd * p.trail) * p.r * 0.3 - distort;
+          const tg = ctx.createLinearGradient(tx, ty, x, fy);
+          const col = p.hue === 0 ? `rgba(255,255,255,${al * 0.4})` : `hsla(${p.hue},100%,55%,${al * 0.4})`;
+          tg.addColorStop(0, 'transparent');
+          tg.addColorStop(1, col);
+          ctx.strokeStyle = tg;
+          ctx.lineWidth = p.sz * 0.6;
+          ctx.beginPath();
+          ctx.moveTo(tx, ty);
+          ctx.lineTo(x, fy);
+          ctx.stroke();
+          ctx.fillStyle = p.hue === 0 ? `rgba(255,255,255,${al})` : `hsla(${p.hue},100%,55%,${al})`;
+          ctx.beginPath();
+          ctx.arc(x, fy, p.sz, 0, PI2);
+          ctx.fill();
+        });
+      }
+
+      /* --- Anillos orbitales CIRCULARES (no elípticos) --- */
+      function drawOrbits() {
+        const r1 = W * 0.38;
+        ctx.save();
+        ctx.translate(CX, CY);
+        ctx.rotate(t * 0.016);
+        ctx.beginPath();
+        ctx.arc(0, 0, r1, 0, PI2);
+        ctx.strokeStyle = 'rgba(255,28,58,0.58)';
+        ctx.lineWidth = 1.6;
+        ctx.stroke();
+        for (let i = 0; i < 12; i++) {
+          const a = (PI2 / 12) * i;
+          ctx.fillStyle = i % 3 === 0 ? 'rgba(255,255,255,0.72)' : 'rgba(255,28,52,0.48)';
+          ctx.beginPath();
+          ctx.arc(Math.cos(a) * r1, Math.sin(a) * r1, i % 3 === 0 ? 2.2 : 1.3, 0, PI2);
+          ctx.fill();
+        }
+        ctx.restore();
+
+        const r2 = W * 0.45;
+        ctx.save();
+        ctx.translate(CX, CY);
+        ctx.rotate(-t * 0.011);
+        ctx.beginPath();
+        ctx.arc(0, 0, r2, 0, PI2);
+        ctx.strokeStyle = 'rgba(255,28,58,0.2)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([5, 8]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+
+        const r3 = W * 0.33;
+        ctx.save();
+        ctx.translate(CX, CY);
+        ctx.rotate(-t * 0.009);
+        ctx.beginPath();
+        ctx.arc(0, 0, r3, 0, PI2);
+        ctx.strokeStyle = 'rgba(255,200,220,0.12)';
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function drawVoid() {
+        const innerR = W * 0.08;
+        const outerR = W * 0.125;
+        const sh = ctx.createRadialGradient(CX, CY, innerR * 0.7, CX, CY, outerR);
+        sh.addColorStop(0, 'rgba(0,0,0,1)');
+        sh.addColorStop(0.65, 'rgba(0,0,0,1)');
+        sh.addColorStop(0.88, 'rgba(0,0,0,0.55)');
+        sh.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = sh;
+        ctx.beginPath();
+        ctx.arc(CX, CY, outerR, 0, PI2);
+        ctx.fill();
+
+        ctx.fillStyle = '#000';
+        ctx.beginPath();
+        ctx.arc(CX, CY, innerR * 0.82, 0, PI2);
+        ctx.fill();
+
+        const pulse = 0.98 + Math.sin(t * 0.09) * 0.022;
+        ctx.beginPath();
+        ctx.arc(CX, CY, innerR * 0.91 * pulse, 0, PI2);
+        ctx.strokeStyle = `rgba(255,255,255,${0.48 + Math.sin(t * 0.13) * 0.12})`;
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(CX, CY, innerR * pulse, 0, PI2);
+        ctx.strokeStyle = `rgba(255,30,60,${0.35 + Math.sin(t * 0.1) * 0.1})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      function drawSouls() {
+        if (frame % 4 === 0 && souls.length < 80) spawnSoul();
+        for (let i = souls.length - 1; i >= 0; i--) {
+          const s = souls[i];
+          s.a += s.spd * (1 + (W * 0.4 - s.r) * 0.004);
+          s.r *= s.dec;
+          s.op *= 0.9985;
+          if (s.r < W * 0.085 || s.op < 0.05) { souls.splice(i, 1); continue; }
+          const x = CX + Math.cos(s.a) * s.r;
+          const y = CY + Math.sin(s.a) * s.r * 0.3;
+          ctx.fillStyle = s.white ? `rgba(255,255,255,${s.op * 0.7})` : `rgba(255,22,35,${s.op * 0.6})`;
+          ctx.beginPath();
+          ctx.arc(x, y, s.sz, 0, PI2);
+          ctx.fill();
+        }
+      }
+
+      /* --- HUD con fuente japonesa --- */
+      let syncVal = 84.7, atLvl = '07';
+      const atLvls = ['05', '06', '07', '08', '09', '\u221e'];
+      const fs10 = Math.max(9, W * 0.015);
+      const fs11 = Math.max(10, W * 0.016);
+      const fs9 = Math.max(8, W * 0.013);
+      const bigNum = Math.max(120, W * 0.28);
+
+      function drawHUD() {
+        ctx.save();
+        const lx = W * 0.028;
+        const rx = W - W * 0.028;
+
+        ctx.font = `300 ${fs10}px ${jpFont}`;
+        ctx.letterSpacing = '0.12em';
+        ctx.textAlign = 'left';
+        ctx.fillStyle = 'rgba(255,28,52,.6)';
+        ctx.fillText('NERV', lx, W * 0.043);
+        ctx.fillStyle = 'rgba(255,255,255,.45)';
+        ctx.fillText('\u2014 \u7279\u52d9\u6a5f\u95a2', lx + W * 0.043, W * 0.043);
+
+        ctx.fillStyle = 'rgba(255,28,52,.6)';
+        ctx.fillText('UNIT-01', lx, W * 0.064);
+        ctx.fillStyle = 'rgba(255,255,255,.45)';
+        ctx.fillText(' ' + syncVal.toFixed(1) + '%', lx + W * 0.06, W * 0.064);
+
+        ctx.fillStyle = 'rgba(255,28,52,.6)';
+        ctx.fillText('THIRD IMPACT', lx, W * 0.086);
+
+        ctx.textAlign = 'right';
+        ctx.fillStyle = 'rgba(255,255,255,.45)';
+        ctx.fillText('EVA-01', rx, W * 0.043);
+        ctx.fillStyle = 'rgba(255,28,52,.6)';
+        ctx.fillText(' ACTIVE', rx, W * 0.043);
+
+        ctx.fillStyle = 'rgba(255,255,255,.45)';
+        ctx.fillText('AT FIELD  ', rx, W * 0.064);
+        ctx.fillStyle = 'rgba(255,28,52,.6)';
+        ctx.fillText('LVL ' + atLvl, rx, W * 0.064);
+
+        ctx.fillStyle = 'rgba(255,28,52,.5)';
+        ctx.fillText('\u8b66\u544a', rx, W * 0.086);
+
+        ctx.textAlign = 'left';
+        ctx.fillStyle = 'rgba(255,255,255,.4)';
+        ctx.fillText(String(frame).padStart(6, '0'), lx, H - W * 0.03);
+        ctx.fillStyle = 'rgba(255,28,52,.5)';
+        ctx.fillText('SINGULARITY', lx, H - W * 0.01);
+
+        ctx.textAlign = 'right';
+        ctx.fillStyle = 'rgba(255,28,52,.35)';
+        ctx.fillText('\u7b2c\u4e09\u306e\u4f7f\u5f92', rx, H - W * 0.03);
+        ctx.fillStyle = 'rgba(255,255,255,.35)';
+        ctx.fillText('6.7\u00d710\u2079 M\u2609', rx, H - W * 0.01);
+
+        ctx.textAlign = 'center';
+        ctx.font = `300 ${fs11}px ${jpFont}`;
+        ctx.letterSpacing = '0.28em';
+        ctx.fillStyle = 'rgba(255,255,255,.16)';
+        ctx.fillText('\u7b2c\u4e09\u306e\u885d\u6483  \u2014 THE THIRD IMPACT \u2014  \u9b42\u306e\u6838', CX, W * 0.074);
+
+        ctx.font = `300 ${fs9}px ${jpFont}`;
+        ctx.letterSpacing = '0.22em';
+        ctx.fillStyle = 'rgba(255,28,52,.28)';
+        ctx.fillText('\u4eba\u985e\u88dc\u5b8c\u8a08\u753b\u3000\u5b8c\u4e86', CX, H - W * 0.026);
+
+        ctx.font = `900 ${bigNum}px ${monoFont}`;
+        ctx.fillStyle = 'rgba(255,0,28,.022)';
+        ctx.letterSpacing = '-.05em';
+        ctx.fillText('III', CX, CY + W * 0.1);
+
+        ctx.restore();
+      }
+
+      /* --- Barras sync laterales --- */
+      function drawSyncBars() {
+        const barH1 = W * 0.17, barH2 = W * 0.11, barH3 = W * 0.085;
+        const barY1 = H * 0.31, barY2 = H * 0.51, barY3 = H * 0.64;
+        const bars = [
+          { x: W * 0.026, y: barY1, h: barH1, delay: 0 },
+          { x: W * 0.026, y: barY2, h: barH2, delay: 0.5 },
+          { x: W * 0.026, y: barY3, h: barH3, delay: 1 },
+          { x: W - W * 0.037, y: barY1, h: barH3, delay: 1.5 },
+          { x: W - W * 0.037, y: barY1 + barH3 + H * 0.01, h: barH2, delay: 0.8 },
+          { x: W - W * 0.037, y: barY1 + barH3 + barH2 + H * 0.02, h: barH1, delay: 0.3 },
+        ];
+        bars.forEach(b => {
+          const fill = (Math.sin(t * 0.05 + b.delay) * 0.5 + 0.5) * 0.88 + 0.1;
+          ctx.fillStyle = 'rgba(255,28,52,.1)';
+          ctx.fillRect(b.x, b.y, 3, b.h);
+          ctx.fillStyle = 'rgba(255,28,52,.75)';
+          ctx.fillRect(b.x, b.y + b.h * (1 - fill), 3, b.h * fill);
+        });
+
+        ctx.save();
+        ctx.translate(W * 0.031, H * 0.49);
+        ctx.rotate(-Math.PI / 2);
+        ctx.font = `300 ${fs9}px ${jpFont}`;
+        ctx.fillStyle = 'rgba(255,28,52,.45)';
+        ctx.letterSpacing = '0.14em';
+        ctx.fillText('SYNC RATE', 0, 0);
+        ctx.restore();
+      }
+
+      function drawCrosshairs() {
+        const pad = W * 0.029;
+        const pts = [[pad, pad], [W - pad, pad], [pad, H - pad], [W - pad, H - pad]];
+        ctx.strokeStyle = 'rgba(255,28,52,.4)';
+        ctx.lineWidth = 1;
+        const arm = W * 0.02;
+        pts.forEach(([x, y]) => {
+          const s = x < CX ? 1 : -1, sv = y < CY ? 1 : -1;
+          ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + s * arm, y); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + sv * arm); ctx.stroke();
+        });
+      }
+
+      function voidLoop() {
+        frame++;
+        t += 0.55;
+        if (frame % 8 === 0) syncVal = 80 + Math.sin(t * 0.18) * 8 + Math.random() * 1.2;
+        if (frame % 30 === 0) atLvl = atLvls[Math.floor(frame / 30) % atLvls.length];
+
+        ctx.clearRect(0, 0, W, H);
+
+        const bg = ctx.createRadialGradient(CX, CY * 0.9, 0, CX, CY, W * 0.54);
+        bg.addColorStop(0, '#1a000e');
+        bg.addColorStop(1, '#030004');
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, W, H);
+
+        drawATField();
+        ctx.fillStyle = 'rgba(4,0,10,.3)';
+        ctx.fillRect(0, 0, W, H);
+        drawDisc();
+        drawOrbits();
+        drawVoid();
+        drawSouls();
+        drawSyncBars();
+        drawCrosshairs();
+        drawHUD();
+
+        requestAnimationFrame(voidLoop);
+      }
+
+      const heroVisual = document.querySelector('.hero__visual');
+      if (heroVisual && getComputedStyle(heroVisual).display !== 'none') {
+        voidLoop();
+      } else {
+        const ro = new ResizeObserver(() => {
+          if (heroVisual && getComputedStyle(heroVisual).display !== 'none') {
+            ro.disconnect();
+            voidLoop();
+          }
+        });
+        if (heroVisual) ro.observe(heroVisual);
+      }
+    }
 
     // ========================================
     // SKILLS CLOUD
