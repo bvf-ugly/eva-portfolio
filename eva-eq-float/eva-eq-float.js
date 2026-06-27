@@ -226,8 +226,10 @@
      ctx.lineWidth = 1;
      ctx.stroke();
 
-     // Programar próximo frame
-     requestAnimationFrame(() => this._updateViz());
+      // ponytail: only animate when panel is open
+      if (this.state.isOpen) {
+        requestAnimationFrame(() => this._updateViz());
+      }
    }
 
    _clearPreset() {
@@ -450,11 +452,12 @@
      this._restoreState();
    }
 
-   show() {
-     this.state.isOpen = true;
-     this.panel.classList.remove('hidden');
-     this._updateAll();
-   }
+    show() {
+      this.state.isOpen = true;
+      this.panel.classList.remove('hidden');
+      this._updateAll();
+      this._updateViz(); // start animation loop
+    }
 
    hide() {
      this.state.isOpen = false;
