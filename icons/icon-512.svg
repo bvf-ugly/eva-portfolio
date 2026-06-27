@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A0033"/>
+      <stop offset="100%" stop-color="#0D001A"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#76FF03"/>
+      <stop offset="100%" stop-color="#BB86FC"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E10600"/>
+      <stop offset="50%" stop-color="#BB86FC"/>
+      <stop offset="100%" stop-color="#76FF03"/>
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="url(#bg)"/>
+  <!-- Outer ring -->
+  <circle cx="256" cy="256" r="230" fill="none" stroke="url(#ring)" stroke-width="4" opacity="0.6"/>
+  <!-- Inner ring -->
+  <circle cx="256" cy="256" r="180" fill="none" stroke="#76FF03" stroke-width="2" opacity="0.3"/>
+  <!-- Hexagon -->
+  <polygon points="256,80 416,170 416,342 256,432 96,342 96,170" fill="none" stroke="url(#accent)" stroke-width="3" opacity="0.5"/>
+  <!-- EVA text -->
+  <text x="256" y="240" text-anchor="middle" font-family="'Orbitron', monospace" font-weight="900" font-size="120" fill="url(#accent)" letter-spacing="0.1em">EVA</text>
+  <!-- Subtitle -->
+  <text x="256" y="290" text-anchor="middle" font-family="'Rajdhani', sans-serif" font-weight="600" font-size="28" fill="#BB86FC" opacity="0.7" letter-spacing="0.3em">PORTFOLIO</text>
+  <!-- AT Field lines -->
+  <line x1="128" y1="340" x2="384" y2="340" stroke="#76FF03" stroke-width="1" opacity="0.2"/>
+  <line x1="160" y1="360" x2="352" y2="360" stroke="#E10600" stroke-width="1" opacity="0.15"/>
+  <!-- Center dot -->
+  <circle cx="256" cy="256" r="6" fill="#76FF03" opacity="0.8"/>
+  <circle cx="256" cy="256" r="3" fill="#ffffff"/>
+</svg>
