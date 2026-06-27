@@ -121,7 +121,7 @@
 .ep-cover {
   position: relative;
   width: 64px; height: 64px;
-  border-radius: 10px;
+  border-radius: 50%;
   overflow: hidden;
   background: linear-gradient(135deg, #0d1b2a, #1a2a3a);
   box-shadow: 0 8px 24px -8px rgba(0,0,0,0.7), inset 0 0 0 1px rgba(255,255,255,0.05);
@@ -268,7 +268,7 @@
 }
 .ep-playlist-item:hover { background: rgba(46,213,115,0.08); }
 .ep-playlist-item.is-active { background: rgba(46,213,115,0.12); color: var(--eva-pink); }
-.ep-playlist-cover { width: 34px; height: 34px; border-radius: 6px; object-fit: cover; background: #0d1b2a; }
+.ep-playlist-cover { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; background: #0d1b2a; }
 .ep-playlist-meta { display: flex; flex-direction: column; gap: 0.08rem; min-width: 0; }
 .ep-playlist-title { font-size: 0.68rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ep-playlist-artist { font-size: 0.56rem; color: var(--eva-text-dim); text-transform: uppercase; letter-spacing: 0.05em; }
@@ -311,7 +311,7 @@
   gap: 0.5rem;
   padding: 0.4rem 0.5rem 0.4rem 0.4rem;
 }
-.ep[data-view="collapsed"] .ep-cover { width: 38px; height: 38px; }
+.ep[data-view="collapsed"] .ep-cover { width: 38px; height: 38px; border-radius: 50%; }
 .ep[data-view="collapsed"] .ep-info { width: auto; max-width: 110px; }
 .ep[data-view="collapsed"] .ep-artist,
 .ep[data-view="collapsed"] .ep-meta-row,
@@ -328,7 +328,7 @@
 @media (max-width: 640px) {
   .ep-body { max-width: 90vw; gap: 0.5rem; padding: 0.5rem 0.65rem; }
   .ep-info { width: 100px; }
-  .ep-cover { width: 48px; height: 48px; }
+  .ep-cover { width: 48px; height: 48px; border-radius: 50%; }
   .ep-title { font-size: 0.62rem; max-width: 100px; }
   .ep-btn { width: 24px; height: 24px; }
   .ep-btn svg { width: 11px; height: 11px; }
@@ -342,7 +342,7 @@
     gap: 0.35rem;
     padding: 0.35rem 0.5rem;
   }
-  .ep-cover { width: 44px; height: 44px; border-radius: 8px; }
+  .ep-cover { width: 44px; height: 44px; border-radius: 50%; }
   .ep-info { width: auto; max-width: 90px; }
   .ep-title { font-size: 0.58rem; max-width: 90px; }
   .ep-controls > *:not(.ep-btn-play--main) { display: none !important; }
@@ -352,7 +352,7 @@
   .ep-btn-play--main svg { width: 12px; height: 12px; }
   .ep-playlist { max-height: 180px; }
   .ep-playlist-item { padding: 0.3rem 0.4rem; }
-  .ep-playlist-cover { width: 28px; height: 28px; }
+  .ep-playlist-cover { width: 28px; height: 28px; border-radius: 50%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
