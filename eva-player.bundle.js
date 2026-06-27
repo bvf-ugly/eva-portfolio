@@ -113,8 +113,7 @@ const ICONS = {
 class EvaPlayer {
   constructor(rootEl) {
     this.root = rootEl;
-    this.audio = new Audio();
-    this.audio.preload = 'metadata';
+    this.audio = null; // Deferred — created on first user gesture (mobile requires this)
     this.state = {
       playlist: [], index: 0, shuffledIndices: [],
       loop: 'none', shuffle: false, volume: 0.5, muted: false,
@@ -131,6 +130,20 @@ class EvaPlayer {
     this._eq = null;
     window.__evaPlayer = this;
     setTimeout(() => this._initEQ(), 150);
+  }
+
+  _ensureAudio() {
+    if (this.audio) return this.audio;
+    this.audio = new Audio();
+    this.audio.preload = 'metadata';
+    // Re-apply saved state
+    this.audio.volume = this.state.muted ? 0 : this.state.volume;
+    this.audio.muted = this.state.muted;
+    // Re-bind audio events on the new element
+    this._bindAudioEvents();
+    // Connect EQ if available
+    this._connectEQToPlayer();
+    return this.audio;
   }
 
   _restorePersisted() {
@@ -198,8 +211,9 @@ class EvaPlayer {
     const list = this.state.playlist;
     if (!list.length) return;
     const track = list[index];
-    this.audio.src = track.src;
-    this.audio.load();
+    const a = this._ensureAudio();
+    a.src = track.src;
+    a.load();
     const titleEl = this.root.querySelector('.ep-title');
     const artistEl = this.root.querySelector('.ep-artist');
     const coverImg = this.root.querySelector('.ep-cover-img');
@@ -221,14 +235,15 @@ class EvaPlayer {
   }
 
   play() {
+    const a = this._ensureAudio();
     // Resume AudioContext if suspended (mobile browsers require user gesture)
     if (this._audioCtx && this._audioCtx.state === 'suspended') {
       this._audioCtx.resume();
     }
-    this.audio.play().catch(() => {});
+    a.play().catch(() => {});
   }
-  pause() { this.audio.pause(); }
-  toggle() { this.audio.paused ? this.play() : this.pause(); }
+  pause() { if (this.audio) this.audio.pause(); }
+  toggle() { this._ensureAudio(); this.audio.paused ? this.play() : this.pause(); }
 
   prev() {
     if (!this.state.playlist.length) return;
@@ -238,7 +253,7 @@ class EvaPlayer {
 
   next() {
     if (!this.state.playlist.length) return;
-    if (this.state.loop === 'one') { this.audio.currentTime = 0; this.play(); return; }
+    if (this.state.loop === 'one') { if (this.audio) this.audio.currentTime = 0; this.play(); return; }
     this.state.index = this._stepIndex(1);
     this._loadTrack(this.state.index); this.play();
   }
@@ -253,20 +268,20 @@ class EvaPlayer {
   }
 
   seek(percent) {
-    if (!isFinite(this.audio.duration)) return;
+    if (!this.audio || !isFinite(this.audio.duration)) return;
     this.audio.currentTime = percent * this.audio.duration;
   }
 
   setVolume(v) {
     v = Math.max(0, Math.min(1, v));
     this.state.volume = v;
-    this.audio.volume = this.state.muted ? 0 : v;
+    if (this.audio) this.audio.volume = this.state.muted ? 0 : v;
     this._updateVolumeUI(); this._persist();
   }
 
   toggleMute() {
     this.state.muted = !this.state.muted;
-    this.audio.muted = this.state.muted;
+    if (this.audio) this.audio.muted = this.state.muted;
     this._updateVolumeUI();
   }
 
@@ -293,6 +308,7 @@ class EvaPlayer {
 
   _bindAudioEvents() {
     const a = this.audio;
+    if (!a) return;
     a.addEventListener('play', () => this._setPlayingUI(true));
     a.addEventListener('pause', () => this._setPlayingUI(false));
     a.addEventListener('waiting', () => this._setLoadingUI(true));
@@ -317,7 +333,7 @@ class EvaPlayer {
   }
 
   _onTimeUpdate() {
-    if (this._draggingProgress) return;
+    if (this._draggingProgress || !this.audio) return;
     const pct = this.audio.duration ? (this.audio.currentTime / this.audio.duration) * 100 : 0;
     this.root.querySelector('.ep-progress-fill').style.width = `${pct}%`;
     this.root.querySelector('.ep-progress-handle').style.left = `${pct}%`;
@@ -325,6 +341,7 @@ class EvaPlayer {
   }
 
   _onLoadedMeta() {
+    if (!this.audio) return;
     this.root.querySelector('.ep-duration').textContent = formatTime(this.audio.duration);
     const track = this.state.playlist[this.state.index];
     if (track) track.duration = this.audio.duration;
@@ -332,6 +349,7 @@ class EvaPlayer {
   }
 
   _onBufferProgress() {
+    if (!this.audio) return;
     const buffered = this.audio.buffered;
     if (buffered.length && this.audio.duration) {
       const pct = (buffered.end(buffered.length - 1) / this.audio.duration) * 100;
@@ -340,7 +358,7 @@ class EvaPlayer {
   }
 
   _onEnded() {
-    if (this.state.loop === 'one') { this.audio.currentTime = 0; this.play(); }
+    if (this.state.loop === 'one') { if (this.audio) this.audio.currentTime = 0; this.play(); }
     else this.next();
   }
 
@@ -661,9 +679,9 @@ class EvaPlayer {
       switch (e.code) {
         case 'Space': e.preventDefault(); this.toggle(); break;
         case 'ArrowRight':
-          if (isFinite(this.audio.duration)) { e.preventDefault(); this.seek(Math.min(1, (this.audio.currentTime + 5) / this.audio.duration)); } break;
+          if (this.audio && isFinite(this.audio.duration)) { e.preventDefault(); this.seek(Math.min(1, (this.audio.currentTime + 5) / this.audio.duration)); } break;
         case 'ArrowLeft':
-          if (isFinite(this.audio.duration)) { e.preventDefault(); this.seek(Math.max(0, (this.audio.currentTime - 5) / this.audio.duration)); } break;
+          if (this.audio && isFinite(this.audio.duration)) { e.preventDefault(); this.seek(Math.max(0, (this.audio.currentTime - 5) / this.audio.duration)); } break;
         case 'KeyM': this.toggleMute(); break;
         case 'KeyN': this.next(); break;
         case 'KeyP': this.prev(); break;
@@ -696,6 +714,7 @@ class EvaPlayer {
   _connectEQToPlayer() {
     if (!this._eq) return;
     if (!this._eq.state) return;
+    if (!this.audio) return; // Audio not created yet (deferred for mobile)
 
     // Create AudioContext if it doesn't exist
     if (!this._audioCtx) {
