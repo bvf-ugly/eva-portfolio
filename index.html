@@ -4092,11 +4092,6 @@
 
         if (isSamePageAnchor || isExternal || !isHtmlPage) return;
 
-        // Skip settings.html — SPA navigation handles it (keeps player alive)
-        if (/settings\.html/.test(href)) return;
-        // Skip back-link from inline settings
-        if (link.classList.contains('back-link')) return;
-
         e.preventDefault();
         overlay.classList.remove('is-hidden');
         overlay.classList.add('is-leaving');
@@ -4423,54 +4418,36 @@
       const footer = document.querySelector('.footer');
       if (!content || !footer) return;
 
-      let savedMainHTML = null;
-
-      function fadeTo(callback) {
-        content.style.transition = 'opacity 300ms var(--ease-out)';
-        content.style.opacity = '0';
-        setTimeout(() => {
-          callback();
-          content.style.opacity = '1';
-          window.scrollTo(0, 0);
-        }, 300);
-      }
-
       // Intercept clicks on settings.html link
       document.addEventListener('click', (e) => {
-        const settingsLink = e.target.closest('a[href="settings.html"]');
-        const backLink = e.target.closest('.back-link');
+        const link = e.target.closest('a[href="settings.html"]');
+        if (!link) return;
+        e.preventDefault();
 
-        if (settingsLink) {
-          e.preventDefault();
-          if (!savedMainHTML) savedMainHTML = content.innerHTML;
-          fadeTo(() => {
-            fetch('settings.html')
-              .then(r => r.text())
-              .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const newContent = doc.querySelector('.container');
-                if (newContent) {
-                  content.innerHTML = '';
-                  content.appendChild(newContent.cloneNode(true));
-                  initSettingsPageLogic();
-                }
-              })
-              .catch(() => { window.location.href = 'settings.html'; });
-          });
-          return;
-        }
+        // Fade out current content
+        content.style.opacity = '0';
+        content.style.transition = 'opacity 300ms var(--ease-out)';
 
-        // Back link from settings — restore main content
-        if (backLink && savedMainHTML) {
-          e.preventDefault();
-          e.stopPropagation();
-          fadeTo(() => {
-            content.innerHTML = savedMainHTML;
-            savedMainHTML = null;
-          });
-          return;
-        }
+        setTimeout(() => {
+          fetch('settings.html')
+            .then(r => r.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(html, 'text/html');
+              const newContent = doc.querySelector('.container');
+              if (newContent) {
+                content.innerHTML = '';
+                content.appendChild(newContent.cloneNode(true));
+                // Re-run settings-specific JS inline
+                initSettingsPageLogic();
+              }
+              content.style.opacity = '1';
+              window.scrollTo(0, 0);
+            })
+            .catch(() => {
+              window.location.href = 'settings.html';
+            });
+        }, 300);
       });
     }
 
