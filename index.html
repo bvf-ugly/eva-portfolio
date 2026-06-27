@@ -2603,6 +2603,7 @@
         text-align: center;
         gap: var(--space-xl);
         padding: var(--space-xl) var(--space-lg);
+        justify-content: center;
       }
 
       .hero__badges {
@@ -2623,8 +2624,7 @@
       }
 
       .hero__visual {
-        min-height: 350px;
-        order: -1;
+        display: none;
       }
 
       .about {
@@ -2642,20 +2642,28 @@
       }
     }
 
+    /* Nav backdrop (always outside media queries) */
+    .nav__backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 10, 18, 0.6);
+      z-index: calc(var(--z-modal) - 1);
+    }
+    .nav__backdrop.is-open {
+      display: block;
+    }
+
     @media (max-width: 768px) {
       :root {
-        --space-xl: 3.5rem;
-        --space-lg: 2rem;
-        --space-md: 1rem;
+        --space-xl: 2.5rem;
+        --space-lg: 1.5rem;
+        --space-md: 0.85rem;
       }
 
-      html {
-        scroll-snap-type: none;
-      }
+      html { scroll-snap-type: none; }
 
-      .nav__burger {
-        display: flex;
-      }
+      .nav__burger { display: flex; }
 
       .nav__links {
         position: fixed;
@@ -2676,10 +2684,7 @@
         transition: transform 320ms var(--ease-out);
         z-index: var(--z-modal);
       }
-
-      .nav__links.is-open {
-        transform: translateX(0);
-      }
+      .nav__links.is-open { transform: translateX(0); }
 
       .nav__link {
         width: 100%;
@@ -2687,191 +2692,118 @@
         padding: var(--space-md) var(--space-sm);
         font-size: 1rem;
       }
+      .nav__cta { display: none; }
 
-      .nav__cta {
-        display: none;
-      }
+      .mode-switcher { display: none; }
 
       .hero {
         padding: var(--space-xl) var(--space-md);
+        min-height: 100vh;
+        min-height: 100dvh;
       }
+      .hero__visual { display: none; }
+      .hero__title { font-size: clamp(1.6rem, 7vw, 2.4rem); }
+      .hero__subtitle { font-size: 0.85rem; line-height: 1.5; }
 
-      .hero__visual {
-        min-height: 220px;
+      .hero__metrics {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-sm);
       }
+      .metric { min-width: 0; padding: var(--space-sm); }
+      .metric__value { font-size: 1.3rem; }
+      .metric__label { font-size: 0.6rem; }
 
-      .sync-ring {
-        width: clamp(180px, 60vw, 280px);
-        height: clamp(180px, 60vw, 280px);
-      }
-
-      .section-header--left {
-        align-items: center;
-        text-align: center;
-      }
-
-      .projects-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer__inner {
+      .hero__actions {
         flex-direction: column;
-        text-align: center;
+        align-items: stretch;
       }
+      .hero__actions .btn { width: 100%; justify-content: center; }
 
       .section {
         min-height: auto;
         padding: var(--space-xl) 0;
       }
 
+      .section-header { margin-bottom: var(--space-lg); }
+      .section__number { font-size: 1.8rem; }
+      .section-header--left { align-items: flex-start; text-align: left; }
+
+      .projects-grid { grid-template-columns: 1fr; gap: var(--space-md); }
+
+      .about { flex-direction: column; gap: var(--space-lg); }
+      .about__highlights { grid-template-columns: 1fr; gap: var(--space-sm); }
+      .highlight { padding: var(--space-sm); }
+      .highlight__icon { width: 32px; height: 32px; }
+
+      .timeline { padding-left: var(--space-lg); }
+      .timeline__content { padding: var(--space-sm) var(--space-md); }
+
+      .contact { flex-direction: column; gap: var(--space-md); }
+      .contact__item { padding: var(--space-sm); }
+
+      .footer__inner {
+        flex-direction: column;
+        text-align: center;
+      }
+      .footer__links { justify-content: center; }
+
+      /* Disable heavy animations on mobile */
       .text-glitch,
       .text-shimmer-expressive {
         animation: none !important;
       }
-
       .text-glitch.is-visible,
       .text-shimmer-expressive.is-visible {
         animation: none !important;
         opacity: 1;
       }
+      .reveal.is-visible { animation-duration: 0.3s !important; }
 
-      .reveal.is-visible {
-        animation-duration: 0.4s !important;
-      }
-
-      .eq-float-panel {
-        width: calc(100vw - 16px) !important;
-      }
-
-      .eq-float-bands {
-        flex-direction: column;
-        gap: 4px;
-      }
-
-      .eq-float-band {
-        flex-direction: row;
-        gap: 8px;
-        padding: 4px 8px;
-      }
-
+      /* EQ mobile */
+      .eq-float-panel { width: calc(100vw - 16px) !important; }
+      .eq-float-bands { flex-direction: column; gap: 4px; }
+      .eq-float-band { flex-direction: row; gap: 8px; padding: 4px 8px; }
       .eq-float-band input[type="range"] {
-        writing-mode: horizontal-tb;
-        direction: ltr;
-        width: auto;
-        height: 4px;
-        flex: 1;
+        writing-mode: horizontal-tb; direction: ltr;
+        width: auto; height: 4px; flex: 1;
       }
-    }
 
-    /* Fondo oscuro tras el panel del menú móvil */
-    .nav__backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(5, 10, 18, 0.6);
-      z-index: calc(var(--z-modal) - 1);
-    }
-
-    .nav__backdrop.is-open {
-      display: block;
+      /* Player mobile positioning */
+      #playerRoot {
+        bottom: 10px !important;
+        left: 10px !important;
+        right: 10px !important;
+        width: auto !important;
+      }
     }
 
     @media (max-width: 480px) {
       :root {
-        --space-xl: 3rem;
-        --radius-lg: 18px;
+        --space-xl: 2rem;
+        --space-lg: 1.25rem;
+        --radius-lg: 14px;
       }
 
-      .hero__title {
-        font-size: clamp(1.8rem, 8vw, 2.5rem);
-        letter-spacing: -0.01em;
-      }
-
-      .hero__subtitle {
-        font-size: 0.9rem;
-      }
-
-      .metric {
-        min-width: 100px;
-        padding: var(--space-sm) var(--space-md);
-      }
-
-      .metric__value {
-        font-size: 1.4rem;
-      }
+      .hero__title { font-size: clamp(1.4rem, 7vw, 2rem); }
+      .hero__subtitle { font-size: 0.8rem; }
+      .hero__metrics { grid-template-columns: 1fr 1fr; gap: 6px; }
+      .metric__value { font-size: 1.1rem; }
 
       .btn {
         padding: var(--space-sm) var(--space-lg);
         font-size: 0.65rem;
       }
 
-      .nav__links {
-        width: 100vw;
-      }
+      .nav__links { width: 100vw; }
 
-      .hero__metrics {
-        gap: var(--space-sm);
-      }
+      .about__highlights { gap: var(--space-xs); }
+      .highlight { padding: var(--space-xs); }
+      .highlight__desc { font-size: 0.75rem; }
 
-      .hero__actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
+      .footer__links { gap: var(--space-md); flex-wrap: wrap; justify-content: center; }
 
-      .hero__actions .btn {
-        width: 100%;
-      }
-
-      .about__highlights {
-        gap: var(--space-xs);
-      }
-
-      .highlight {
-        padding: var(--space-sm);
-      }
-
-      .highlight__icon {
-        width: 32px;
-        height: 32px;
-      }
-
-      .section-header {
-        margin-bottom: var(--space-lg);
-      }
-
-      .section__number {
-        font-size: 2rem;
-      }
-
-      .projects-grid {
-        gap: var(--space-md);
-      }
-
-      .timeline {
-        padding-left: var(--space-lg);
-      }
-
-      .timeline__content {
-        padding: var(--space-sm) var(--space-md);
-      }
-
-      .contact {
-        gap: var(--space-lg);
-      }
-
-      .contact__item {
-        padding: var(--space-sm);
-      }
-
-      .footer__links {
-        gap: var(--space-md);
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
-      .eq-float-band input[type="range"] {
-        height: 60px;
-      }
+      .eq-float-band input[type="range"] { height: 50px; }
     }
 
     /* ========================================
@@ -3049,8 +2981,8 @@
               <span class="hero__title-line hero__title-accent">Futuro</span>
               <span class="hero__title-line">Línea a línea</span>
             </h1>
-            <p class="hero__subtitle reveal delay-3">Desarrollador Full-Stack con experiencia en arquitecturas escalables,
-              experiencias inmersivas y código que respira. Transformando ideas en realidades técnicas.</p>
+            <p class="hero__subtitle reveal delay-3">Desarrollador Full-Stack con experiencia en frontend, audio web y animaciones.
+              Transformando ideas en productos funcionales.</p>
             <div class="hero__metrics reveal delay-4">
               <div class="metric">
                 <span class="metric__value" data-count="10">0</span>
@@ -3129,14 +3061,14 @@
           <div class="about">
             <div class="about__text">
               <p class="about__paragraph reveal delay-1">Desarrollador Full-Stack con <strong>3+ años</strong> de experiencia
-                construyendo productos digitales. Mi enfoque: arquitectura limpia, rendimiento obsesivo y experiencias de
-                usuario que se sienten vivas.</p>
+                construyendo productos digitales. Mi enfoque: código limpio, rendimiento y
+                experiencias de usuario que funcionan bien.</p>
               <p class="about__paragraph reveal delay-2">He trabajado en proyectos personales y colaborativos, entregando
-                desde MVPs hasta plataformas completas con audio, video y animaciones en tiempo real.
-                Creo que el mejor código es el que se entiende a las 3 AM.</p>
-              <p class="about__paragraph reveal delay-3">Cuando no estoy frente al terminal, experimento con
-                <strong>WebGL</strong>, <strong>Three.js</strong>, motores de juego y sistemas interactivos en tiempo
-                real. La intersección entre diseño y ingeniería es donde vivo.
+                desde portfolios interactivos hasta reproductores de música con ecualización en tiempo real.
+                Me gusta resolver problemas prácticos con código.</p>
+              <p class="about__paragraph reveal delay-3">Fuera del terminal, me interesa el
+                <strong>audio web</strong>, las <strong>CSS animations</strong> y la automatización con
+                herramientas como GitHub Actions. Siempre aprendiendo algo nuevo.
               </p>
 
               <div class="about__highlights reveal delay-4">
@@ -3146,9 +3078,8 @@
                       <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                     </svg></div>
                   <div class="highlight__content">
-                    <h3 class="highlight__title">Arquitectura & Sistemas</h3>
-                    <p class="highlight__desc">Diseño de sistemas distribuidos, microservicios, event-driven
-                      architecture, caching strategies, database optimization.</p>
+                    <h3 class="highlight__title">Frontend & CSS</h3>
+                    <p class="highlight__desc">HTML semántico, CSS personalizado, animaciones, diseño responsivo y temas dinámicos.</p>
                   </div>
                 </article>
                 <article class="highlight">
@@ -3158,9 +3089,8 @@
                       <path d="M8 21h8M12 17v4" />
                     </svg></div>
                   <div class="highlight__content">
-                    <h3 class="highlight__title">Frontend Moderno</h3>
-                    <p class="highlight__desc">React/Next.js, TypeScript, Zustand/Jotai, Tailwind/CSS Modules, testing
-                      (Vitest/Playwright), performance optimization.</p>
+                    <h3 class="highlight__title">JavaScript & Node.js</h3>
+                    <p class="highlight__desc">ES6+, APIs del navegador, scripts de automatización, manejo de audio y archivos.</p>
                   </div>
                 </article>
                 <article class="highlight">
@@ -3171,9 +3101,8 @@
                         d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                     </svg></div>
                   <div class="highlight__content">
-                    <h3 class="highlight__title">Creative Coding</h3>
-                    <p class="highlight__desc">Three.js, WebGL/GSL, Canvas API, GSAP, animaciones complejas,
-                      visualizaciones de datos, shaders personalizados.</p>
+                    <h3 class="highlight__title">Web Audio API</h3>
+                    <p class="highlight__desc">Ecualizadores, visualización de audio, reproducción streaming y controles personalizados.</p>
                   </div>
                 </article>
                 <article class="highlight">
@@ -3184,9 +3113,8 @@
                       <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
                     </svg></div>
                   <div class="highlight__content">
-                    <h3 class="highlight__title">Mentoría & Liderazgo</h3>
-                    <p class="highlight__desc">Code reviews exhaustivos, pair programming, RFC culture, onboarding
-                      frameworks, charlas técnicas y workshops internos.</p>
+                    <h3 class="highlight__title">Git & Automatización</h3>
+                    <p class="highlight__desc">GitHub Actions, despliegue automático, gestión de repositorios y flujos de trabajo.</p>
                   </div>
                 </article>
               </div>
@@ -3213,7 +3141,7 @@
           <div class="projects-grid" id="projectsGrid"></div>
 
           <div class="text-center reveal delay-8" style="margin-top: var(--space-xl);">
-            <a href="https://github.com" target="_blank" rel="noopener" class="btn btn--ghost">Ver Todos en GitHub<svg
+            <a href="https://github.com/bvf-ugly" target="_blank" rel="noopener" class="btn btn--ghost">Ver Todos en GitHub<svg
                 viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
                 <path
                   d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.305-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
@@ -3403,8 +3331,8 @@
         <a href="https://github.com/bvf-ugly" target="_blank" rel="noopener" class="footer__link">GitHub</a>
         <a href="/privacy" class="footer__link">Privacidad</a>
       </nav>
-      <p class="footer__copyright">© 2025 REI Q. Construido con <span
-          style="color: var(--color-lcl-pink);">♥</span> y TypeScript.</p>
+      <p class="footer__copyright">© 2026 REI Q. Construido con <span
+          style="color: var(--color-lcl-pink);">♥</span> y código.</p>
     </div>
   </footer>
 
@@ -3420,17 +3348,15 @@
     const PORTFOLIO_DATA = {
       skills: [
         { name: 'HTML / CSS', level: 0.9, color: 'var(--color-nerv-blue)' },
-        { name: 'JavaScript', level: 0.88, color: 'var(--color-nerv-blue)' },
-        { name: 'Node.js', level: 0.75, color: 'var(--color-entry-cyan)' },
-        { name: 'React / Next.js', level: 0.7, color: 'var(--color-entry-cyan)' },
-        { name: 'TypeScript', level: 0.65, color: 'var(--color-lcl-pink)' },
+        { name: 'JavaScript', level: 0.85, color: 'var(--color-nerv-blue)' },
+        { name: 'Node.js', level: 0.7, color: 'var(--color-entry-cyan)' },
         { name: 'Web Audio API', level: 0.8, color: 'var(--color-lcl-pink)' },
-        { name: 'Git / GitHub Actions', level: 0.82, color: 'var(--color-warning-orange)' },
-        { name: 'CSS Animations', level: 0.85, color: 'var(--color-instrument-purple)' },
-        { name: 'Python', level: 0.55, color: 'var(--color-warning-orange)' },
+        { name: 'Git / GitHub Actions', level: 0.78, color: 'var(--color-warning-orange)' },
+        { name: 'CSS Animations', level: 0.82, color: 'var(--color-instrument-purple)' },
         { name: 'Responsive Design', level: 0.8, color: 'var(--color-nerv-blue)' },
-        { name: 'Design Systems', level: 0.7, color: 'var(--color-instrument-purple)' },
-        { name: 'API Design', level: 0.65, color: 'var(--color-entry-cyan)' },
+        { name: 'React', level: 0.6, color: 'var(--color-entry-cyan)' },
+        { name: 'TypeScript', level: 0.55, color: 'var(--color-lcl-pink)' },
+        { name: 'Python', level: 0.5, color: 'var(--color-warning-orange)' },
       ],
 
       projects: [
@@ -3452,9 +3378,9 @@
         },
         {
           title: 'Instrumentality Protocol',
-          desc: 'Sistema de distribución de audio con sincronización en tiempo real entre dispositivos.',
+          desc: 'Sistema de audio web con controles personalizados, ecualización y visualización en tiempo real.',
           image: 'https://picsum.photos/seed/audio/600/375.jpg',
-          tags: ['JavaScript', 'Web Audio API', 'WebSocket'],
+          tags: ['JavaScript', 'Web Audio API', 'Canvas'],
           links: { demo: '#', code: 'https://github.com/bvf-ugly' },
           featured: true
         },
@@ -3467,16 +3393,8 @@
           featured: false
         },
         {
-          title: 'MAGI Dashboard',
-          desc: 'Panel de monitoreo con métricas en vivo, gráficos dinámicos y sistema de alertas.',
-          image: 'https://picsum.photos/seed/magi/600/375.jpg',
-          tags: ['Next.js', 'Charts', 'Tailwind', 'API'],
-          links: { demo: '#', code: 'https://github.com/bvf-ugly' },
-          featured: true
-        },
-        {
-          title: 'Gestor de Configuración',
-          desc: 'Panel de configuración con temas dinámicos, control de visibilidad de secciones y persistencia localStorage.',
+          title: 'EVA Settings Panel',
+          desc: 'Panel de configuración con temas dinámicos, control de secciones y persistencia en localStorage.',
           image: 'https://picsum.photos/seed/settings/600/375.jpg',
           tags: ['JavaScript', 'localStorage', 'CSS Custom Properties'],
           links: { demo: '#', code: 'https://github.com/bvf-ugly' },
@@ -4228,47 +4146,55 @@
       left: 20px;
       z-index: var(--z-overlay);
       pointer-events: auto;
+      max-width: calc(100vw - 40px);
+    }
+    @media (max-width: 768px) {
+      #playerRoot {
+        bottom: 10px;
+        left: 10px;
+        max-width: calc(100vw - 20px);
+      }
     }
   </style>
   <div id="playerRoot"></div>
 
   <script>
     window.__EVA_PLAYLIST_DATA = [
-      { "title": "KING", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/1.KING.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 127 },
-      { "title": "HIGHS AND LOWS", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/10.HIGHS-AND-LOWS.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 111 },
-      { "title": "I CAN'T WAIT (feat. Ms. Lauryn Hill)", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/11-Kanye-West-I-CAN-T-WAIT--feat--Ms--Lauryn-Hill.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 137 },
-      { "title": "WHITE LINES (feat. Andre Troutman)", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/12-Kanye-West-WHITE-LINES--feat--Andre-Troutman.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 131 },
-      { "title": "CIRCLES", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/13.CIRCLES.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 91 },
-      { "title": "PREACHER MAN", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/14.PREACHER-MAN.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 182 },
-      { "title": "BEAUTY AND THE BEAST", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/15.BEAUTY-AND-THE-BEAST.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 107 },
-      { "title": "OK (feat. Don Toliver)", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/19.OK--feat--Don-Toliver.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 158 },
-      { "title": "THIS A MUST", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/2.THIS-A-MUST.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 87 },
-      { "title": "FATHER (feat. Travis Scott)", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/3.FATHER--feat--Travis-Scott.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 169 },
-      { "title": "ALL THE LOVE (feat. Andre Troutman)", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/4.ALL-THE-LOVE--feat--Andre-Troutman.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 229 },
-      { "title": "PUNCH DRUNK", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/5.PUNCH-DRUNK.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 109 },
-      { "title": "WHATEVER WORKS", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/6.WHATEVER-WORKS.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 118 },
-      { "title": "MAMA'S FAVORITE (feat. Nine Vicious)", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/7.FAVORITE--feat--Nine-Vicious.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 154 },
-      { "title": "SISTERS AND BROTHERS", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/8.SISTERS-AND-BROTHERS.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 165 },
-      { "title": "BULLY (feat. CeeLo Green)", "artist": "Kanye West", "album": "BULLY - DELUXE", "src": "music/BULLY/9.BULLY--feat--CeeLo-Green.mp3", "cover": "covers/BULLY - DELUXE.png", "duration": 148 },
-      { "title": "Aki no Kehai no Arpeggio", "artist": "Ling tosite sigure", "album": "Feeling your UFO", "src": "music/Feeling your UFO/Ling tosite sigure - Aki no Kehai no Arpeggio (SPOTISAVER).mp3", "cover": "covers/Feeling your UFO.jpg", "duration": 215 },
-      { "title": "Kankaku UFO", "artist": "Ling tosite sigure", "album": "Feeling your UFO", "src": "music/Feeling your UFO/Ling tosite sigure - Kankaku UFO (SPOTISAVER).mp3", "cover": "covers/Feeling your UFO.jpg", "duration": 280 },
-      { "title": "Last Dance Revolution", "artist": "Ling tosite sigure", "album": "Feeling your UFO", "src": "music/Feeling your UFO/Ling tosite sigure - Last Dance Revolution (SPOTISAVER).mp3", "cover": "covers/Feeling your UFO.jpg", "duration": 266 },
-      { "title": "Sergio Echigo", "artist": "Ling tosite sigure", "album": "Feeling your UFO", "src": "music/Feeling your UFO/Ling tosite sigure - Sergio Echigo (SPOTISAVER).mp3", "cover": "covers/Feeling your UFO.jpg", "duration": 402 },
-      { "title": "Souzou no Security", "artist": "Ling tosite sigure", "album": "Feeling your UFO", "src": "music/Feeling your UFO/Ling tosite sigure - Souzou no Security (SPOTISAVER).mp3", "cover": "covers/Feeling your UFO.jpg", "duration": 212 },
-      { "title": "12th laser", "artist": "TK from Ling tosite sigure", "album": "flowering", "src": "music/flowering/TK from Ling tosite sigure - 12th laser (SPOTISAVER).mp3", "cover": "covers/flowering.jpg", "duration": 158 },
-      { "title": "Abnormal trick", "artist": "TK from Ling tosite sigure", "album": "flowering", "src": "music/flowering/TK from Ling tosite sigure - Abnormal trick (SPOTISAVER).mp3", "cover": "covers/flowering.jpg", "duration": 241 },
-      { "title": "daylily", "artist": "TK from Ling tosite sigure", "album": "flowering", "src": "music/flowering/TK from Ling tosite sigure - daylily (SPOTISAVER).mp3", "cover": "covers/flowering.jpg", "duration": 155 },
-      { "title": "film A moment (album version)", "artist": "TK from Ling tosite sigure", "album": "flowering", "src": "music/flowering/TK from Ling tosite sigure - film A moment (album version) (SPOTISAVER).mp3", "cover": "covers/flowering.jpg", "duration": 431 },
-      { "title": "flower", "artist": "TK from Ling tosite sigure", "album": "flowering", "src": "music/flowering/TK from Ling tosite sigure - flower (SPOTISAVER).mp3", "cover": "covers/flowering.jpg", "duration": 280 },
-      { "title": "fourth", "artist": "TK from Ling tosite sigure", "album": "flowering", "src": "music/flowering/TK from Ling tosite sigure - fourth (SPOTISAVER).mp3", "cover": "covers/flowering.jpg", "duration": 269 },
-      { "title": "haze", "artist": "TK from Ling tosite sigure", "album": "flowering", "src": "music/flowering/TK from Ling tosite sigure - haze (SPOTISAVER).mp3", "cover": "covers/flowering.jpg", "duration": 239 },
-      { "title": "phase to phrase", "artist": "TK from Ling tosite sigure", "album": "flowering", "src": "music/flowering/TK from Ling tosite sigure - phase to phrase (SPOTISAVER).mp3", "cover": "covers/flowering.jpg", "duration": 210 },
-      { "title": "sound_am326 (secret track)", "artist": "TK from Ling tosite sigure", "album": "flowering", "src": "music/flowering/TK from Ling tosite sigure - sound_am326 (secret track) (SPOTISAVER).mp3", "cover": "covers/flowering.jpg", "duration": 154 },
-      { "title": "white silence (album version)", "artist": "TK from Ling tosite sigure", "album": "flowering", "src": "music/flowering/TK from Ling tosite sigure - white silence (album version) (SPOTISAVER).mp3", "cover": "covers/flowering.jpg", "duration": 418 },
-      { "title": "Black Sparkle", "artist": "Ling tosite sigure", "album": "Lost God of SASORI", "src": "music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - Black Sparkle (SPOTISAVER).mp3", "cover": "covers/Lost God of SASORI.jpg", "duration": 268 },
-      { "title": "Loo% Who%", "artist": "Ling tosite sigure", "album": "Lost God of SASORI", "src": "music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - Loo% Who% (SPOTISAVER).mp3", "cover": "covers/Lost God of SASORI.jpg", "duration": 249 },
-      { "title": "sick mind B rain", "artist": "Ling tosite sigure", "album": "Lost God of SASORI", "src": "music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - sick mind B rain (SPOTISAVER).mp3", "cover": "covers/Lost God of SASORI.jpg", "duration": 292 },
-      { "title": "S\u03B1.SO.RI.", "artist": "Ling tosite sigure", "album": "Lost God of SASORI", "src": "music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - S\u03B1.SO.RI.(SPOTISAVER).mp3", "cover": "covers/Lost God of SASORI.jpg", "duration": 183 }
+      {"title":"KING","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/1.KING.mp3","cover":"covers/BULLY - DELUXE.png","duration":127},
+      {"title":"HIGHS AND LOWS","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/10.HIGHS-AND-LOWS.mp3","cover":"covers/BULLY - DELUXE.png","duration":111},
+      {"title":"I CAN’T WAIT (feat. Ms. Lauryn Hill)","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/11-Kanye-West-I-CAN-T-WAIT--feat--Ms--Lauryn-Hill.mp3","cover":"covers/BULLY - DELUXE.png","duration":137},
+      {"title":"WHITE LINES (feat. Andre Troutman)","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/12-Kanye-West-WHITE-LINES--feat--Andre-Troutman.mp3","cover":"covers/BULLY - DELUXE.png","duration":131},
+      {"title":"CIRCLES","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/13.CIRCLES.mp3","cover":"covers/BULLY - DELUXE.png","duration":91},
+      {"title":"PREACHER MAN","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/14.PREACHER-MAN.mp3","cover":"covers/BULLY - DELUXE.png","duration":182},
+      {"title":"BEAUTY AND THE BEAST","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/15.BEAUTY-AND-THE-BEAST.mp3","cover":"covers/BULLY - DELUXE.png","duration":107},
+      {"title":"OK (feat. Don Toliver)","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/19.OK--feat--Don-Toliver.mp3","cover":"covers/BULLY - DELUXE.png","duration":158},
+      {"title":"THIS A MUST","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/2.THIS-A-MUST.mp3","cover":"covers/BULLY - DELUXE.png","duration":87},
+      {"title":"FATHER (feat. Travis Scott)","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/3.FATHER--feat--Travis-Scott.mp3","cover":"covers/BULLY - DELUXE.png","duration":169},
+      {"title":"ALL THE LOVE (feat. Andre Troutman)","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/4.ALL-THE-LOVE--feat--Andre-Troutman.mp3","cover":"covers/BULLY - DELUXE.png","duration":229},
+      {"title":"PUNCH DRUNK","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/5.PUNCH-DRUNK.mp3","cover":"covers/BULLY - DELUXE.png","duration":109},
+      {"title":"WHATEVER WORKS","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/6.WHATEVER-WORKS.mp3","cover":"covers/BULLY - DELUXE.png","duration":118},
+      {"title":"MAMA’S FAVORITE (feat. Nine Vicious)","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/7.FAVORITE--feat--Nine-Vicious.mp3","cover":"covers/BULLY - DELUXE.png","duration":154},
+      {"title":"SISTERS AND BROTHERS","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/8.SISTERS-AND-BROTHERS.mp3","cover":"covers/BULLY - DELUXE.png","duration":165},
+      {"title":"BULLY (feat. CeeLo Green)","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/9.BULLY--feat--CeeLo-Green.mp3","cover":"covers/BULLY - DELUXE.png","duration":148},
+      {"title":"Aki no Kehai no Arpeggio","artist":"Ling tosite sigure","album":"Feeling your UFO","src":"music/Feeling your UFO/Ling tosite sigure - Aki no Kehai no Arpeggio (SPOTISAVER).mp3","cover":"covers/Feeling your UFO.jpg","duration":215},
+      {"title":"Kankaku UFO","artist":"Ling tosite sigure","album":"Feeling your UFO","src":"music/Feeling your UFO/Ling tosite sigure - Kankaku UFO (SPOTISAVER).mp3","cover":"covers/Feeling your UFO.jpg","duration":280},
+      {"title":"Last Dance Revolution","artist":"Ling tosite sigure","album":"Feeling your UFO","src":"music/Feeling your UFO/Ling tosite sigure - Last Dance Revolution (SPOTISAVER).mp3","cover":"covers/Feeling your UFO.jpg","duration":266},
+      {"title":"Sergio Echigo","artist":"Ling tosite sigure","album":"Feeling your UFO","src":"music/Feeling your UFO/Ling tosite sigure - Sergio Echigo (SPOTISAVER).mp3","cover":"covers/Feeling your UFO.jpg","duration":402},
+      {"title":"Souzou no Security","artist":"Ling tosite sigure","album":"Feeling your UFO","src":"music/Feeling your UFO/Ling tosite sigure - Souzou no Security (SPOTISAVER).mp3","cover":"covers/Feeling your UFO.jpg","duration":212},
+      {"title":"12th laser","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - 12th laser (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":158},
+      {"title":"Abnormal trick","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - Abnormal trick (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":241},
+      {"title":"daylily","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - daylily (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":155},
+      {"title":"film A moment (album version)","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - film A moment (album version) (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":431},
+      {"title":"flower","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - flower (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":280},
+      {"title":"fourth","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - fourth (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":269},
+      {"title":"haze","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - haze (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":239},
+      {"title":"phase to phrase","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - phase to phrase (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":210},
+      {"title":"sound_am326 (secret track)","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - sound_am326 (secret track) (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":154},
+      {"title":"white silence (album version)","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - white silence (album version) (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":418},
+      {"title":"Black Sparkle","artist":"Ling tosite sigure","album":"Lost God of SASORI","src":"music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - Black Sparkle (SPOTISAVER).mp3","cover":"covers/Lost God of SASORI.jpg","duration":268},
+      {"title":"Loo% Who%","artist":"Ling tosite sigure","album":"Lost God of SASORI","src":"music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - Loo Who (SPOTISAVER).mp3","cover":"covers/Lost God of SASORI.jpg","duration":249},
+      {"title":"sick mind B rain","artist":"Ling tosite sigure","album":"Lost God of SASORI","src":"music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - sick mind B rain (SPOTISAVER).mp3","cover":"covers/Lost God of SASORI.jpg","duration":292},
+      {"title":"Sα.SO.RI.","artist":"Ling tosite sigure","album":"Lost God of SASORI","src":"music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - Sα.SO.RI.(SPOTISAVER).mp3","cover":"covers/Lost God of SASORI.jpg","duration":183}
     ];
    </script>
    

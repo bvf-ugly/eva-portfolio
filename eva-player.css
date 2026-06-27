@@ -326,22 +326,33 @@
 
 /* ---------- Responsive ---------- */
 @media (max-width: 640px) {
-  .ep-body { max-width: 88vw; gap: 0.5rem; padding: 0.5rem 0.65rem; }
-  .ep-info { width: 110px; }
-  .ep-cover { width: 52px; height: 52px; }
-  .ep-title { font-size: 0.65rem; max-width: 110px; }
-  .ep-btn { width: 26px; height: 26px; }
-  .ep-btn svg { width: 12px; height: 12px; }
-  .ep-btn-play--main { width: 32px; height: 32px; }
-  .ep-btn-play--main svg { width: 14px; height: 14px; }
+  .ep-body { max-width: 90vw; gap: 0.5rem; padding: 0.5rem 0.65rem; }
+  .ep-info { width: 100px; }
+  .ep-cover { width: 48px; height: 48px; }
+  .ep-title { font-size: 0.62rem; max-width: 100px; }
+  .ep-btn { width: 24px; height: 24px; }
+  .ep-btn svg { width: 11px; height: 11px; }
+  .ep-btn-play--main { width: 30px; height: 30px; }
+  .ep-btn-play--main svg { width: 13px; height: 13px; }
 }
 
 @media (max-width: 400px) {
-  .ep-body { grid-template-columns: 48px 1fr auto; gap: 0.4rem; padding: 0.4rem 0.55rem; }
-  .ep-info { width: auto; max-width: 100px; }
+  .ep-body {
+    grid-template-columns: 44px 1fr auto;
+    gap: 0.35rem;
+    padding: 0.35rem 0.5rem;
+  }
+  .ep-cover { width: 44px; height: 44px; border-radius: 8px; }
+  .ep-info { width: auto; max-width: 90px; }
+  .ep-title { font-size: 0.58rem; max-width: 90px; }
   .ep-controls > *:not(.ep-btn-play--main) { display: none !important; }
   .ep-volume { display: none !important; }
   .ep-window-controls { flex-direction: row; }
+  .ep-btn-play--main { width: 28px; height: 28px; }
+  .ep-btn-play--main svg { width: 12px; height: 12px; }
+  .ep-playlist { max-height: 180px; }
+  .ep-playlist-item { padding: 0.3rem 0.4rem; }
+  .ep-playlist-cover { width: 28px; height: 28px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
