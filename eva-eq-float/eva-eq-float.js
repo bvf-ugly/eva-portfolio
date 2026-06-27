@@ -320,10 +320,6 @@
     const dragHandle = this.panel.querySelector('.eq-float-header');
     dragHandle.addEventListener('pointerdown', (e) => this._startDrag(e));
 
-    // Bind drag handlers to this instance
-    this._onDrag = this._onDrag.bind(this);
-    this._endDrag = this._endDrag.bind(this);
-
    // Presets
    this.panel.querySelector('#eqPresets').addEventListener('click', (e) => {
      if (e.target.classList.contains('eq-float-preset')) {
@@ -371,37 +367,31 @@
        y: e.clientY - rect.top
      };
 
-     document.addEventListener('pointermove', this._onDrag);
-     document.addEventListener('pointerup', this._endDrag);
+     const self = this;
+     this._boundDrag = function(ev) {
+       if (!self.state.isDragging) return;
+       let x = ev.clientX - self.state.dragOffset.x;
+       let y = ev.clientY - self.state.dragOffset.y;
+       const maxX = window.innerWidth - self.panel.offsetWidth;
+       const maxY = window.innerHeight - self.panel.offsetHeight;
+       x = Math.max(0, Math.min(maxX, x));
+       y = Math.max(0, Math.min(maxY, y));
+       self.state.position.x = x;
+       self.state.position.y = y;
+       self.panel.style.left = x + 'px';
+       self.panel.style.top = y + 'px';
+       self._savePosition();
+     };
+     this._boundEnd = function() {
+       self.state.isDragging = false;
+       self.panel.classList.remove('dragging');
+       document.removeEventListener('pointermove', self._boundDrag);
+       document.removeEventListener('pointerup', self._boundEnd);
+     };
+
+     document.addEventListener('pointermove', this._boundDrag);
+     document.addEventListener('pointerup', this._boundEnd);
      e.preventDefault();
-   }
-
-   _onDrag(e) {
-     if (!this.state.isDragging) return;
-
-     let x = e.clientX - this.state.dragOffset.x;
-     let y = e.clientY - this.state.dragOffset.y;
-
-     // Restricciones del viewport
-     const maxX = window.innerWidth - this.panel.offsetWidth;
-     const maxY = window.innerHeight - this.panel.offsetHeight;
-
-     x = Math.max(0, Math.min(maxX, x));
-     y = Math.max(0, Math.min(maxY, y));
-
-     this.state.position.x = x;
-     this.state.position.y = y;
-     this.panel.style.left = `${x}px`;
-     this.panel.style.top = `${y}px`;
-
-     this._savePosition();
-   }
-
-   _endDrag() {
-     this.state.isDragging = false;
-     this.panel.classList.remove('dragging');
-     document.removeEventListener('pointermove', this._onDrag);
-     document.removeEventListener('pointerup', this._endDrag);
    }
 
    _saveState() {

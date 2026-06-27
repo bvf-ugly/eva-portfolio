@@ -58,6 +58,7 @@
    cursor: grab;
    user-select: none;
    -webkit-user-select: none;
+   touch-action: none;
  }
 
  .eq-float-header:active,
