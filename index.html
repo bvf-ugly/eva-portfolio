@@ -88,11 +88,6 @@
       color: var(--color-plug-deeper);
     }
 
-    ::-moz-selection {
-      background: var(--color-lcl-pink);
-      color: var(--color-plug-deeper);
-    }
-
     /* Focus Visible */
     :focus-visible {
       outline: 2px solid var(--color-lcl-pink);
@@ -238,36 +233,6 @@
       opacity: 0.7;
     }
 
-    body.mode-light .nav {
-      background: rgba(255, 182, 193, 0.6);
-      backdrop-filter: blur(20px) saturate(160%);
-      -webkit-backdrop-filter: blur(20px) saturate(160%);
-      box-shadow: 0 1px 0 rgba(179, 179, 179, 0.3), 0 4px 12px rgba(0, 0, 0, 0.06);
-    }
-
-    body.mode-light .nav__brand {
-      color: #333333;
-    }
-
-    body.mode-light .nav__link {
-      color: #666666;
-    }
-
-    body.mode-light .nav__link:hover,
-    body.mode-light .nav__link.active {
-      color: #333333;
-    }
-
-    body.mode-light .nav__brand:hover {
-      background: rgba(255, 105, 180, 0.1);
-      color: #E10600;
-    }
-
-    body.mode-light .nav__link:hover::before,
-    body.mode-light .nav__link.active::before {
-      background: linear-gradient(135deg, #6EC1E4, #E10600);
-    }
-
     body.mode-light .hero__title-accent {
       color: #E10600;
     }
@@ -286,14 +251,6 @@
 
     body.mode-light .text-glow-cyan {
       text-shadow: 0 0 20px rgba(110, 193, 228, 0.3);
-    }
-
-    body.mode-light .scroll-transition-overlay {
-      display: none;
-    }
-
-    body.mode-light .scroll-split-line {
-      display: none;
     }
 
     body.mode-light .section__number {
@@ -329,15 +286,6 @@
       box-shadow: 0 0 12px rgba(75, 44, 107, 0.3);
     }
 
-    body.mode-light ::selection {
-      background: #a7cce8;
-      color: #2c4d6b;
-    }
-
-    body.mode-light ::-moz-selection {
-      background: #a7cce8;
-      color: #2c4d6b;
-    }
 
     .noise-texture {
       position: absolute;
@@ -477,46 +425,7 @@
       opacity: 1;
     }
 
-    .grid {
-      display: grid;
-      gap: var(--space-lg);
-    }
 
-    .grid--2 {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .grid--3 {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .grid--auto {
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    }
-
-    .flex {
-      display: flex;
-    }
-
-    .flex-col {
-      flex-direction: column;
-    }
-
-    .items-center {
-      align-items: center;
-    }
-
-    .justify-center {
-      justify-content: center;
-    }
-
-    .justify-between {
-      justify-content: space-between;
-    }
-
-    .gap-sm {
-      gap: var(--space-sm);
-    }
 
     .gap-md {
       gap: var(--space-md);
@@ -659,22 +568,6 @@
       color: var(--color-entry-cyan);
     }
 
-    .text-body {
-      font-size: clamp(0.95rem, 1.6vw, 1.05rem);
-    }
-
-    .text-sm {
-      font-size: clamp(0.8rem, 1.3vw, 0.875rem);
-    }
-
-    .text-xs {
-      font-size: clamp(0.65rem, 1.1vw, 0.75rem);
-    }
-
-    .text-mono {
-      font-family: var(--font-mono);
-    }
-
     .gradient-text {
       background: linear-gradient(135deg,
           var(--color-text-primary) 0%,
@@ -764,18 +657,6 @@
     /* ========================================
    EXPRESSIVE TYPOGRAPHY ANIMATIONS
    ======================================== */
-    @keyframes textReveal {
-      0% {
-        opacity: 0;
-        transform: translateY(100%);
-      }
-
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
     @keyframes textSplit {
       0% {
         opacity: 0;
@@ -1289,7 +1170,7 @@
     }
 
     .nav__cta:hover {
-      color: #76FF03;
+      color: #fff;
       border-color: rgba(187, 134, 252, 0.5);
       background: rgba(187, 134, 252, 0.2);
       box-shadow: 0 0 20px rgba(118, 255, 3, 0.15), inset 0 0 12px rgba(187, 134, 252, 0.1);
@@ -1300,9 +1181,9 @@
     }
 
     body.mode-light .nav__cta {
-      background: rgba(110, 193, 228, 0.08);
-      border-color: rgba(110, 193, 228, 0.3);
-      color: #6EC1E4;
+      background: rgba(90, 130, 166, 0.12);
+      border-color: rgba(90, 130, 166, 0.4);
+      color: #2c4d6b;
     }
 
     body.mode-light .nav__cta::before {
@@ -1310,7 +1191,7 @@
     }
 
     body.mode-light .nav__cta:hover {
-      color: #4b2c6b;
+      color: #fff;
       border-color: rgba(75, 44, 107, 0.4);
       background: rgba(75, 44, 107, 0.15);
       box-shadow: 0 0 20px rgba(75, 44, 107, 0.15);
@@ -1425,18 +1306,6 @@
     body.mode-light .nav__link:hover::before,
     body.mode-light .nav__link.active::before {
       opacity: 1;
-    }
-
-    .nav__burger[aria-expanded="true"] span:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
-    }
-
-    .nav__burger[aria-expanded="true"] span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .nav__burger[aria-expanded="true"] span:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
     }
 
     .nav__scroll-indicator {
@@ -2506,7 +2375,7 @@
     }
 
     .contact__item:hover .contact__item-value {
-      color: var(--color-lcl-pick);
+      color: var(--color-lcl-pink);
     }
 
     /* Contact Form */
@@ -2577,10 +2446,14 @@
     .footer {
       position: relative;
       z-index: var(--z-content);
-      padding: var(--space-lg) var(--space-lg);
+      min-height: 10vh;
+      padding: var(--space-xl) var(--space-lg);
       border-top: 1px solid var(--glass-border);
       background: rgba(8, 18, 28, 0.92);
       backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+
     }
 
     .footer__inner {
@@ -2944,7 +2817,7 @@
      ======================================== -->
   <div class="bg-layer" aria-hidden="true">
     <video class="bg-video" autoplay loop muted playsinline preload="auto" poster="poster.jpg">
-      <source src="video.mp4" type="video/mp4">
+       <source src="assets/video.mp4" type="video/mp4">
     </video>
     <div class="bg-gradient"></div>
     <div class="noise-texture"></div>
@@ -3483,7 +3356,6 @@
       initVideoFallback();
       initScrollTransition();
       initSettingsSync();
-      initSPANavigation();
       initModeSwitcher();
       initVoidOrbitCanvas();
 
@@ -4143,7 +4015,21 @@
       });
 
       backdrop.addEventListener('click', closeMenu);
-      links.querySelectorAll('.nav__link').forEach((link) => link.addEventListener('click', closeMenu));
+      // ponytail: force scrollIntoView after menu close — native hash scroll
+      // often fails on mobile because body overflow changes during closeMenu
+      links.querySelectorAll('.nav__link').forEach((link) => {
+        link.addEventListener('click', (e) => {
+          closeMenu();
+          const href = link.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            const target = document.querySelector(href);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+        });
+      });
 
       window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') closeMenu();
@@ -4423,184 +4309,6 @@
     }
 
     // ========================================
-    // SPA NAVIGATION — Load settings.html inline
-    // (keeps audio player alive across "page changes")
-    // ========================================
-    function initSPANavigation() {
-      const content = document.getElementById('app-content');
-      const footer = document.querySelector('.footer');
-      if (!content || !footer) return;
-
-      // Intercept clicks on settings.html link
-      document.addEventListener('click', (e) => {
-        const link = e.target.closest('a[href="settings.html"]');
-        if (!link) return;
-        e.preventDefault();
-
-        // Fade out current content
-        content.style.opacity = '0';
-        content.style.transition = 'opacity 300ms var(--ease-out)';
-
-        setTimeout(() => {
-          fetch('settings.html')
-            .then(r => r.text())
-            .then(html => {
-              const parser = new DOMParser();
-              const doc = parser.parseFromString(html, 'text/html');
-              const newContent = doc.querySelector('.container');
-              if (newContent) {
-                content.innerHTML = '';
-                content.appendChild(newContent.cloneNode(true));
-                // Re-run settings-specific JS inline
-                initSettingsPageLogic();
-              }
-              content.style.opacity = '1';
-              window.scrollTo(0, 0);
-            })
-            .catch(() => {
-              window.location.href = 'settings.html';
-            });
-        }, 300);
-      });
-    }
-
-    function initSettingsPageLogic() {
-      const SETTINGS_KEY = 'instrumentality:settings:v1';
-      const DEFAULTS = { autoResume: false, defaultVolume: 50, bgVideo: true, scanlines: true, motionIntensity: 100, visualMode: 'dark', palette: 'berserk', hiddenSections: [], hiddenNavItems: [], showModeSwitcher: true };
-
-      function loadSettings() {
-        try {
-          const raw = localStorage.getItem(SETTINGS_KEY);
-          return raw ? { ...DEFAULTS, ...JSON.parse(raw) } : { ...DEFAULTS };
-        } catch { return { ...DEFAULTS }; }
-      }
-
-      function saveSettings(s) {
-        try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(s)); return true; } catch { return false; }
-      }
-
-      function applyToForm(s) {
-        const el = (id) => document.getElementById(id);
-        if (el('toggleAutoResume')) el('toggleAutoResume').checked = s.autoResume;
-        if (el('defaultVolume')) { el('defaultVolume').value = s.defaultVolume; el('defaultVolumeValue').textContent = s.defaultVolume + '%'; }
-        if (el('toggleBgVideo')) el('toggleBgVideo').checked = s.bgVideo;
-        if (el('toggleScanlines')) el('toggleScanlines').checked = s.scanlines;
-        if (el('motionIntensity')) { el('motionIntensity').value = s.motionIntensity; el('motionIntensityValue').textContent = s.motionIntensity + '%'; }
-        // Mode+palette selector (4 buttons)
-        const mode = s.visualMode || 'dark';
-        const palette = s.palette || 'berserk';
-        document.querySelectorAll('#modeSelector .mode-option').forEach(btn => {
-          const match = btn.dataset.mode === mode && btn.dataset.palette === (palette || '');
-          btn.classList.toggle('mode-option--active', match);
-        });
-        // Section visibility
-        const hidden = s.hiddenSections || [];
-        ['eva01', 'eva02', 'eva03', 'eva04', 'eva05'].forEach(id => {
-          const cb = document.getElementById('toggleSection_' + id);
-          if (cb) cb.checked = !hidden.includes(id);
-        });
-        // Nav item visibility
-        const hiddenNav = s.hiddenNavItems || [];
-        ['portafolio', 'sobremi', 'proyectos', 'experiencia', 'sistema', 'conectar'].forEach(id => {
-          const cb = document.getElementById('toggleNavItem_' + id);
-          if (cb) cb.checked = !hiddenNav.includes(id);
-        });
-        // Mode switcher visibility
-        const msCb = document.getElementById('toggleModeSwitcher');
-        if (msCb) msCb.checked = s.showModeSwitcher !== false;
-      }
-
-      function readFromForm() {
-        const el = (id) => document.getElementById(id);
-        const active = document.querySelector('#modeSelector .mode-option--active');
-        const hiddenSections = [];
-        ['eva01', 'eva02', 'eva03', 'eva04', 'eva05'].forEach(id => {
-          const cb = document.getElementById('toggleSection_' + id);
-          if (cb && !cb.checked) hiddenSections.push(id);
-        });
-        const hiddenNavItems = [];
-        ['portafolio', 'sobremi', 'proyectos', 'experiencia', 'sistema', 'conectar'].forEach(id => {
-          const cb = document.getElementById('toggleNavItem_' + id);
-          if (cb && !cb.checked) hiddenNavItems.push(id);
-        });
-        return {
-          autoResume: el('toggleAutoResume')?.checked ?? false,
-          defaultVolume: parseInt(el('defaultVolume')?.value ?? 50, 10),
-          bgVideo: el('toggleBgVideo')?.checked ?? true,
-          scanlines: el('toggleScanlines')?.checked ?? true,
-          motionIntensity: parseInt(el('motionIntensity')?.value ?? 100, 10),
-          visualMode: active?.dataset?.mode || 'dark',
-          palette: active?.dataset?.palette || 'berserk',
-          hiddenSections,
-          hiddenNavItems,
-          showModeSwitcher: el('toggleModeSwitcher')?.checked ?? true,
-        };
-      }
-
-      function showToast(msg) {
-        const t = document.getElementById('toast');
-        if (!t) return;
-        t.textContent = msg;
-        t.classList.add('is-visible');
-        clearTimeout(showToast._t);
-        showToast._t = setTimeout(() => t.classList.remove('is-visible'), 2200);
-      }
-
-      // Sliders live update
-      const vol = document.getElementById('defaultVolume');
-      const mot = document.getElementById('motionIntensity');
-      if (vol) vol.addEventListener('input', (e) => { document.getElementById('defaultVolumeValue').textContent = e.target.value + '%'; });
-      if (mot) mot.addEventListener('input', (e) => { document.getElementById('motionIntensityValue').textContent = e.target.value + '%'; });
-
-      // Auto-apply toggles
-      ['toggleBgVideo', 'toggleScanlines'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener('change', () => {
-          const s = readFromForm();
-          saveSettings(s);
-          applySiteSettings();
-        });
-      });
-      if (mot) mot.addEventListener('change', () => { const s = readFromForm(); saveSettings(s); applySiteSettings(); });
-
-      // Mode selector buttons (4 palettes)
-      document.querySelectorAll('#modeSelector .mode-option').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('#modeSelector .mode-option').forEach(b => b.classList.remove('mode-option--active'));
-          btn.classList.add('mode-option--active');
-          const s = readFromForm();
-          saveSettings(s);
-          applySiteSettings();
-          applyMode(s.visualMode, s.palette);
-        });
-      });
-
-      // Section visibility toggles
-      ['eva01', 'eva02', 'eva03', 'eva04', 'eva05'].forEach(id => {
-        const cb = document.getElementById('toggleSection_' + id);
-        if (cb) cb.addEventListener('change', () => { const s = readFromForm(); saveSettings(s); applySiteSettings(); });
-      });
-
-      // Nav item visibility toggles
-      ['portafolio', 'sobremi', 'proyectos', 'experiencia', 'sistema', 'conectar'].forEach(id => {
-        const cb = document.getElementById('toggleNavItem_' + id);
-        if (cb) cb.addEventListener('change', () => { const s = readFromForm(); saveSettings(s); applySiteSettings(); });
-      });
-
-      // Mode switcher visibility
-      const msCb = document.getElementById('toggleModeSwitcher');
-      if (msCb) msCb.addEventListener('change', () => { const s = readFromForm(); saveSettings(s); applySiteSettings(); });
-
-      // Save / Reset
-      const saveBtn = document.getElementById('saveSettings');
-      const resetBtn = document.getElementById('resetSettings');
-      if (saveBtn) saveBtn.addEventListener('click', () => { const s = readFromForm(); saveSettings(s); applySiteSettings(); showToast('Configuracion guardada'); });
-      if (resetBtn) resetBtn.addEventListener('click', () => { saveSettings(DEFAULTS); applyToForm(DEFAULTS); applySiteSettings(); showToast('Valores por defecto restaurados'); });
-
-      applyToForm(loadSettings());
-    }
-
-    // ========================================
     // SPIN KEYFRAME (injected for form)
     // ========================================
     const style = document.createElement('style');
@@ -4612,7 +4320,7 @@
      EVA AUDIO PLAYER — Embebido directamente
      Sin iframe, sin CORS, funciona en file://
      ======================================== -->
-  <link rel="stylesheet" href="eva-player.css">
+  <link rel="stylesheet" href="css/player.css">
   <style>
     /* Player embebido — posicionamiento */
     #playerRoot {
@@ -4633,51 +4341,794 @@
   </style>
   <div id="playerRoot"></div>
 
+   <!-- OLD EQ — disabled, kept for reference -->
+   <!-- <link rel="stylesheet" href="eva-eq-float/eva-eq-float.css"> -->
+   <!-- <script src="eva-eq-float/eva-eq-float.js"></script> -->
+
+   <!-- 3D Octahedron EQ -->
+   <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+   <style>
+      .eq3d-toggle { display: none !important; }
+
+      #eq3d-container {
+       position: fixed;
+       bottom: 70px;
+       left: 20px;
+       z-index: var(--z-overlay);
+       width: 380px;
+       height: 420px;
+       border-radius: var(--radius-md);
+       border: 1px solid var(--glass-border);
+       background: rgba(8, 18, 28, 0.6);
+       backdrop-filter: blur(24px) saturate(180%);
+       -webkit-backdrop-filter: blur(24px) saturate(180%);
+       box-shadow: 0 12px 40px -8px rgba(0,0,0,0.6),
+                   0 0 0 1px rgba(255,255,255,0.04) inset,
+                   0 1px 0 rgba(255,255,255,0.06) inset;
+       overflow: hidden;
+       display: none;
+       flex-direction: column;
+     }
+     #eq3d-container.is-open { display: flex; }
+
+     @keyframes eq3dBellWobble {
+       0%   { transform: rotate(0deg); }
+       15%  { transform: rotate(-2deg); }
+       30%  { transform: rotate(1.5deg); }
+       45%  { transform: rotate(-1deg); }
+       60%  { transform: rotate(0.5deg); }
+       100% { transform: rotate(0deg); }
+     }
+     #eq3d-container.bell-wobble {
+       animation: eq3dBellWobble 0.4s ease-out;
+       transform-origin: top center;
+     }
+
+      .eq3d-header {
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
+        background: linear-gradient(to bottom, rgba(8,18,28,0.9) 0%, rgba(8,18,28,0.4) 60%, transparent 100%);
+        cursor: grab;
+        user-select: none;
+        z-index: 2;
+        pointer-events: none;
+      }
+      .eq3d-header > * { pointer-events: auto; }
+      .eq3d-header:active { cursor: grabbing; }
+
+      .eq3d-title {
+        font-family: 'Noto Sans JP', var(--font-display);
+        font-size: 0.6rem;
+        font-weight: 400;
+        letter-spacing: 0.14em;
+        color: var(--color-entry-cyan);
+        opacity: 0.7;
+        text-shadow: 0 0 8px rgba(0,229,255,0.3);
+        overflow: hidden;
+        white-space: nowrap;
+        max-width: 220px;
+        position: relative;
+      }
+      .eq3d-title.is-scrolling {
+        width: max-content;
+        max-width: none;
+        animation: eq3dMarquee 8s ease-in-out infinite;
+      }
+      @keyframes eq3dMarquee {
+        0%, 10% { transform: translateX(0); }
+        45%, 55% { transform: translateX(calc(-100% + 220px)); }
+        90%, 100% { transform: translateX(0); }
+      }
+
+      .eq3d-close {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: rgba(255,255,255,0.5);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.55rem;
+        transition: all 200ms;
+      }
+      .eq3d-close:hover { border-color: #E10600; color: #E10600; }
+
+      #eq3d-canvas {
+        flex: 1;
+        width: 100%;
+        cursor: grab;
+        padding-top: 10px;
+      }
+      #eq3d-canvas:active { cursor: grabbing; }
+
+      .eq3d-tooltip {
+        display: none;
+        position: absolute;
+        z-index: 10;
+        padding: 4px 8px;
+        border-radius: 4px;
+        background: rgba(0,0,0,0.8);
+        border: 1px solid var(--color-entry-cyan);
+        color: var(--color-entry-cyan);
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        white-space: nowrap;
+        pointer-events: none;
+        transform: translateX(-50%);
+      }
+      body.mode-light .eq3d-tooltip {
+        background: rgba(227,241,255,0.95);
+        border-color: #5a82a6;
+        color: #2c4d6b;
+      }
+
+      .eq3d-presets {
+        position: absolute;
+        top: 32px;
+        left: 8px;
+        z-index: 5;
+      }
+      .eq3d-presets-btn {
+        padding: 3px 8px;
+        border-radius: 4px;
+        border: 1px solid rgba(255,255,255,0.1);
+        background: rgba(0,0,0,0.4);
+        color: var(--color-entry-cyan);
+        font-family: var(--font-display);
+        font-size: 0.5rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        cursor: pointer;
+        text-transform: uppercase;
+        transition: all 200ms;
+      }
+      .eq3d-presets-btn:hover { border-color: var(--color-entry-cyan); background: rgba(0,229,255,0.08); }
+      body.mode-light .eq3d-presets-btn { background: rgba(227,241,255,0.6); color: #2c4d6b; border-color: rgba(90,130,166,0.2); }
+      body.mode-light .eq3d-presets-btn:hover { border-color: #5a82a6; }
+
+      .eq3d-presets-list {
+        margin-top: 4px;
+        border-radius: 6px;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(8,18,28,0.92);
+        backdrop-filter: blur(16px);
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-6px);
+        pointer-events: none;
+        transition: opacity 250ms ease, transform 250ms ease;
+      }
+      .eq3d-presets-list.is-open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+      body.mode-light .eq3d-presets-list { background: rgba(227,241,255,0.95); border-color: rgba(90,130,166,0.2); }
+
+      .eq3d-presets-list button {
+        display: block;
+        width: 100%;
+        padding: 5px 12px;
+        border: none;
+        background: transparent;
+        color: var(--color-text-primary);
+        font-family: var(--font-display);
+        font-size: 0.5rem;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-align: left;
+        cursor: pointer;
+        transition: background 150ms;
+      }
+      .eq3d-presets-list button:hover { background: rgba(255,255,255,0.06); }
+      .eq3d-presets-list button.is-active { color: var(--color-entry-cyan); background: rgba(0,229,255,0.08); }
+      body.mode-light .eq3d-presets-list button { color: #2c4d6b; }
+      body.mode-light .eq3d-presets-list button:hover { background: rgba(90,130,166,0.06); }
+      body.mode-light .eq3d-presets-list button.is-active { color: #4b2c6b; background: rgba(75,44,107,0.08); }
+
+     /* Light mode */
+     body.mode-light #eq3d-container {
+       background: rgba(227, 241, 255, 0.6);
+       border-color: rgba(90, 130, 166, 0.3);
+       box-shadow: 0 12px 40px -8px rgba(44,77,107,0.08),
+                   0 0 0 1px rgba(255,255,255,0.4) inset;
+     }
+      body.mode-light .eq3d-header { background: rgba(227,241,255,0.5); border-bottom-color: rgba(90,130,166,0.15); }
+      body.mode-light .eq3d-title { color: #2c4d6b; }
+      body.mode-light .eq3d-close { background: rgba(90,130,166,0.06); border-color: rgba(90,130,166,0.2); }
+
+      @media (max-width: 768px) {
+        #eq3d-container { width: calc(100vw - 32px); left: 16px; bottom: 60px; height: 360px; }
+      }
+   </style>
+
+   <button class="eq3d-toggle" id="eq3dToggle" aria-label="EQ 3D" title="Ecualizador 3D">
+     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+       <path d="M12 2L2 12l10 10 10-10L12 2z" stroke-linejoin="round"/>
+       <path d="M2 12h20" stroke-linecap="round"/>
+       <path d="M12 2v20" stroke-linecap="round"/>
+     </svg>
+   </button>
+
+   <div id="eq3d-container">
+     <div class="eq3d-header" id="eq3dHeader">
+       <span class="eq3d-title" id="eq3dTitle">サヨナラ・エヴァンゲリオン</span>
+       <button class="eq3d-close" id="eq3dClose" aria-label="Cerrar">✕</button>
+     </div>
+     <div class="eq3d-presets" id="eq3dPresets">
+       <button class="eq3d-presets-btn" id="eq3dPresetsBtn">Presets ▾</button>
+       <div class="eq3d-presets-list" id="eq3dPresetsList"></div>
+     </div>
+     <canvas id="eq3d-canvas"></canvas>
+     <div class="eq3d-tooltip" id="eq3dTooltip"></div>
+   </div>
+
+   <script>
+   (function() {
+     const BANDS = [
+       { freq: 30,   label: '30' },
+       { freq: 60,   label: '60' },
+       { freq: 150,  label: '150' },
+       { freq: 350,  label: '350' },
+       { freq: 500,  label: '500' },
+       { freq: 1000, label: '1K' },
+       { freq: 2000, label: '2K' },
+       { freq: 3500, label: '3.5K' },
+       { freq: 5000, label: '5K' },
+       { freq: 8000, label: '8K' },
+       { freq: 12000,label: '12K' },
+       { freq: 16000,label: '16K' }
+     ];
+     const COLORS_DARK = [0xE10600, 0xFF6B00, 0x76FF03, 0x00E5FF];
+     const COLORS_LIGHT = [0x4b2c6b, 0xc45a28, 0x2c4d6b, 0x5a82a6];
+
+     let scene, camera, renderer, octa;
+     let isLight = false, autoRotate = true;
+     let isDraggingOcta = false, prevMouse = {x:0,y:0}, rotVel = {x:0,y:0};
+     let gains = new Array(12).fill(0);
+     let isDraggingPanel = false, panelOffset = {x:0,y:0};
+     let isDraggingFace = false, activeFace = -1, faceDragStartY = 0, faceDragStartGain = 0;
+     let analyser = null, freqData = null;
+     const raycaster = new THREE.Raycaster();
+     const mouse = new THREE.Vector2();
+     let hoveredFace = -1;
+
+     const container = document.getElementById('eq3d-container');
+     const canvas = document.getElementById('eq3d-canvas');
+     const toggle = document.getElementById('eq3dToggle');
+     const closeBtn = document.getElementById('eq3dClose');
+     const tooltip = document.getElementById('eq3dTooltip');
+     const header = document.getElementById('eq3dHeader');
+     const presetsBtn = document.getElementById('eq3dPresetsBtn');
+     const presetsList = document.getElementById('eq3dPresetsList');
+
+     // Presets: [60, 170, 350, 1K, 3.5K, 5K, 10K, 14K]
+     const PRESETS = {
+       'Flat':       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+       'Standard':   [4, 3, 2, 1, 0, -1, 0, 1, 2, 3, 4, 3],
+       'Rock':       [6, 5, 2, -1, -2, 0, 1, 3, 4, 5, 6, 5],
+       'Pop':        [1, 2, 3, 4, 5, 4, 3, 4, 3, 2, 1, 0],
+       'Metal':      [7, 6, 3, -1, -2, 0, 0, 2, 4, 5, 6, 7],
+       'Jazz':       [3, 2, 1, 0, -1, 1, 2, 1, 0, 2, 3, 4],
+       'Electronic': [6, 5, 2, -1, -2, 0, 1, 3, 5, 6, 7, 6]
+     };
+     let currentPreset = 'Flat';
+
+     // Build preset buttons
+     Object.keys(PRESETS).forEach(function(name) {
+       const btn = document.createElement('button');
+       btn.textContent = name;
+       btn.dataset.preset = name;
+       if (name === 'Flat') btn.classList.add('is-active');
+       btn.addEventListener('click', function() {
+         applyPreset(name);
+         presetsList.classList.remove('is-open');
+       });
+       presetsList.appendChild(btn);
+     });
+
+     presetsBtn.addEventListener('click', function(e) {
+       e.stopPropagation();
+       presetsList.classList.toggle('is-open');
+     });
+     document.addEventListener('click', function() {
+       presetsList.classList.remove('is-open');
+     });
+
+     function applyPreset(name) {
+       const vals = PRESETS[name];
+       if (!vals) return;
+       currentPreset = name;
+       gains = vals.slice();
+       updateFilters();
+       presetsList.querySelectorAll('button').forEach(function(b) {
+         b.classList.toggle('is-active', b.dataset.preset === name);
+       });
+       presetsBtn.textContent = name + ' ▾';
+     }
+
+     // Panel dragging
+     header.addEventListener('pointerdown', function(e) {
+       if (e.target === closeBtn) return;
+       isDraggingPanel = true;
+       const rect = container.getBoundingClientRect();
+       panelOffset = {x: e.clientX - rect.left, y: e.clientY - rect.top};
+       container.style.transition = 'none';
+       e.preventDefault();
+     });
+     document.addEventListener('pointermove', function(e) {
+       if (!isDraggingPanel) return;
+       let x = e.clientX - panelOffset.x, y = e.clientY - panelOffset.y;
+       x = Math.max(0, Math.min(window.innerWidth - container.offsetWidth, x));
+       y = Math.max(0, Math.min(window.innerHeight - container.offsetHeight, y));
+       container.style.left = x + 'px';
+       container.style.top = y + 'px';
+       container.style.right = 'auto';
+       container.style.bottom = 'auto';
+     });
+     document.addEventListener('pointerup', function() { isDraggingPanel = false; });
+
+     function getColors() { return isLight ? COLORS_LIGHT : COLORS_DARK; }
+
+     function drawMagiText(light, existingCtx) {
+       let c, ctx;
+       if (existingCtx) {
+         ctx = existingCtx;
+         c = ctx.canvas;
+         ctx.clearRect(0, 0, c.width, c.height);
+       } else {
+         c = document.createElement('canvas');
+         c.width = 512; c.height = 256;
+         ctx = c.getContext('2d');
+       }
+       // MAGI title
+       ctx.font = '900 72px Orbitron, monospace';
+       ctx.textAlign = 'center';
+       ctx.textBaseline = 'middle';
+       ctx.fillStyle = light ? '#4b2c6b' : '#E10600';
+       ctx.shadowColor = light ? '#4b2c6b' : '#E10600';
+       ctx.shadowBlur = 18;
+       ctx.fillText('MAGI', 256, 100);
+       ctx.shadowBlur = 0;
+       // Japanese subtitle
+       ctx.font = '300 26px "Noto Sans JP", sans-serif';
+       ctx.fillStyle = light ? '#5a82a6' : '#00E5FF';
+       ctx.globalAlpha = 0.85;
+       ctx.fillText('サファリシステム', 256, 170);
+       ctx.globalAlpha = 1;
+       // Border line
+       ctx.strokeStyle = light ? 'rgba(90,130,166,0.3)' : 'rgba(0,229,255,0.3)';
+       ctx.lineWidth = 1;
+       ctx.beginPath();
+        ctx.moveTo(100, 210); ctx.lineTo(412, 210);
+        ctx.stroke();
+        // Update texture if existing
+        if (existingCtx && octa && octa.userData.magiTexture) {
+          octa.userData.magiTexture.needsUpdate = true;
+        }
+        return c;
+      }
+
+      function init3D() {
+        if (scene) return;
+        const w = canvas.clientWidth, h = canvas.clientHeight;
+        console.log('[EQ3D] init3D canvas size:', w, 'x', h);
+        if (w === 0 || h === 0) { console.warn('[EQ3D] Canvas has 0 size, retrying'); return; }
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(40, w / h, 0.1, 100);
+        camera.position.set(0, 0, 5);
+        renderer = new THREE.WebGLRenderer({canvas, alpha: true, antialias: true});
+        renderer.setSize(w, h);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x000000, 0);
+
+        // Liquid glass envMap
+        const pmrem = new THREE.PMREMGenerator(renderer);
+        const envScene = new THREE.Scene();
+        envScene.background = new THREE.Color(isLight ? 0xa7cce8 : 0x111122);
+        const envMap = pmrem.fromScene(envScene, 0.04).texture;
+        pmrem.dispose();
+
+       scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+       const d1 = new THREE.DirectionalLight(0xffffff, 0.8); d1.position.set(3,4,5); scene.add(d1);
+       const d2 = new THREE.DirectionalLight(0x8888ff, 0.3); d2.position.set(-3,-2,3); scene.add(d2);
+       const pt = new THREE.PointLight(0xE10600, 0.4, 10); pt.position.set(0,3,2); scene.add(pt);
+
+       const geo = new THREE.DodecahedronGeometry(1.4, 0);
+       const colors = getColors();
+       const colorArr = new Float32Array(geo.getAttribute('position').count * 3);
+       const faceCount = geo.getAttribute('position').count / 3;
+       for (let f = 0; f < faceCount; f++) {
+         const c = new THREE.Color(colors[f % 4]);
+         for (let v = 0; v < 3; v++) {
+           const idx = (f*3+v)*3; colorArr[idx]=c.r; colorArr[idx+1]=c.g; colorArr[idx+2]=c.b;
+         }
+       }
+       geo.setAttribute('color', new THREE.BufferAttribute(colorArr, 3));
+       octa = new THREE.Mesh(geo, new THREE.MeshPhysicalMaterial({vertexColors:true, metalness:0.0, roughness:0.05, transmission:0.88, thickness:0.5, ior:1.45, transparent:true, opacity:0.92, envMap:envMap, envMapIntensity:1.2, clearcoat:1, clearcoatRoughness:0.03}));
+       octa.rotation.x = 0.3;
+       scene.add(octa);
+
+       const wire = new THREE.Mesh(new THREE.DodecahedronGeometry(1.42,0), new THREE.MeshBasicMaterial({color:isLight?0x2c4d6b:0x00E5FF, wireframe:true, transparent:true, opacity:0.15}));
+       octa.add(wire); octa.userData.wire = wire;
+
+       const ring = new THREE.Mesh(new THREE.RingGeometry(1.8,2.0,64), new THREE.MeshBasicMaterial({color:isLight?0x5a82a6:0xE10600, transparent:true, opacity:0.08, side:THREE.DoubleSide}));
+       ring.rotation.x = Math.PI/2; scene.add(ring); octa.userData.ring = ring;
+
+       // Outer glow — blur effect
+       const glowGeo = new THREE.DodecahedronGeometry(1.55, 0);
+       const glowMat = new THREE.MeshBasicMaterial({color:isLight?0x5a82a6:0xE10600, transparent:true, opacity:0.08, blending:THREE.AdditiveBlending, depthWrite:false});
+       const glow = new THREE.Mesh(glowGeo, glowMat);
+       glow.scale.set(1.15, 1.15, 1.15);
+       scene.add(glow); octa.userData.glow = glow;
+
+       // Waveform texture — audio visualization inside dodecahedron
+       const waveCanvas = document.createElement('canvas');
+       waveCanvas.width = 512; waveCanvas.height = 512;
+       const waveCtx = waveCanvas.getContext('2d');
+       const waveTexture = new THREE.CanvasTexture(waveCanvas);
+       const waveMesh = new THREE.Mesh(
+         new THREE.PlaneGeometry(2.4, 2.4),
+          new THREE.MeshBasicMaterial({map:waveTexture, transparent:true, side:THREE.DoubleSide, depthWrite:false, depthTest:false, blending:THREE.NormalBlending, opacity:0.9})
+       );
+        waveMesh.position.z = 0.01;
+        scene.add(waveMesh);
+        waveMesh.renderOrder = 999;
+        octa.userData.waveMesh = waveMesh;
+        octa.userData.waveCtx = waveCtx;
+        octa.userData.waveTexture = waveTexture;
+
+        // MAGI text inside dodecahedron — force font load, create immediately
+        (function() {
+          var magiCanvas = drawMagiText(isLight);
+          var magiTexture = new THREE.CanvasTexture(magiCanvas);
+          var magiMesh = new THREE.Mesh(
+            new THREE.PlaneGeometry(1.6, 0.8),
+            new THREE.MeshBasicMaterial({map:magiTexture, transparent:true, side:THREE.DoubleSide, depthWrite:false, depthTest:false})
+          );
+          magiMesh.position.z = 0;
+          magiMesh.renderOrder = 998;
+          octa.add(magiMesh);
+          octa.userData.magiMesh = magiMesh;
+          octa.userData.magiCtx = magiCanvas.getContext('2d');
+          octa.userData.magiTexture = magiTexture;
+          // Force Noto Sans JP load for specific CJK characters, redraw 3 times
+          function redrawMagi() {
+            if (octa.userData.magiCtx) drawMagiText(isLight, octa.userData.magiCtx);
+          }
+          if (document.fonts && document.fonts.load) {
+            document.fonts.load('26px "Noto Sans JP"', 'サファリシステム').then(function() {
+              redrawMagi();
+              setTimeout(redrawMagi, 1500);
+              setTimeout(redrawMagi, 3000);
+            });
+          } else {
+            setTimeout(redrawMagi, 2000);
+            setTimeout(redrawMagi, 4000);
+          }
+          // Hidden DOM element to trigger CJK font loading
+          var forceLoad = document.createElement('span');
+          forceLoad.style.cssText = 'position:absolute;left:-9999px;font:300 1px "Noto Sans JP"';
+          forceLoad.textContent = 'サファリシステム';
+          document.body.appendChild(forceLoad);
+        })();
+
+       // Canvas interaction
+       canvas.addEventListener('pointerdown', function(e) {
+         const rect = canvas.getBoundingClientRect();
+         mouse.x = ((e.clientX-rect.left)/rect.width)*2-1;
+         mouse.y = -((e.clientY-rect.top)/rect.height)*2+1;
+         raycaster.setFromCamera(mouse, camera);
+         const hits = raycaster.intersectObject(octa);
+         if (hits.length > 0) {
+           isDraggingFace = true;
+           activeFace = Math.floor(hits[0].faceIndex / 3);
+           faceDragStartY = e.clientY;
+           faceDragStartGain = gains[activeFace];
+           autoRotate = false;
+           canvas.style.cursor = 'ns-resize';
+         } else {
+           isDraggingOcta = true; autoRotate = false;
+           prevMouse = {x:e.clientX, y:e.clientY}; rotVel = {x:0,y:0};
+           canvas.style.cursor = 'grabbing';
+         }
+       });
+
+       canvas.addEventListener('pointermove', function(e) {
+         if (isDraggingFace) {
+           const dy = faceDragStartY - e.clientY;
+           let g = Math.max(-12, Math.min(12, faceDragStartGain + dy * 0.15));
+           gains[activeFace] = Math.round(g*2)/2;
+           currentPreset = '';
+           presetsList.querySelectorAll('button').forEach(function(b){b.classList.remove('is-active');});
+           presetsBtn.textContent = 'Custom ▾';
+           updateFilters();
+           tooltip.style.display = 'block';
+           tooltip.textContent = BANDS[activeFace].label+': '+(gains[activeFace]>0?'+':'')+gains[activeFace]+' dB';
+           tooltip.style.left = (e.clientX - container.getBoundingClientRect().left)+'px';
+           tooltip.style.top = (e.clientY - container.getBoundingClientRect().top - 30)+'px';
+         } else if (isDraggingOcta) {
+           octa.rotation.y += (e.clientX-prevMouse.x)*0.008;
+           octa.rotation.x += (e.clientY-prevMouse.y)*0.008;
+           rotVel = {x:(e.clientY-prevMouse.y)*0.008, y:(e.clientX-prevMouse.x)*0.008};
+           prevMouse = {x:e.clientX, y:e.clientY};
+         } else {
+           const rect = canvas.getBoundingClientRect();
+           mouse.x = ((e.clientX-rect.left)/rect.width)*2-1;
+           mouse.y = -((e.clientY-rect.top)/rect.height)*2+1;
+           raycaster.setFromCamera(mouse, camera);
+           const hits = raycaster.intersectObject(octa);
+           if (hits.length > 0) {
+               const fi = Math.floor(hits[0].faceIndex / 3);
+             if (fi !== hoveredFace) {
+               hoveredFace = fi;
+               canvas.style.cursor = 'ns-resize';
+               tooltip.style.display = 'block';
+               tooltip.textContent = BANDS[fi].label+': '+(gains[fi]>0?'+':'')+gains[fi]+' dB — arrastra ↑↓';
+               tooltip.style.left = (e.clientX-container.getBoundingClientRect().left)+'px';
+               tooltip.style.top = (e.clientY-container.getBoundingClientRect().top-30)+'px';
+             }
+           } else { hoveredFace=-1; canvas.style.cursor='grab'; tooltip.style.display='none'; }
+         }
+       });
+
+       window.addEventListener('pointerup', function() {
+         if (isDraggingFace) {
+           isDraggingFace=false; activeFace=-1;
+           tooltip.style.display='none'; canvas.style.cursor='grab';
+           container.classList.add('bell-wobble');
+           container.addEventListener('animationend', function handler() {
+             container.classList.remove('bell-wobble');
+             container.removeEventListener('animationend', handler);
+           });
+           setTimeout(function(){autoRotate=true;},2000);
+         }
+         if (isDraggingOcta) { isDraggingOcta=false; canvas.style.cursor='grab'; setTimeout(function(){autoRotate=true;},2000); }
+       });
+
+       animate();
+     }
+
+     function updateFaceColors() {
+       if (!octa) return;
+       const colors = getColors();
+       const colorAttr = octa.geometry.getAttribute('color');
+       const faceCount = colorAttr.count / 3;
+       const t = Date.now() * 0.001;
+       let audioLevels = new Array(12).fill(0.5);
+       if (analyser && freqData) {
+         analyser.getByteFrequencyData(freqData);
+         const step = Math.floor(freqData.length / 12);
+         for (let i = 0; i < 12; i++) {
+           let sum = 0;
+           for (let j = 0; j < step; j++) sum += freqData[i*step+j];
+           audioLevels[i] = sum / (step * 255);
+         }
+       }
+       for (let f = 0; f < faceCount; f++) {
+          const band = Math.floor(f / 3);
+         const gt = (gains[band]+12)/24;
+         const base = new THREE.Color(colors[band]);
+         const highlight = new THREE.Color(0xffffff);
+         const audioBoost = audioLevels[band] * 0.3;
+         const pulse = Math.sin(t*3+band) * 0.05 * audioLevels[band];
+         let c = base.clone().lerp(highlight, gt*0.4 + audioBoost + pulse);
+         if (hoveredFace === band) c.lerp(new THREE.Color(0xffffff), 0.2);
+         for (let v = 0; v < 3; v++) {
+           const idx = (f*3+v)*3;
+           colorAttr.array[idx]=c.r; colorAttr.array[idx+1]=c.g; colorAttr.array[idx+2]=c.b;
+         }
+       }
+       colorAttr.needsUpdate = true;
+     }
+
+     function updateFilters() {
+       if (window.Eq3D && window.Eq3D._filters) {
+         window.Eq3D._filters.forEach(function(f,i){f.gain.value=gains[i];});
+       }
+     }
+
+       function drawEQWaveform() {
+         const wc = octa && octa.userData.waveCtx;
+         const wt = octa && octa.userData.waveTexture;
+         if (!wc || !wt) return;
+         const W = 512, CX = W/2, CY = W/2;
+         wc.clearRect(0, 0, W, W);
+         const bars = 64;
+         const baseR = 55;
+         const maxBarH = 130;
+         const mode = isLight;
+         let hasData = analyser && freqData;
+         if (hasData) analyser.getByteFrequencyData(freqData);
+          for (let i = 0; i < bars; i++) {
+           let val;
+           if (hasData) {
+             const fi = Math.floor((i / bars) * freqData.length);
+             val = freqData[fi] / 255;
+           } else {
+             // Static breathing pattern when no audio
+             val = 0.15 + 0.1 * Math.sin(Date.now() * 0.002 + i * 0.3);
+           }
+           const angle = (i / bars) * Math.PI * 2 - Math.PI / 2;
+           const barH = val * maxBarH;
+           const x1 = CX + Math.cos(angle) * baseR;
+           const y1 = CY + Math.sin(angle) * baseR;
+           const x2 = CX + Math.cos(angle) * (baseR + barH);
+           const y2 = CY + Math.sin(angle) * (baseR + barH);
+           // EVA color palette — interpolate between 4 colors
+           const evaColors = mode
+             ? [0x4b2c6b, 0xc45a28, 0x2c4d6b, 0x5a82a6]
+             : [0xE10600, 0x00E5FF, 0x00FF41, 0xBB86FC];
+           const t = (i / bars) * (evaColors.length - 1);
+           const ci = Math.floor(t);
+           const cf = t - ci;
+           const c1 = evaColors[Math.min(ci, evaColors.length - 1)];
+           const c2 = evaColors[Math.min(ci + 1, evaColors.length - 1)];
+           const r = ((c1 >> 16) & 0xFF) * (1 - cf) + ((c2 >> 16) & 0xFF) * cf;
+           const g = ((c1 >> 8) & 0xFF) * (1 - cf) + ((c2 >> 8) & 0xFF) * cf;
+           const b = (c1 & 0xFF) * (1 - cf) + (c2 & 0xFF) * cf;
+           const alpha = 0.3 + val * 0.6;
+          wc.beginPath();
+          wc.moveTo(x1, y1);
+          wc.lineTo(x2, y2);
+           wc.strokeStyle = 'rgba(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ',' + alpha + ')';
+          wc.lineWidth = 3;
+          wc.lineCap = 'round';
+          wc.stroke();
+        }
+        wt.needsUpdate = true;
+      }
+
+      function animate() {
+       requestAnimationFrame(animate);
+       if (autoRotate) octa.rotation.y += 0.004;
+       if (!isDraggingOcta && !isDraggingFace && !autoRotate) {
+         octa.rotation.y += rotVel.y; octa.rotation.x += rotVel.x;
+         rotVel.x *= 0.95; rotVel.y *= 0.95;
+       }
+       if (octa.userData.wire) {
+         octa.userData.wire.rotation.y = -octa.rotation.y*0.5;
+         octa.userData.wire.rotation.x = -octa.rotation.x*0.5;
+       }
+       if (octa.userData.ring) {
+         const maxG = Math.max.apply(null, gains.map(Math.abs));
+         octa.userData.ring.material.opacity = 0.05 + maxG/12*0.15;
+         const s = 1 + maxG/12*0.2;
+         octa.userData.ring.scale.set(s,s,s);
+       }
+       updateFaceColors();
+       try { drawEQWaveform(); } catch(e) { console.error('[EQ3D] drawEQWaveform error:', e); }
+       renderer.render(scene, camera);
+     }
+
+     function setMode(light) {
+       isLight = light;
+       if (!octa) return;
+       if (octa.userData.wire) octa.userData.wire.material.color.set(isLight?0x2c4d6b:0x00E5FF);
+       if (octa.userData.ring) octa.userData.ring.material.color.set(isLight?0x5a82a6:0xE10600);
+       if (octa.userData.glow) octa.userData.glow.material.color.set(isLight?0x5a82a6:0xE10600);
+       // Update liquid glass envMap for mode
+       if (renderer && octa.material) {
+         try {
+           const pmrem = new THREE.PMREMGenerator(renderer);
+           const envScene = new THREE.Scene();
+           envScene.background = new THREE.Color(isLight ? 0xa7cce8 : 0x111122);
+           octa.material.envMap = pmrem.fromScene(envScene, 0.04).texture;
+           octa.material.needsUpdate = true;
+           pmrem.dispose();
+         } catch(e) {}
+       }
+       if (octa.userData.magiCtx) drawMagiText(light, octa.userData.magiCtx);
+       updateFaceColors();
+     }
+
+      toggle.addEventListener('click', function() {
+        const open = container.classList.toggle('is-open');
+        toggle.classList.toggle('is-active', open);
+        if (open) {
+          function tryInit() {
+            console.log('[EQ3D] Opening, canvas:', canvas.clientWidth, 'x', canvas.clientHeight);
+            try {
+              init3D();
+              if (!renderer) { requestAnimationFrame(tryInit); return; }
+              renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+              console.log('[EQ3D] OK, scene children:', scene.children.length);
+            } catch(e) { console.error('[EQ3D] ERROR:', e); }
+          }
+          requestAnimationFrame(tryInit);
+        }
+      });
+     closeBtn.addEventListener('click', function() {
+       container.classList.remove('is-open'); toggle.classList.remove('is-active');
+     });
+
+     // Listen for EQ toggle from player iframe
+     window.addEventListener('message', function(e) {
+       if (e.data && e.data.type === 'eq3d-toggle') {
+         toggle.click();
+       }
+     });
+
+      new MutationObserver(function(m) {
+        m.forEach(function(x){if(x.attributeName==='class') setMode(document.body.classList.contains('mode-light'));});
+      }).observe(document.body, {attributes:true, attributeFilter:['class']});
+
+      // Activate marquee on EQ title if text overflows
+      setTimeout(function() {
+        var title = document.getElementById('eq3dTitle');
+        if (title && title.scrollWidth > title.clientWidth + 5) {
+          title.classList.add('is-scrolling');
+        }
+      }, 500);
+
+     window.Eq3D = {
+       _filters: null,
+        setFilters: function(f) {
+          this._filters = f;
+          if (f && f[0] && !analyser) {
+            try {
+              analyser = f[0].context.createAnalyser();
+              analyser.fftSize = 256;
+              freqData = new Uint8Array(analyser.frequencyBinCount);
+              f[f.length-1].connect(analyser);
+              console.log('[EQ3D] analyser created, fftSize:', analyser.fftSize, 'filters:', f.length);
+            } catch(e) { console.error('[EQ3D] analyser create error:', e); }
+          }
+        },
+       setMode: setMode
+     };
+   })();
+   </script>
+
+   
+
+    <script src="js/player.bundle.js"></script>
   <script>
     window.__EVA_PLAYLIST_DATA = [
-      {"title":"KING","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/1.KING.mp3","cover":"covers/BULLY - DELUXE.png","duration":127},
-      {"title":"HIGHS AND LOWS","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/10.HIGHS-AND-LOWS.mp3","cover":"covers/BULLY - DELUXE.png","duration":111},
-      {"title":"I CAN’T WAIT (feat. Ms. Lauryn Hill)","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/11-Kanye-West-I-CAN-T-WAIT--feat--Ms--Lauryn-Hill.mp3","cover":"covers/BULLY - DELUXE.png","duration":137},
-      {"title":"WHITE LINES (feat. Andre Troutman)","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/12-Kanye-West-WHITE-LINES--feat--Andre-Troutman.mp3","cover":"covers/BULLY - DELUXE.png","duration":131},
-      {"title":"CIRCLES","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/13.CIRCLES.mp3","cover":"covers/BULLY - DELUXE.png","duration":91},
-      {"title":"PREACHER MAN","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/14.PREACHER-MAN.mp3","cover":"covers/BULLY - DELUXE.png","duration":182},
-      {"title":"BEAUTY AND THE BEAST","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/15.BEAUTY-AND-THE-BEAST.mp3","cover":"covers/BULLY - DELUXE.png","duration":107},
-      {"title":"OK (feat. Don Toliver)","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/19.OK--feat--Don-Toliver.mp3","cover":"covers/BULLY - DELUXE.png","duration":158},
-      {"title":"THIS A MUST","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/2.THIS-A-MUST.mp3","cover":"covers/BULLY - DELUXE.png","duration":87},
-      {"title":"FATHER (feat. Travis Scott)","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/3.FATHER--feat--Travis-Scott.mp3","cover":"covers/BULLY - DELUXE.png","duration":169},
-      {"title":"ALL THE LOVE (feat. Andre Troutman)","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/4.ALL-THE-LOVE--feat--Andre-Troutman.mp3","cover":"covers/BULLY - DELUXE.png","duration":229},
-      {"title":"PUNCH DRUNK","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/5.PUNCH-DRUNK.mp3","cover":"covers/BULLY - DELUXE.png","duration":109},
-      {"title":"WHATEVER WORKS","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/6.WHATEVER-WORKS.mp3","cover":"covers/BULLY - DELUXE.png","duration":118},
-      {"title":"MAMA’S FAVORITE (feat. Nine Vicious)","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/7.FAVORITE--feat--Nine-Vicious.mp3","cover":"covers/BULLY - DELUXE.png","duration":154},
-      {"title":"SISTERS AND BROTHERS","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/8.SISTERS-AND-BROTHERS.mp3","cover":"covers/BULLY - DELUXE.png","duration":165},
-      {"title":"BULLY (feat. CeeLo Green)","artist":"Kanye West","album":"BULLY - DELUXE","src":"music/BULLY/9.BULLY--feat--CeeLo-Green.mp3","cover":"covers/BULLY - DELUXE.png","duration":148},
-      {"title":"Aki no Kehai no Arpeggio","artist":"Ling tosite sigure","album":"Feeling your UFO","src":"music/Feeling your UFO/Ling tosite sigure - Aki no Kehai no Arpeggio (SPOTISAVER).mp3","cover":"covers/Feeling your UFO.jpg","duration":215},
-      {"title":"Kankaku UFO","artist":"Ling tosite sigure","album":"Feeling your UFO","src":"music/Feeling your UFO/Ling tosite sigure - Kankaku UFO (SPOTISAVER).mp3","cover":"covers/Feeling your UFO.jpg","duration":280},
-      {"title":"Last Dance Revolution","artist":"Ling tosite sigure","album":"Feeling your UFO","src":"music/Feeling your UFO/Ling tosite sigure - Last Dance Revolution (SPOTISAVER).mp3","cover":"covers/Feeling your UFO.jpg","duration":266},
-      {"title":"Sergio Echigo","artist":"Ling tosite sigure","album":"Feeling your UFO","src":"music/Feeling your UFO/Ling tosite sigure - Sergio Echigo (SPOTISAVER).mp3","cover":"covers/Feeling your UFO.jpg","duration":402},
-      {"title":"Souzou no Security","artist":"Ling tosite sigure","album":"Feeling your UFO","src":"music/Feeling your UFO/Ling tosite sigure - Souzou no Security (SPOTISAVER).mp3","cover":"covers/Feeling your UFO.jpg","duration":212},
-      {"title":"12th laser","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - 12th laser (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":158},
-      {"title":"Abnormal trick","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - Abnormal trick (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":241},
-      {"title":"daylily","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - daylily (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":155},
-      {"title":"film A moment (album version)","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - film A moment (album version) (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":431},
-      {"title":"flower","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - flower (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":280},
-      {"title":"fourth","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - fourth (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":269},
-      {"title":"haze","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - haze (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":239},
-      {"title":"phase to phrase","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - phase to phrase (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":210},
-      {"title":"sound_am326 (secret track)","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - sound_am326 (secret track) (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":154},
-      {"title":"white silence (album version)","artist":"TK from Ling tosite sigure","album":"flowering","src":"music/flowering/TK from Ling tosite sigure - white silence (album version) (SPOTISAVER).mp3","cover":"covers/flowering.jpg","duration":418},
-      {"title":"Black Sparkle","artist":"Ling tosite sigure","album":"Lost God of SASORI","src":"music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - Black Sparkle (SPOTISAVER).mp3","cover":"covers/Lost God of SASORI.jpg","duration":268},
-      {"title":"Loo% Who%","artist":"Ling tosite sigure","album":"Lost God of SASORI","src":"music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - Loo Who (SPOTISAVER).mp3","cover":"covers/Lost God of SASORI.jpg","duration":249},
-      {"title":"sick mind B rain","artist":"Ling tosite sigure","album":"Lost God of SASORI","src":"music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - sick mind B rain (SPOTISAVER).mp3","cover":"covers/Lost God of SASORI.jpg","duration":292},
-      {"title":"Sα.SO.RI.","artist":"Ling tosite sigure","album":"Lost God of SASORI","src":"music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - Sα.SO.RI.(SPOTISAVER).mp3","cover":"covers/Lost God of SASORI.jpg","duration":183}
+      {"title":"KING","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/1.KING.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":127},
+      {"title":"HIGHS AND LOWS","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/10.HIGHS-AND-LOWS.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":111},
+      {"title":"I CAN'T WAIT (feat. Ms. Lauryn Hill)","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/11-Kanye-West-I-CAN-T-WAIT--feat--Ms--Lauryn-Hill.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":137},
+      {"title":"WHITE LINES (feat. Andre Troutman)","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/12-Kanye-West-WHITE-LINES--feat--Andre-Troutman.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":131},
+      {"title":"CIRCLES","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/13.CIRCLES.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":91},
+      {"title":"PREACHER MAN","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/14.PREACHER-MAN.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":182},
+      {"title":"BEAUTY AND THE BEAST","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/15.BEAUTY-AND-THE-BEAST.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":107},
+      {"title":"OK (feat. Don Toliver)","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/19.OK--feat--Don-Toliver.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":158},
+      {"title":"THIS A MUST","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/2.THIS-A-MUST.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":87},
+      {"title":"FATHER (feat. Travis Scott)","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/3.FATHER--feat--Travis-Scott.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":169},
+      {"title":"ALL THE LOVE (feat. Andre Troutman)","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/4.ALL-THE-LOVE--feat--Andre-Troutman.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":229},
+      {"title":"PUNCH DRUNK","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/5.PUNCH-DRUNK.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":109},
+      {"title":"WHATEVER WORKS","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/6.WHATEVER-WORKS.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":118},
+      {"title":"MAMA'S FAVORITE (feat. Nine Vicious)","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/7.FAVORITE--feat--Nine-Vicious.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":154},
+      {"title":"SISTERS AND BROTHERS","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/8.SISTERS-AND-BROTHERS.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":165},
+      {"title":"BULLY (feat. CeeLo Green)","artist":"Kanye West","album":"BULLY - DELUXE","src":"assets/music/BULLY/9.BULLY--feat--CeeLo-Green.mp3","cover":"assets/covers/BULLY - DELUXE.png","duration":148},
+      {"title":"Aki no Kehai no Arpeggio","artist":"Ling tosite sigure","album":"Feeling your UFO","src":"assets/music/Feeling your UFO/Ling tosite sigure - Aki no Kehai no Arpeggio (SPOTISAVER).mp3","cover":"assets/covers/Feeling your UFO.jpg","duration":215},
+      {"title":"Kankaku UFO","artist":"Ling tosite sigure","album":"Feeling your UFO","src":"assets/music/Feeling your UFO/Ling tosite sigure - Kankaku UFO (SPOTISAVER).mp3","cover":"assets/covers/Feeling your UFO.jpg","duration":280},
+      {"title":"Last Dance Revolution","artist":"Ling tosite sigure","album":"Feeling your UFO","src":"assets/music/Feeling your UFO/Ling tosite sigure - Last Dance Revolution (SPOTISAVER).mp3","cover":"assets/covers/Feeling your UFO.jpg","duration":266},
+      {"title":"Sergio Echigo","artist":"Ling tosite sigure","album":"Feeling your UFO","src":"assets/music/Feeling your UFO/Ling tosite sigure - Sergio Echigo (SPOTISAVER).mp3","cover":"assets/covers/Feeling your UFO.jpg","duration":402},
+      {"title":"Souzou no Security","artist":"Ling tosite sigure","album":"Feeling your UFO","src":"assets/music/Feeling your UFO/Ling tosite sigure - Souzou no Security (SPOTISAVER).mp3","cover":"assets/covers/Feeling your UFO.jpg","duration":212},
+      {"title":"12th laser","artist":"TK from Ling tosite sigure","album":"flowering","src":"assets/music/flowering/TK from Ling tosite sigure - 12th laser (SPOTISAVER).mp3","cover":"assets/covers/flowering.jpg","duration":158},
+      {"title":"Abnormal trick","artist":"TK from Ling tosite sigure","album":"flowering","src":"assets/music/flowering/TK from Ling tosite sigure - Abnormal trick (SPOTISAVER).mp3","cover":"assets/covers/flowering.jpg","duration":241},
+      {"title":"daylily","artist":"TK from Ling tosite sigure","album":"flowering","src":"assets/music/flowering/TK from Ling tosite sigure - daylily (SPOTISAVER).mp3","cover":"assets/covers/flowering.jpg","duration":155},
+      {"title":"film A moment (album version)","artist":"TK from Ling tosite sigure","album":"flowering","src":"assets/music/flowering/TK from Ling tosite sigure - film A moment (album version) (SPOTISAVER).mp3","cover":"assets/covers/flowering.jpg","duration":431},
+      {"title":"flower","artist":"TK from Ling tosite sigure","album":"flowering","src":"assets/music/flowering/TK from Ling tosite sigure - flower (SPOTISAVER).mp3","cover":"assets/covers/flowering.jpg","duration":280},
+      {"title":"fourth","artist":"TK from Ling tosite sigure","album":"flowering","src":"assets/music/flowering/TK from Ling tosite sigure - fourth (SPOTISAVER).mp3","cover":"assets/covers/flowering.jpg","duration":269},
+      {"title":"haze","artist":"TK from Ling tosite sigure","album":"flowering","src":"assets/music/flowering/TK from Ling tosite sigure - haze (SPOTISAVER).mp3","cover":"assets/covers/flowering.jpg","duration":239},
+      {"title":"phase to phrase","artist":"TK from Ling tosite sigure","album":"flowering","src":"assets/music/flowering/TK from Ling tosite sigure - phase to phrase (SPOTISAVER).mp3","cover":"assets/covers/flowering.jpg","duration":210},
+      {"title":"sound_am326 (secret track)","artist":"TK from Ling tosite sigure","album":"flowering","src":"assets/music/flowering/TK from Ling tosite sigure - sound_am326 (secret track) (SPOTISAVER).mp3","cover":"assets/covers/flowering.jpg","duration":154},
+      {"title":"white silence (album version)","artist":"TK from Ling tosite sigure","album":"flowering","src":"assets/music/flowering/TK from Ling tosite sigure - white silence (album version) (SPOTISAVER).mp3","cover":"assets/covers/flowering.jpg","duration":418},
+      {"title":"Black Sparkle","artist":"Ling tosite sigure","album":"Lost God of SASORI","src":"assets/music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - Black Sparkle (SPOTISAVER).mp3","cover":"assets/covers/Lost God of SASORI.jpg","duration":268},
+      {"title":"Loo% Who%","artist":"Ling tosite sigure","album":"Lost God of SASORI","src":"assets/music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - Loo Who (SPOTISAVER).mp3","cover":"assets/covers/Lost God of SASORI.jpg","duration":249},
+      {"title":"sick mind B rain","artist":"Ling tosite sigure","album":"Lost God of SASORI","src":"assets/music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - sick mind B rain (SPOTISAVER).mp3","cover":"assets/covers/Lost God of SASORI.jpg","duration":292},
+      {"title":"S\u03b1.SO.RI.","artist":"Ling tosite sigure","album":"Lost God of SASORI","src":"assets/music/TKFROM_LOST_GOD_OF_SASORI/Ling tosite sigure - S\u03b1.SO.RI.(SPOTISAVER).mp3","cover":"assets/covers/Lost God of SASORI.jpg","duration":183}
     ];
-   </script>
-   
-   <!-- Include floating EQ styles and component -->
-   <link rel="stylesheet" href="eva-eq-float/eva-eq-float.css">
-   <script src="eva-eq-float/eva-eq-float.js"></script>
-
-   <script src="eva-player.bundle.js"></script>
+    </script>
   <script>
     (function () {
       var root = document.getElementById('playerRoot');

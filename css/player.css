@@ -158,11 +158,12 @@
 }
 
 /* ---------- Info / progreso ---------- */
-.ep-info { display: flex; flex-direction: column; gap: 0.25rem; min-width: 0; width: 130px; }
+.ep-info { display: flex; flex-direction: column; gap: 0.25rem; min-width: 0; width: 130px; overflow: hidden; }
 
-@keyframes epMarquee {
-  0%, 15% { transform: translateX(0); }
-  85%, 100% { transform: translateX(calc(-100% + 130px)); }
+@keyframes epGlitch {
+  0%, 92%, 100% { text-shadow: none; }
+  93% { text-shadow: 2px 0 #E10600, -2px 0 #00E5FF; }
+  95% { text-shadow: -1px 0 #E10600, 1px 0 #00E5FF; }
 }
 
 .ep-title {
@@ -172,9 +173,11 @@
   max-width: 130px; position: relative;
 }
 .ep-title.is-scrolling {
-  display: inline-block;
-  animation: epMarquee 6s ease-in-out infinite;
+  width: max-content;
+  max-width: none;
+  overflow: visible;
   padding-right: 2em;
+  animation: epGlitch 8s ease infinite;
 }
 
 .ep-artist {

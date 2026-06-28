@@ -142,7 +142,8 @@ class EvaPlayer {
     // Re-bind audio events on the new element
     this._bindAudioEvents();
     // Connect EQ if available
-    this._connectEQToPlayer();
+    if (this._eq3d) this._connect3DEQ();
+    else this._connectEQToPlayer();
     return this.audio;
   }
 
@@ -219,6 +220,23 @@ class EvaPlayer {
     const coverImg = this.root.querySelector('.ep-cover-img');
     const coverPlaceholder = this.root.querySelector('.ep-cover-placeholder');
     titleEl.textContent = track.title;
+    titleEl.classList.remove('is-scrolling');
+    if (titleEl._marqueeAnim) { titleEl._marqueeAnim.cancel(); titleEl._marqueeAnim = null; }
+    setTimeout(function() {
+      if (titleEl.scrollWidth > titleEl.clientWidth + 10) {
+        titleEl.classList.add('is-scrolling');
+        var dist = titleEl.scrollWidth - 130;
+        var dur = Math.max(4000, dist * 20);
+        // Scroll left, pause, snap back to right, repeat
+        titleEl._marqueeAnim = titleEl.animate([
+          { transform: 'translateX(0)', offset: 0 },
+          { transform: 'translateX(-' + dist + 'px)', offset: 0.4 },
+          { transform: 'translateX(-' + dist + 'px)', offset: 0.55 },
+          { transform: 'translateX(0)', offset: 0.56 },
+          { transform: 'translateX(0)', offset: 1 }
+        ], { duration: dur, iterations: Infinity, easing: 'ease-in-out' });
+      }
+    }, 50);
     artistEl.textContent = track.artist;
     coverImg.classList.remove('is-loaded');
     if (track.cover) {
@@ -238,9 +256,10 @@ class EvaPlayer {
     const a = this._ensureAudio();
     // Resume AudioContext if suspended (mobile browsers require user gesture)
     if (this._audioCtx && this._audioCtx.state === 'suspended') {
-      this._audioCtx.resume();
+      this._audioCtx.resume().then(() => { a.play().catch(() => {}); });
+    } else {
+      a.play().catch(() => {});
     }
-    a.play().catch(() => {});
   }
   pause() { if (this.audio) this.audio.pause(); }
   toggle() { this._ensureAudio(); this.audio.paused ? this.play() : this.pause(); }
@@ -410,13 +429,10 @@ class EvaPlayer {
               <input type="range" class="ep-volume-slider" min="0" max="1" step="0.01" aria-label="Volumen">
             </div>
             <button class="ep-btn ep-btn-eq" aria-label="Ecualizador" title="Ecualizador (Q)">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-                <line x1="2" y1="4" x2="14" y2="4"/>
-                <line x1="2" y1="9" x2="14" y2="9"/>
-                <line x1="2" y1="13" x2="14" y2="13"/>
-                <circle cx="5" cy="4" r="1.6" fill="currentColor" stroke="none"/>
-                <circle cx="10" cy="9" r="1.6" fill="currentColor" stroke="none"/>
-                <circle cx="7" cy="13" r="1.6" fill="currentColor" stroke="none"/>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <path d="M12 2L2 12l10 10 10-10L12 2z" stroke-linejoin="round"/>
+                <path d="M2 12h20" stroke-linecap="round"/>
+                <path d="M12 2v20" stroke-linecap="round"/>
               </svg>
             </button>
             <div class="ep-window-controls">
@@ -522,18 +538,19 @@ class EvaPlayer {
     $('.ep-btn-hide').addEventListener('click', () => this.setView('hidden'));
     $('.ep-reopen-fab').addEventListener('click', () => this.setView('expanded'));
 
-    // Botón EQ — abre/cierra el EQ flotante
+    // Botón EQ — abre/cierra el EQ 3D en el padre
     const eqBtn = this.root.querySelector('.ep-btn-eq');
     if (eqBtn) {
       eqBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const isActive = eqBtn.classList.toggle('is-active');
-        if (this._eq) {
-          if (isActive) {
-            this._eq.show();
-          } else {
-            this._eq.hide();
-          }
+        eqBtn.classList.toggle('is-active');
+        // Tell parent to toggle EQ 3D
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: 'eq3d-toggle' }, '*');
+        } else {
+          // Standalone player — toggle EQ directly
+          var toggle = document.getElementById('eq3dToggle');
+          if (toggle) toggle.click();
         }
       });
     }
@@ -699,6 +716,16 @@ class EvaPlayer {
   }
 
   _initEQ() {
+    // Try 3D octahedron EQ first, then fallback to old float EQ
+    if (window.Eq3D) {
+      try {
+        this._eq3d = window.Eq3D;
+        this._connect3DEQ();
+      } catch(e) {
+        console.error('[EVA Player] Error al inicializar EQ 3D:', e);
+      }
+      return;
+    }
     if (!window.EvaEQFloat) return;
     try {
       this._eq = new window.EvaEQFloat({
@@ -709,6 +736,57 @@ class EvaPlayer {
     } catch(e) {
       console.error('[EVA Player] Error al inicializar EQ:', e);
     }
+  }
+
+  _connect3DEQ() {
+    if (!this._eq3d) return;
+    if (!this.audio) return;
+
+    if (!this._audioCtx) {
+      try {
+        this._audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (this._audioCtx.state === 'suspended') this._audioCtx.resume();
+      } catch(e) {
+        console.error('[EVA Player] No se pudo crear AudioContext:', e);
+        return;
+      }
+    }
+    const ctx = this._audioCtx;
+
+    if (!this._mediaSource) {
+      try {
+        this._mediaSource = ctx.createMediaElementSource(this.audio);
+      } catch(e) {
+        console.error('[EVA Player] No se pudo crear MediaElementSource:', e);
+        return;
+      }
+    }
+
+    // Create filters
+    const freqs = [30, 60, 150, 350, 500, 1000, 2000, 3500, 5000, 8000, 12000, 16000];
+    this._eq3dFilters = [];
+    for (let i = 0; i < freqs.length; i++) {
+      const f = ctx.createBiquadFilter();
+      f.type = 'peaking';
+      f.frequency.value = freqs[i];
+      f.Q.value = 1.2;
+      f.gain.value = 0;
+      this._eq3dFilters.push(f);
+    }
+
+    this._eq3d.setFilters(this._eq3dFilters);
+
+    this._eq3dDest = ctx.createGain();
+    this._eq3dDest.connect(ctx.destination);
+
+    let chain = this._mediaSource;
+    for (const f of this._eq3dFilters) {
+      chain.connect(f);
+      chain = f;
+    }
+    chain.connect(this._eq3dDest);
+
+    console.log('[EVA Player] EQ 3D conectado');
   }
 
   _connectEQToPlayer() {
@@ -740,6 +818,9 @@ class EvaPlayer {
         return;
       }
     }
+
+    // If 3D EQ is already connected, skip old EQ
+    if (this._eq3dFilters) return;
 
     // Set up EQ state for the module
     this._eq.state.audioCtx = ctx;

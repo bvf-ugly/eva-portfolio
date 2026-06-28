@@ -67,30 +67,30 @@ body {
   line-height: 1.6;
   transition: background 400ms, color 400ms;
 }
-/* Ayanami mode for settings */
-body.mode-light { background: #FFB6C1; color: #333333; }
+/* Ayanami mode for settings — uses design-tokens.css variables */
+body.mode-light { background: var(--color-plug-depth); color: var(--color-text-primary); }
 body.mode-light .bg-gradient {
   background:
-    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(110, 193, 228, 0.08) 0%, transparent 60%),
-    linear-gradient(180deg, rgba(255,182,193,0.9) 0%, rgba(255,245,225,0.7) 100%);
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(90, 130, 166, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(227,241,255,0.9) 0%, rgba(245,245,245,0.7) 100%);
 }
 body.mode-light .bg-video { opacity: 0.2; }
-body.mode-light .topbar { border-bottom-color: rgba(179,179,179,0.3); }
-body.mode-light .back-link { color: #666; border-color: rgba(179,179,179,0.3); }
-body.mode-light .back-link:hover { color: #E10600; }
-body.mode-light .status-strip { background: rgba(255,245,225,0.6); border-color: rgba(179,179,179,0.3); }
-body.mode-light .panel { background: rgba(255,245,225,0.7); border-color: rgba(179,179,179,0.3); }
-body.mode-light .panel__icon { background: linear-gradient(135deg, rgba(110,193,228,0.12), rgba(255,105,180,0.08)); }
-body.mode-light .toggle__track { background: rgba(0,0,0,0.06); border-color: rgba(179,179,179,0.3); }
-body.mode-light .toggle input:checked + .toggle__track { background: rgba(255,105,180,0.2); border-color: #FF69B4; }
-body.mode-light .slider-control input[type="range"] { background: rgba(0,0,0,0.04); border-color: rgba(179,179,179,0.3); }
-body.mode-light .text-input { background: rgba(255,255,255,0.3); border-color: rgba(179,179,179,0.3); color: #333; }
-body.mode-light .diag-badge.is-ok { color: #6EC1E4; border-color: #6EC1E4; background: rgba(110,193,228,0.06); }
+body.mode-light .topbar { border-bottom-color: rgba(90,130,166,0.3); }
+body.mode-light .back-link { color: var(--color-text-muted); border-color: rgba(90,130,166,0.3); }
+body.mode-light .back-link:hover { color: var(--color-lcl-pink); }
+body.mode-light .status-strip { background: rgba(227,241,255,0.6); border-color: rgba(90,130,166,0.3); }
+body.mode-light .panel { background: rgba(227,241,255,0.7); border-color: rgba(90,130,166,0.3); }
+body.mode-light .panel__icon { background: linear-gradient(135deg, rgba(90,130,166,0.12), rgba(75,44,107,0.08)); }
+body.mode-light .toggle__track { background: rgba(0,0,0,0.06); border-color: rgba(90,130,166,0.3); }
+body.mode-light .toggle input:checked + .toggle__track { background: rgba(90,130,166,0.2); border-color: var(--color-entry-cyan); }
+body.mode-light .slider-control input[type="range"] { background: rgba(0,0,0,0.04); border-color: rgba(90,130,166,0.3); }
+body.mode-light .text-input { background: rgba(255,255,255,0.3); border-color: rgba(90,130,166,0.3); color: var(--color-text-primary); }
+body.mode-light .diag-badge.is-ok { color: var(--color-entry-cyan); border-color: var(--color-entry-cyan); background: rgba(90,130,166,0.06); }
 
 ::selection { background: var(--color-lcl-pink); color: var(--color-plug-deeper); }
 :focus-visible { outline: 2px solid var(--color-lcl-pink); outline-offset: 3px; border-radius: 4px; }
 
-.container { max-width: 880px; margin: 0 auto; padding: var(--space-lg) var(--space-md) var(--space-xl); }
+.container { max-width: 1400px; margin: 0 auto; padding: var(--space-lg) var(--space-md) var(--space-xl); }
 
 /* ---------- Top bar ---------- */
 .topbar {
@@ -131,7 +131,29 @@ body.mode-light .diag-badge.is-ok { color: #6EC1E4; border-color: #6EC1E4; backg
 .status-dot.is-warn { background: var(--color-warning-orange); box-shadow: 0 0 8px var(--color-warning-orange); }
 .status-dot.is-off { background: var(--color-text-dim); box-shadow: none; }
 
-/* ---------- Panel / Card ---------- */
+/* ---------- Panels grid (5 columns, sticky) ---------- */
+.panels-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  max-height: 100vh;
+  align-items: start;
+}
+@media (max-width: 1200px) {
+  .panels-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+  .panels-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .panels-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- Panel / Card (collapsible) ---------- */
 .panel {
   position: relative;
   background: var(--glass-bg);
@@ -140,26 +162,60 @@ body.mode-light .diag-badge.is-ok { color: #6EC1E4; border-color: #6EC1E4; backg
   backdrop-filter: blur(28px) saturate(160%);
   -webkit-backdrop-filter: blur(28px) saturate(160%);
   box-shadow: var(--glass-shadow);
-  padding: var(--space-lg);
-  margin-bottom: var(--space-md);
+  overflow: hidden;
+  min-width: 0;
 }
-.panel__header { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md); }
+.panel__header {
+  display: flex; align-items: center; gap: var(--space-sm);
+  padding: var(--space-md);
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--duration-base) var(--ease-out);
+}
+.panel__header:hover { background: rgba(255,255,255,0.03); }
 .panel__icon {
-  width: 38px; height: 38px; flex-shrink: 0;
+  width: 34px; height: 34px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   background: linear-gradient(135deg, rgba(46,213,115,0.18), rgba(0,229,255,0.12));
   border-radius: var(--radius-sm); color: var(--color-entry-cyan);
 }
-.panel__title { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.03em; text-transform: uppercase; }
-.panel__desc { color: var(--color-text-muted); font-size: 0.82rem; margin-top: 2px; }
+.panel__title { font-family: var(--font-display); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.03em; text-transform: uppercase; flex: 1; }
+.panel__desc { color: var(--color-text-muted); font-size: 0.72rem; margin-top: 2px; display: none; }
+.panel.is-closed .panel__desc { display: none; }
+.panel:not(.is-closed) .panel__desc { display: block; }
+.panel__chevron {
+  width: 18px; height: 18px; flex-shrink: 0;
+  color: var(--color-text-dim);
+  transition: transform 280ms var(--ease-spring);
+}
+.panel.is-closed .panel__chevron { transform: rotate(-90deg); }
+.panel__body {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 320ms var(--ease-out);
+  max-height: calc(100vh - 120px);
+}
+.panel.is-closed .panel__body {
+  grid-template-rows: 0fr;
+}
+.panel__body > div {
+  overflow: hidden;
+}
+.panel__content {
+  padding: 0 var(--space-sm) var(--space-sm);
+  overflow-y: auto;
+  max-height: calc(100vh - 120px);
+}
 
-.field-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); padding: var(--space-sm) 0; border-top: 1px solid rgba(255,255,255,0.05); }
+body.mode-light .panel__header:hover { background: rgba(90,130,166,0.06); }
+
+.field-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); padding: var(--space-xs) 0; border-top: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; }
 .field-row:first-of-type { border-top: none; }
-.field-label { font-size: 0.85rem; font-weight: 500; }
-.field-hint { font-size: 0.72rem; color: var(--color-text-dim); margin-top: 2px; }
+.field-label { font-size: 0.82rem; font-weight: 500; }
+.field-hint { font-size: 0.68rem; color: var(--color-text-dim); margin-top: 2px; }
 
 /* ---------- Toggle switch ---------- */
-.toggle { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+.toggle { position: relative; display: inline-block; width: 38px; height: 22px; flex-shrink: 0; }
 .toggle input { opacity: 0; width: 0; height: 0; }
 .toggle__track {
   position: absolute; inset: 0; border-radius: var(--radius-full);
@@ -167,16 +223,16 @@ body.mode-light .diag-badge.is-ok { color: #6EC1E4; border-color: #6EC1E4; backg
   cursor: pointer; transition: background var(--duration-base) var(--ease-out);
 }
 .toggle__track::before {
-  content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px;
+  content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px;
   border-radius: 50%; background: var(--color-text-dim);
   transition: transform var(--duration-base) var(--ease-spring), background var(--duration-base);
 }
 .toggle input:checked + .toggle__track { background: rgba(46,213,115,0.25); border-color: var(--color-entry-cyan); }
-.toggle input:checked + .toggle__track::before { transform: translateX(20px); background: var(--gradient-signature); }
+.toggle input:checked + .toggle__track::before { transform: translateX(16px); background: var(--gradient-signature); }
 .toggle input:focus-visible + .toggle__track { outline: 2px solid var(--color-lcl-pink); outline-offset: 2px; }
 
 /* ---------- Slider ---------- */
-.slider-control { display: flex; align-items: center; gap: var(--space-sm); width: 160px; }
+.slider-control { display: flex; align-items: center; gap: var(--space-xs); width: 120px; flex-shrink: 0; }
 .slider-control input[type="range"] {
   -webkit-appearance: none; appearance: none; flex: 1; height: 4px; border-radius: 2px;
   background: rgba(255,255,255,0.08); border: 1px solid var(--glass-border); cursor: pointer;
@@ -244,26 +300,28 @@ body.mode-light .diag-badge.is-ok { color: #6EC1E4; border-color: #6EC1E4; backg
 /* Mode selector */
 .mode-selector {
   display: flex;
-  gap: 4px;
-  padding: 3px;
+  gap: 3px;
+  padding: 2px;
   background: rgba(255,255,255,0.04);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-full);
+  flex-shrink: 0;
 }
 .mode-option {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 5px 10px;
+  gap: 3px;
+  padding: 4px 8px;
   border: 1px solid transparent;
   border-radius: var(--radius-full);
   background: transparent;
   color: var(--color-text-muted);
   font-family: var(--font-ui);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 200ms var(--ease-out);
+  white-space: nowrap;
 }
 .mode-option:hover { color: var(--color-text-primary); background: rgba(255,255,255,0.06); }
 .mode-option--active {
@@ -273,16 +331,17 @@ body.mode-light .diag-badge.is-ok { color: #6EC1E4; border-color: #6EC1E4; backg
 }
 .mode-option svg { width: 14px; height: 14px; flex-shrink: 0; }
 
-body.mode-light .mode-selector { background: rgba(255,255,255,0.3); border-color: rgba(179,179,179,0.3); }
+body.mode-light .mode-selector { background: var(--glass-bg); border-color: var(--glass-border); }
 
 @media (max-width: 768px) {
   .container { padding: var(--space-md) var(--space-sm) var(--space-xl); }
   .topbar { gap: var(--space-sm); }
   .page-title { font-size: clamp(1.2rem, 6vw, 1.8rem); }
-  .panel { padding: var(--space-md); }
-  .panel__header { gap: var(--space-xs); }
-  .panel__icon { width: 32px; height: 32px; }
-  .panel__title { font-size: 0.85rem; }
+  .panels-grid { grid-template-columns: 1fr; position: static; max-height: none; }
+  .panel__header { padding: var(--space-sm) var(--space-md); }
+  .panel__icon { width: 28px; height: 28px; }
+  .panel__title { font-size: 0.78rem; }
+  .panel__desc { font-size: 0.68rem; }
   .status-strip { flex-direction: column; gap: var(--space-xs); }
 }
 
@@ -354,7 +413,7 @@ body.mode-light .mode-selector { background: rgba(255,255,255,0.3); border-color
 <!-- Background video (same source as index.html) -->
 <div class="bg-layer" aria-hidden="true">
   <video class="bg-video" autoplay loop muted playsinline preload="auto" poster="poster.jpg">
-    <source src="video.mp4" type="video/mp4">
+     <source src="assets/video.mp4" type="video/mp4">
   </video>
   <div class="bg-gradient"></div>
 </div>
@@ -376,55 +435,65 @@ body.mode-light .mode-selector { background: rgba(255,255,255,0.3); border-color
 
   <div class="status-strip" id="statusStrip" aria-live="polite"></div>
 
+  <div class="panels-grid">
   <!-- AUDIO -->
-  <section class="panel">
-    <div class="panel__header">
+  <section class="panel is-closed" data-panel="audio">
+    <div class="panel__header" data-panel-toggle>
       <div class="panel__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm12-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg></div>
-      <div>
+      <div style="flex:1">
         <div class="panel__title">Audio</div>
         <div class="panel__desc">Fuente de música del reproductor flotante</div>
       </div>
+      <svg class="panel__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
+    <div class="panel__body"><div>
+      <div class="panel__content">
 
-    <div class="field-row">
-      <div>
-        <div class="field-label">Carpeta de música</div>
-        <div class="field-hint">Los archivos están en <code style="color:var(--color-entry-cyan)">music/</code> — genera playlist.json con generate-playlist.mjs</div>
-      </div>
-    </div>
+        <div class="field-row">
+          <div>
+            <div class="field-label">Carpeta de música</div>
+            <div class="field-hint">Los archivos están en <code style="color:var(--color-entry-cyan)">assets/music/</code> — genera playlist.json con generate-playlist.mjs</div>
+          </div>
+        </div>
 
-    <div class="field-row">
-      <div>
-        <div class="field-label">Reanudar reproducción automáticamente</div>
-        <div class="field-hint">Si estaba sonando algo al recargar la página</div>
-      </div>
-      <label class="toggle">
-        <input type="checkbox" id="toggleAutoResume">
-        <span class="toggle__track"></span>
-      </label>
-    </div>
+        <div class="field-row">
+          <div>
+            <div class="field-label">Reanudar reproducción automáticamente</div>
+            <div class="field-hint">Si estaba sonando algo al recargar la página</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggleAutoResume">
+            <span class="toggle__track"></span>
+          </label>
+        </div>
 
-    <div class="field-row">
-      <div>
-        <div class="field-label">Volumen por defecto</div>
-        <div class="field-hint">Con el que arranca el reproductor en cada sesión</div>
+        <div class="field-row">
+          <div>
+            <div class="field-label">Volumen por defecto</div>
+            <div class="field-hint">Con el que arranca el reproductor en cada sesión</div>
+          </div>
+          <div class="slider-control">
+            <input type="range" id="defaultVolume" min="0" max="100" step="5" value="50">
+            <span class="slider-value" id="defaultVolumeValue">50%</span>
+          </div>
+        </div>
+
       </div>
-      <div class="slider-control">
-        <input type="range" id="defaultVolume" min="0" max="100" step="5" value="50">
-        <span class="slider-value" id="defaultVolumeValue">50%</span>
-      </div>
-    </div>
+    </div></div>
   </section>
 
     <!-- APARIENCIA -->
-    <section class="panel">
-      <div class="panel__header">
+    <section class="panel is-closed" data-panel="apariencia">
+      <div class="panel__header" data-panel-toggle>
         <div class="panel__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></div>
-        <div>
+        <div style="flex:1">
           <div class="panel__title">Apariencia</div>
           <div class="panel__desc">Efectos visuales del portafolio</div>
         </div>
+        <svg class="panel__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
+      <div class="panel__body"><div>
+        <div class="panel__content">
 
       <div class="field-row">
         <div>
@@ -440,136 +509,6 @@ body.mode-light .mode-selector { background: rgba(255,255,255,0.3); border-color
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
             <span>Claro</span>
           </button>
-        </div>
-      </div>
-
-      <!-- Section visibility -->
-      <div class="field-row">
-        <div>
-          <div class="field-label">Secciones visibles</div>
-          <div class="field-hint">Mostrar u ocultar secciones del portafolio</div>
-        </div>
-      </div>
-      <div class="section-toggles" id="sectionToggles">
-        <div class="field-row" style="padding-left:var(--space-md);">
-          <div>
-            <div class="field-label" style="font-size:0.85rem;">Inicio (Hero)</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggleSection_eva01" checked>
-            <span class="toggle__track"></span>
-          </label>
-        </div>
-        <div class="field-row" style="padding-left:var(--space-md);">
-          <div>
-            <div class="field-label" style="font-size:0.85rem;">Sobre mí</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggleSection_eva02" checked>
-            <span class="toggle__track"></span>
-          </label>
-        </div>
-        <div class="field-row" style="padding-left:var(--space-md);">
-          <div>
-            <div class="field-label" style="font-size:0.85rem;">Proyectos</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggleSection_eva03" checked>
-            <span class="toggle__track"></span>
-          </label>
-        </div>
-        <div class="field-row" style="padding-left:var(--space-md);">
-          <div>
-            <div class="field-label" style="font-size:0.85rem;">Experiencia</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggleSection_eva04" checked>
-            <span class="toggle__track"></span>
-          </label>
-        </div>
-        <div class="field-row" style="padding-left:var(--space-md);">
-          <div>
-            <div class="field-label" style="font-size:0.85rem;">Sistema</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggleSection_eva05" checked>
-            <span class="toggle__track"></span>
-          </label>
-        </div>
-      </div>
-
-      <div class="field-row">
-        <div>
-          <div class="field-label">Mostrar switch Dark/Light</div>
-          <div class="field-hint">Mostrar u ocultar el selector de modo en la barra de navegación</div>
-        </div>
-        <label class="toggle">
-          <input type="checkbox" id="toggleModeSwitcher" checked>
-          <span class="toggle__track"></span>
-        </label>
-      </div>
-
-      <!-- Navbar item visibility -->
-      <div class="field-row">
-        <div>
-          <div class="field-label">Elementos de navegación</div>
-          <div class="field-hint">Mostrar u ocultar elementos individuales del menú</div>
-        </div>
-      </div>
-      <div class="section-toggles" id="navItemToggles">
-        <div class="field-row" style="padding-left:var(--space-md);">
-          <div>
-            <div class="field-label" style="font-size:0.85rem;">Portafolio</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggleNavItem_portafolio" checked>
-            <span class="toggle__track"></span>
-          </label>
-        </div>
-        <div class="field-row" style="padding-left:var(--space-md);">
-          <div>
-            <div class="field-label" style="font-size:0.85rem;">Sobre mí</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggleNavItem_sobremi" checked>
-            <span class="toggle__track"></span>
-          </label>
-        </div>
-        <div class="field-row" style="padding-left:var(--space-md);">
-          <div>
-            <div class="field-label" style="font-size:0.85rem;">Proyectos</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggleNavItem_proyectos" checked>
-            <span class="toggle__track"></span>
-          </label>
-        </div>
-        <div class="field-row" style="padding-left:var(--space-md);">
-          <div>
-            <div class="field-label" style="font-size:0.85rem;">Experiencia</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggleNavItem_experiencia" checked>
-            <span class="toggle__track"></span>
-          </label>
-        </div>
-        <div class="field-row" style="padding-left:var(--space-md);">
-          <div>
-            <div class="field-label" style="font-size:0.85rem;">Sistema</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggleNavItem_sistema" checked>
-            <span class="toggle__track"></span>
-          </label>
-        </div>
-        <div class="field-row" style="padding-left:var(--space-md);">
-          <div>
-            <div class="field-label" style="font-size:0.85rem;">Conectar (CTA)</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggleNavItem_conectar" checked>
-            <span class="toggle__track"></span>
-          </label>
         </div>
       </div>
 
@@ -605,19 +544,104 @@ body.mode-light .mode-selector { background: rgba(255,255,255,0.3); border-color
           <span class="slider-value" id="motionIntensityValue">100%</span>
         </div>
       </div>
-    </section>
+    </div></div></div>
+  </section>
+
+  <!-- NAVEGACIÓN -->
+  <section class="panel is-closed" data-panel="navegacion">
+    <div class="panel__header" data-panel-toggle>
+      <div class="panel__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M4 6h16M4 12h16M4 18h16"/></svg></div>
+      <div style="flex:1">
+        <div class="panel__title">Navegación</div>
+        <div class="panel__desc">Secciones y modo visual</div>
+      </div>
+      <svg class="panel__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="panel__body"><div>
+      <div class="panel__content">
+
+        <div class="field-row">
+          <div>
+            <div class="field-label">Secciones visibles</div>
+            <div class="field-hint">Mostrar u ocultar secciones del portafolio</div>
+          </div>
+        </div>
+        <div class="section-toggles" id="sectionToggles">
+          <div class="field-row" style="padding-left:var(--space-md);">
+            <div><div class="field-label" style="font-size:0.85rem;">Inicio (Hero)</div></div>
+            <label class="toggle"><input type="checkbox" id="toggleSection_eva01" checked><span class="toggle__track"></span></label>
+          </div>
+          <div class="field-row" style="padding-left:var(--space-md);">
+            <div><div class="field-label" style="font-size:0.85rem;">Sobre mí</div></div>
+            <label class="toggle"><input type="checkbox" id="toggleSection_eva02" checked><span class="toggle__track"></span></label>
+          </div>
+          <div class="field-row" style="padding-left:var(--space-md);">
+            <div><div class="field-label" style="font-size:0.85rem;">Proyectos</div></div>
+            <label class="toggle"><input type="checkbox" id="toggleSection_eva03" checked><span class="toggle__track"></span></label>
+          </div>
+          <div class="field-row" style="padding-left:var(--space-md);">
+            <div><div class="field-label" style="font-size:0.85rem;">Experiencia</div></div>
+            <label class="toggle"><input type="checkbox" id="toggleSection_eva04" checked><span class="toggle__track"></span></label>
+          </div>
+          <div class="field-row" style="padding-left:var(--space-md);">
+            <div><div class="field-label" style="font-size:0.85rem;">Sistema</div></div>
+            <label class="toggle"><input type="checkbox" id="toggleSection_eva05" checked><span class="toggle__track"></span></label>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div>
+            <div class="field-label">Mostrar switch Dark/Light</div>
+            <div class="field-hint">Selector de modo en la barra de navegación</div>
+          </div>
+          <label class="toggle"><input type="checkbox" id="toggleModeSwitcher" checked><span class="toggle__track"></span></label>
+        </div>
+
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ELEMENTOS DEL MENÚ -->
+  <section class="panel is-closed" data-panel="menu">
+    <div class="panel__header" data-panel-toggle>
+      <div class="panel__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 5h11M9 12h11M9 19h11M5 5h.01M5 12h.01M5 19h.01"/></svg></div>
+      <div style="flex:1">
+        <div class="panel__title">Menú</div>
+        <div class="panel__desc">Items individuales del menú</div>
+      </div>
+      <svg class="panel__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="panel__body"><div>
+      <div class="panel__content">
+        <div class="section-toggles" id="navItemToggles">
+          <div class="field-row"><div><div class="field-label" style="font-size:0.85rem;">Portafolio</div></div><label class="toggle"><input type="checkbox" id="toggleNavItem_portafolio" checked><span class="toggle__track"></span></label></div>
+          <div class="field-row"><div><div class="field-label" style="font-size:0.85rem;">Sobre mí</div></div><label class="toggle"><input type="checkbox" id="toggleNavItem_sobremi" checked><span class="toggle__track"></span></label></div>
+          <div class="field-row"><div><div class="field-label" style="font-size:0.85rem;">Proyectos</div></div><label class="toggle"><input type="checkbox" id="toggleNavItem_proyectos" checked><span class="toggle__track"></span></label></div>
+          <div class="field-row"><div><div class="field-label" style="font-size:0.85rem;">Experiencia</div></div><label class="toggle"><input type="checkbox" id="toggleNavItem_experiencia" checked><span class="toggle__track"></span></label></div>
+          <div class="field-row"><div><div class="field-label" style="font-size:0.85rem;">Sistema</div></div><label class="toggle"><input type="checkbox" id="toggleNavItem_sistema" checked><span class="toggle__track"></span></label></div>
+          <div class="field-row"><div><div class="field-label" style="font-size:0.85rem;">Conectar (CTA)</div></div><label class="toggle"><input type="checkbox" id="toggleNavItem_conectar" checked><span class="toggle__track"></span></label></div>
+        </div>
+      </div>
+    </div></div>
+  </section>
 
   <!-- DIAGNÓSTICO -->
-  <section class="panel">
-    <div class="panel__header">
+  <section class="panel is-closed" data-panel="diagnostico">
+    <div class="panel__header" data-panel-toggle>
       <div class="panel__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-      <div>
+      <div style="flex:1">
         <div class="panel__title">Diagnóstico</div>
         <div class="panel__desc">Compatibilidad de tu navegador con las funciones usadas en este sitio</div>
       </div>
+      <svg class="panel__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
-    <div class="diag-list" id="diagList"></div>
+    <div class="panel__body"><div>
+      <div class="panel__content">
+        <div class="diag-list" id="diagList"></div>
+      </div>
+    </div></div>
   </section>
+  </div>
 
   <div style="display:flex; gap: var(--space-sm); flex-wrap: wrap;">
     <button class="btn btn--primary" id="saveSettings">
@@ -652,6 +676,7 @@ const DEFAULTS = {
   visualMode: 'dark',
   hiddenSections: [],
   showModeSwitcher: true,
+  closedPanels: ['audio', 'apariencia', 'navegacion', 'menu', 'diagnostico'],
 };
 
 function loadSettings() {
@@ -688,7 +713,7 @@ function applyToForm(settings) {
   document.getElementById('toggleScanlines').checked = settings.scanlines;
   document.getElementById('motionIntensity').value = settings.motionIntensity;
   document.getElementById('motionIntensityValue').textContent = `${settings.motionIntensity}%`;
-  // Mode selector (2 buttons: dark/light)
+  // Mode selector
   const mode = settings.visualMode || 'dark';
   document.querySelectorAll('#modeSelector .mode-option').forEach(btn => {
     btn.classList.toggle('mode-option--active', btn.dataset.mode === mode);
@@ -877,6 +902,42 @@ document.getElementById('resetSettings').addEventListener('click', () => {
 
 // ---------- Apply on page load ----------
 applySettings(loadSettings());
+
+// ---------- Accordion panels ----------
+(function initAccordion() {
+  function getPanelStates() {
+    try {
+      return JSON.parse(localStorage.getItem(SETTINGS_KEY))?.closedPanels || [];
+    } catch { return []; }
+  }
+
+  function savePanelStates() {
+    const closed = [];
+    document.querySelectorAll('[data-panel]').forEach(p => {
+      if (p.classList.contains('is-closed')) closed.push(p.dataset.panel);
+    });
+    const s = loadSettings();
+    s.closedPanels = closed;
+    saveSettings(s);
+  }
+
+  function apply(states) {
+    document.querySelectorAll('[data-panel]').forEach(p => {
+      p.classList.toggle('is-closed', states.includes(p.dataset.panel));
+    });
+  }
+
+  // Apply saved states
+  apply(getPanelStates());
+
+  // Toggle on header click
+  document.querySelectorAll('[data-panel-toggle]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('[data-panel]').classList.toggle('is-closed');
+      savePanelStates();
+    });
+  });
+})();
 
 // ---------- Diagnóstico de compatibilidad ----------
 function renderDiagnostics() {

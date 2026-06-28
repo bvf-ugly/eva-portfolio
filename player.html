@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="design-tokens.css">
-<link rel="stylesheet" href="eva-player.css">
-<!-- Incluir estilos del EQ flotante (solo si está disponible) -->
-<link rel="stylesheet" href="eva-eq-float/eva-eq-float.css">
+<link rel="stylesheet" href="css/player.css">
+<!-- Incluir estilos del EQ flotante (movido a olds/, deshabilitado) -->
+<!-- <link rel="stylesheet" href="olds/eva-eq-float/eva-eq-float.css"> -->
 <style>
 /* ============================================================
    player.html — Reproductor standalone, aislado del index.html.
@@ -66,7 +66,7 @@ body {
      Si necesitas editar la lógica, hazlo en eva-player.bundle.js. -->
 <!-- EQ flotante incluido via eva-player.js -->
 
-<script src="eva-player.bundle.js"></script>
+<script src="js/player.bundle.js"></script>
 <script>
   (function () {
     var root = document.getElementById('playerRoot');
@@ -102,23 +102,20 @@ body {
       player.loadFromJson('playlist.json');
       window.__evaPlayer = player;
 
-      // Inicializar EQ flotante (si está disponible)
-      import('./eva-eq-float/eva-eq-float.js').then((module) => {
-        // Crear EQ flotante después de que el player esté inicializado
-        setTimeout(() => {
-          if (player._eq) return;
-
-          player._eq = new module.EvaEQFloat({
-            container: document.body,
-            defaultPosition: { x: 300, y: 150 }
-          });
-
-          player._connectEQToPlayer();
-          console.log('[Player] EQ flotante inicializado');
-        }, 100);
-      }).catch(err => {
-        console.warn('[Player] EQ flotante no disponible:', err);
-      });
+      // EQ flotante movido a olds/ — deshabilitado
+      // import('./olds/eva-eq-float/eva-eq-float.js').then((module) => {
+      //   setTimeout(() => {
+      //     if (player._eq) return;
+      //     player._eq = new module.EvaEQFloat({
+      //       container: document.body,
+      //       defaultPosition: { x: 300, y: 150 }
+      //     });
+      //     player._connectEQToPlayer();
+      //     console.log('[Player] EQ flotante inicializado');
+      //   }, 100);
+      // }).catch(err => {
+      //   console.warn('[Player] EQ flotante no disponible:', err);
+      // });
 
       // ---- Reportar posición del widget al padre ----
       function reportPosition() {

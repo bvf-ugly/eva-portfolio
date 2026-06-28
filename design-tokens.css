@@ -60,6 +60,8 @@
   --color-nerv-blue:      #4A90D9;
   --color-plug-depth:     #1A0033;
   --color-plug-deeper:    #0D001A;
+  --color-warning-orange: #FF6B00;
+  --color-instrument-purple: #BB86FC;
   --gradient-signature:   linear-gradient(135deg, #E10600, #FF6B00);
   --glass-bg:        rgba(26, 26, 26, 0.4);
   --glass-border:    rgba(225, 6, 0, 0.15);
@@ -238,6 +240,8 @@ body.mode-light {
   --color-nerv-blue:      #a7cce8;
   --color-plug-depth:     #4b2c6b;
   --color-plug-deeper:    #2c4d6b;
+  --color-warning-orange: #c45a28;
+  --color-instrument-purple: #7C4DFF;
   --gradient-signature:   linear-gradient(135deg, #a7cce8, #5a82a6);
   --glass-bg:        rgba(227, 241, 255, 0.35);
   --glass-border:    rgba(90, 130, 166, 0.25);

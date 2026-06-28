@@ -3,10 +3,8 @@ const STATIC_ASSETS = [
   './',
   './index.html',
   './design-tokens.css',
-  './eva-player.css',
-  './eva-player.bundle.js',
-  './eva-eq-float/eva-eq-float.js',
-  './eva-eq-float/eva-eq-float.css',
+  './css/player.css',
+  './js/player.bundle.js',
   './manifest.json',
   './icons/icon-192.svg',
   './icons/icon-512.svg'
