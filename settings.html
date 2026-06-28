@@ -927,8 +927,9 @@ applySettings(loadSettings());
     });
   }
 
-  // Apply saved states
-  apply(getPanelStates());
+  // Apply saved states (if any, otherwise keep HTML defaults)
+  const saved = getPanelStates();
+  if (saved.length) apply(saved);
 
   // Toggle on header click
   document.querySelectorAll('[data-panel-toggle]').forEach(btn => {
