@@ -9,19 +9,9 @@ SECOND/
 .vscode/
 olds/
 
-# Assets generados/auto-descargados
-assets/music/
-assets/covers/
-
 # Herramientas de build (no necesarias en producción)
 generate-playlist.mjs
-audio-to-mp3.ps1
-eva-converter.pyw
 ins.txt
-
-# Python
-*.pyw
-*.pyc
 
 # Fuentes JS (solo se usa el bundle)
 eva-player.js
@@ -31,6 +21,9 @@ eva-player.bundle.js.map
 # Páginas standalone no enlazadas desde index.html
 test-eq.html
 eva-eq.html
+
+# Cover duplicado
+assets/covers/BULLY - DELUXE.jpg
 
 # Reglas internas y documentación (no publicar)
 rules.md
